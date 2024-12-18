@@ -1,0 +1,37 @@
+.LastudentMainImg {
+    background-image: url("../assets//LastudentMain.jpeg");
+    height: 100vh;
+    min-height: 200px;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    image-rendering: auto;
+    position: relative;
+    display: flex;
+    /* Flexbox for centering content */
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
+}
+
+.headLine {
+    color: white;
+    /* Optional: Set text color for visibility */
+    font-size: 3rem;
+    /* Adjust font size */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    /* Optional: add text shadow for better contrast on the background */
+    margin: 0;
+    /* Remove default margin */
+}
+
+.Learning {
+    background-color: #2da184;
+    /* Background color for the word "Learning" */
+    padding: 5px 5px;
+    /* Adds some space around the text */
+
+    /* Optional: rounded corners */
+}

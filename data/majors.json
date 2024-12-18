@@ -1,0 +1,784 @@
+[
+    {
+        "title": "Computer Science",
+        "courses": [
+            {
+                "coursename": "Data Structures",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Algorithms",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Operating Systems",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Database Systems",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Computer Networks",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Software Engineering",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Artificial Intelligence",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Machine Learning",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Web Development",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Cybersecurity",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 1
+    },
+    {
+        "title": "Electrical Engineering",
+        "courses": [
+            {
+                "coursename": "Circuit Theory",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Electromagnetics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Digital Electronics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Signal Processing",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Control Systems",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Power Systems",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Microcontrollers",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Communication Systems",
+                "mustCourse": false
+            },
+            {
+                "coursename": "VLSI Design",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Renewable Energy Systems",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 3
+    },
+    {
+        "title": "Mechanical Engineering",
+        "courses": [
+            {
+                "coursename": "Thermodynamics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Fluid Mechanics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Heat Transfer",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Machine Design",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Dynamics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Manufacturing Processes",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Robotics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Automotive Engineering",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Materials Science",
+                "mustCourse": false
+            },
+            {
+                "coursename": "CAD/CAM",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Civil Engineering",
+        "courses": [
+            {
+                "coursename": "Structural Analysis",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Construction Materials",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Hydrology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Soil Mechanics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Reinforced Concrete Design",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Transportation Engineering",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Surveying",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Environmental Engineering",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Bridge Design",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Urban Planning",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 2
+    },
+    {
+        "title": "Business Administration",
+        "courses": [
+            {
+                "coursename": "Financial Accounting",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Managerial Accounting",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Marketing Principles",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Business Law",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Organizational Behavior",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Entrepreneurship",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Business Ethics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Human Resource Management",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Operations Management",
+                "mustCourse": false
+            },
+            {
+                "coursename": "International Business",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Mathematics",
+        "courses": [
+            {
+                "coursename": "Linear Algebra",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Calculus I",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Calculus II",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Probability Theory",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Real Analysis",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Discrete Mathematics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Abstract Algebra",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Differential Equations",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Number Theory",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Topology",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Physics",
+        "courses": [
+            {
+                "coursename": "Classical Mechanics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Quantum Mechanics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Electromagnetism",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Thermal Physics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Statistical Mechanics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Optics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Solid State Physics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Nuclear Physics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Particle Physics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Astrophysics",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 4
+    },
+    {
+        "title": "Chemistry",
+        "courses": [
+            {
+                "coursename": "Organic Chemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Inorganic Chemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Physical Chemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Analytical Chemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Biochemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Polymer Chemistry",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Environmental Chemistry",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Industrial Chemistry",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Medicinal Chemistry",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Spectroscopy",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Psychology",
+        "courses": [
+            {
+                "coursename": "Introduction to Psychology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Cognitive Psychology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Developmental Psychology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Abnormal Psychology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Social Psychology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Neuropsychology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Research Methods",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Forensic Psychology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Educational Psychology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Psychological Testing",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Biology",
+        "courses": [
+            {
+                "coursename": "Cell Biology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Genetics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Molecular Biology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Evolutionary Biology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Ecology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Microbiology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Immunology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Botany",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Zoology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Biotechnology",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Economics",
+        "courses": [
+            {
+                "coursename": "Microeconomics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Macroeconomics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Econometrics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Public Economics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "International Economics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Game Theory",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Behavioral Economics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Environmental Economics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Development Economics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Health Economics",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 3
+    },
+    {
+        "title": "History",
+        "courses": [
+            {
+                "coursename": "World History",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Ancient Civilizations",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Medieval History",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Modern History",
+                "mustCourse": true
+            },
+            {
+                "coursename": "American History",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Asian History",
+                "mustCourse": false
+            },
+            {
+                "coursename": "European History",
+                "mustCourse": false
+            },
+            {
+                "coursename": "History of Science",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Economic History",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Cultural History",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 2
+    },
+    {
+        "title": "Political Science",
+        "courses": [
+            {
+                "coursename": "Introduction to Political Science",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Comparative Politics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Political Theory",
+                "mustCourse": true
+            },
+            {
+                "coursename": "International Relations",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Public Policy",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Political Economy",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Conflict Resolution",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Constitutional Law",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Elections and Voting",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Human Rights",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Sociology",
+        "courses": [
+            {
+                "coursename": "Introduction to Sociology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Social Theory",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Sociology of Education",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Criminology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Social Research Methods",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Urban Sociology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Sociology of Religion",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Medical Sociology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Environmental Sociology",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Gender Studies",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 3
+    },
+    {
+        "title": "Environmental Science",
+        "courses": [
+            {
+                "coursename": "Environmental Biology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Environmental Chemistry",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Environmental Geology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Climate Change",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Sustainable Development",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Waste Management",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Water Resource Management",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Renewable Energy",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Environmental Law",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Conservation Biology",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Art History",
+        "courses": [
+            {
+                "coursename": "Introduction to Art History",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Renaissance Art",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Modern Art",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Baroque Art",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Art Criticism",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Asian Art",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Photography",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Museum Studies",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Art Restoration",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Contemporary Art",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 5
+    },
+    {
+        "title": "Philosophy",
+        "courses": [
+            {
+                "coursename": "Introduction to Philosophy",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Ethics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Logic",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Metaphysics",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Epistemology",
+                "mustCourse": true
+            },
+            {
+                "coursename": "Philosophy of Science",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Aesthetics",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Philosophy of Mind",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Existentialism",
+                "mustCourse": false
+            },
+            {
+                "coursename": "Political Philosophy",
+                "mustCourse": false
+            }
+        ],
+        "maxChoices": 4
+    }
+]

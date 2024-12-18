@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+}
+
+.slick-prev,
+.slick-next {
+    font-size: 0;
+    /* Remove any default text */
+    color: transparent;
+    /* Hide default text color */
+    background-color: transparent;
+    /* Remove background color */
+    border: none;
+    /* Remove borders */
+}
+
+/* Arrow styling */
+.slick-prev::before,
+.slick-next::before {
+    font-size: 40px;
+    /* Increase the font size to make arrows larger */
+    font-weight: bold;
+    /* Make arrows bold */
+    color: black;
+    /* Set your desired color for the arrows (light orange in this case) */
+}
+
+/* When hovering over the arrows, change the color */
+.slick-prev:hover::before,
+.slick-next:hover::before {
+    color: black;
+    /* Set a darker color for hover effect */
+}
+
+/* Arrow position adjustments */
+.slick-prev,
+.slick-next {
+    z-index: 1;
+    /* Ensure arrows are on top of slides */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Vertically center the arrows */
+}
+
+/* Position the next arrow */
+.slick-next {
+    right: -5px;
+    /* Adjust right positioning */
+}
+
+.hr {
+    box-sizing: 5px;
+    width: 70px;
+    border-top: 2px solid #5151c1;
+}
