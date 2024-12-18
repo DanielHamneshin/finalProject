@@ -6,11 +6,13 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 const Header = () => {
-    const { user } = useUserContext();
+    const { user, setUser } = useUserContext();
 
     const logout = async () => {
         try {
             await axios.post("http://127.0.0.1:5000/auth/logout")
+            setUser(null);
+            navigate("/")
         } catch (error) {
             console.error(error);
 
@@ -26,7 +28,7 @@ const Header = () => {
                     marginLeft: "auto",
                     marginRight: "15px"
                 }}><AccountCircle /></IconButton>
-                <IconButton sx={{ marginRight: "-20px" }} onClick={() => navigate("/login")}>{user ? <Logout /> : <Login />}</IconButton>
+                <IconButton sx={{ marginRight: "-20px" }} onClick={() => user ? logout() : navigate("/login")}>{user ? <Logout /> : <Login />}</IconButton>
                 <SideBar />
             </Toolbar>
         </AppBar>
