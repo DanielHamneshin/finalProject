@@ -1,19 +1,18 @@
 const mongoose = require("mongoose");
 
-const Major = mongoose.Schema({
+const majorSchema = new Schema({
     title: {
         type: String,
+        required: true
     },
     courses: [{
-        coursename: {
-            type: String,
-        },
-        mustCourse: { type: Boolean }
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
     }],
-    maxChoices: {
+    max_choices: {
         type: Number,
-        min: 3
+        required: true
     }
-})
+}, { timestamps: true });
 
-module.exports = mongoose.model("major", Major);
+module.exports = mongoose.model('Major', majorSchema);

@@ -1,49 +1,26 @@
 const mongoose = require("mongoose");
 
-const Teacher = mongoose.Schema({
+const teacherSchema = new Schema({
     name: {
         type: String,
-        required: [true, "name is required"], // Makes the field mandatory
-        trim: true, // Removes leading/trailing whitespace
+        required: true
     },
-    age: {
-        type: Number,
-        min: 1, // Minimum allowed age
-    },
-    email: {
+    teacher_id: {
         type: String,
-        required: [true, "email is required"],
-        unique: [true, "user already exists"], // Ensures no two documents have the same email
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email validation
+        required: true,
+        unique: true
     },
-    password: {
-        type: String,
-        required: [true, "password is required"],
-        minlength: [6, "min length is 6"], // Minimum password length
+    courses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    img: {
+        type: String // URL or file path of the teacher's image
     },
-    courses: [
-        {
-            courseName: {
-                type: String,
-            },
-            students: [{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "student"
-            }]
-        },
-    ],
-    enrolledDate: {
-        type: Date,
-        default: Date.now,
-    },
-    role: {
-        type: String,
-        default: "teacher"
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
+    role:{
+        type:String,
+        default:"teacher"
     }
-})
+}, { timestamps: true });
 
-module.exports = mongoose.model("teacher", Teacher);
+module.exports = mongoose.model('Teacher', teacherSchema);

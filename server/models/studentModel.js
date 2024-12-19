@@ -1,66 +1,59 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const Students = mongoose.Schema({
+// Student Schema
+const studentSchema = new Schema({
     name: {
         type: String,
-        required: [true, "name is required"], // Makes the field mandatory
-        trim: true, // Removes leading/trailing whitespace
+        required: true
     },
-    age: {
-        type: Number,
-        min: 1, // Minimum allowed age
-    },
-    email: {
+    student_id: {
         type: String,
-        required: [true, "email is required"],
-        unique: [true, "user already exists"], // Ensures no two documents have the same email
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email validation
-    },
-    password: {
-        type: String,
-        required: [true, "password is required"],
-        minlength: [6, "min length is 6"], // Minimum password length
+        required: true,
+        unique: true
     },
     major: {
-        type: String
+        type: Schema.Types.ObjectId,
+        ref: 'Major',
+        required: true
     },
-    courses: [
-        {
-            coursename: {
-                type: String,
-            },
-            attendance: {
-                presentDays: {
-                    type: Number,
-                    default: 0,
-                },
-                absentDays: {
-                    type: Number,
-                    default: 0,
-                },
-            },
-            assignments: [
-                {
-                    title: { type: String, required: true },
-                    score: { type: Number, min: 0, max: 100 },
-                    totalPoints: { type: Number, default: 100 },
-                },
-            ],
-            finalGrade: {
-                type: String,
-                enum: ["A", "B", "C", "D", "F", "no-grade"],
-                default: "no-grade",
-            },
-        },
-    ],
-    enrolledDate: {
+    courses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    attendance: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Lesson'
+    }],
+    absences: [{
+       type: Schema.Types.ObjectId,
+        ref: 'Lesson',
+    }],
+    enrollment_date: {
         type: Date,
         default: Date.now,
+        required: true
+    },
+    tests: [{
+        test_id: {
+            type: Schema.Types.ObjectId,
+            ref: 'Test'
+        },
+        course: {
+            type: String
+        },
+        grade: {
+            type: Number
+        }
+    }],
+    img: {
+        type: String // URL or file path of the student's image
     },
     role: {
         type: String,
         default: "student"
-    },
-})
+    }
+}, { timestamps: true });
 
-module.exports = mongoose.model("student", Students)
+
+module.exports = mongoose.model('Student', studentSchema);
