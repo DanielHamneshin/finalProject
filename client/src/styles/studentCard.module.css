@@ -3,5 +3,10 @@
     height: 300px;
     margin-top: 150px;
     background-image: url("../assets/LaStudentLogo.jpg");
-
+    background-size: cover;
+    /* Scale the image to cover the div */
+    background-position: center;
+    /* Center the image in the div */
+    background-repeat: no-repeat;
+    /* Prevent the image from repeating */
 }
