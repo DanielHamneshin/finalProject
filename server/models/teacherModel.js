@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
 
-const teacherSchema = new Schema({
+const teacherSchema = new mongoose.Schema({
     name: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    email: {
         type: String,
         required: true
     },
@@ -11,15 +19,15 @@ const teacherSchema = new Schema({
         unique: true
     },
     courses: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     }],
     img: {
         type: String // URL or file path of the teacher's image
     },
-    role:{
-        type:String,
-        default:"teacher"
+    role: {
+        type: String,
+        default: "teacher"
     }
 }, { timestamps: true });
 

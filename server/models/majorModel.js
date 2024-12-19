@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-const majorSchema = new Schema({
+const majorSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
     },
     courses: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     }],
     max_choices: {

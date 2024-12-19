@@ -7,6 +7,14 @@ const studentSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
     student_id: {
         type: String,
         required: true,
@@ -26,7 +34,7 @@ const studentSchema = new Schema({
         ref: 'Lesson'
     }],
     absences: [{
-       type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Lesson',
     }],
     enrollment_date: {

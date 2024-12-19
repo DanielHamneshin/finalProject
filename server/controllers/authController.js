@@ -41,6 +41,7 @@ exports.studentLogin = async (req, res) => {
             return res.status(400).json({ msg: "fill all fields" });
         }
         const user = await Student.findOne({ email: email })
+
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(400).json({ msg: "invalid email or password" })
         }
@@ -90,7 +91,13 @@ exports.teacherLogin = async (req, res) => {
 
 exports.logout = (req, res) => {
     try {
-        res.clearCookie("access_token");
+        res.clearCookie("access_token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none", // or "lax" depending on your use case
+            path: "/"
+        });
+        console.log("cookies cleared");
         res.status(200).json({ msg: "loggedout" });
     } catch (error) {
         console.error(error);
