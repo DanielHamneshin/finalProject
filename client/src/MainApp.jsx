@@ -9,6 +9,7 @@ import Carousel from './components/Carousel'
 import { Container, createTheme, ThemeProvider } from '@mui/material'
 import { useUserContext } from './contexts/UserContext'
 import axios from 'axios'
+import NotFound from './pages/NotFound'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -36,6 +37,7 @@ const MainApp = () => {
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Home />} />
                     {user && <Route path='/personal' element={<PersonalArea />} />}
+                    <Route path='/*' element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </>
