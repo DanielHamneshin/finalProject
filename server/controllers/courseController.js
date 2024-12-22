@@ -4,9 +4,11 @@ const Major = require("../models/majorModel")
 const Course = require("../models/courseModel")
 
 
+
 // courses when not selected
 exports.getAllMajors = async (req, res) => {
     try{
+        
         const majors = await Major.find()
         res.status(200).json(majors.map(major => major.title))    
     }catch(error){
