@@ -28,8 +28,8 @@ exports.getOptionalCourses = async (req, res) => {
                 select: "name is_mandatory" ,
                 match:{is_mandatory: false}
             })
-        console.log("hello2");
-        res.status(200).json(major.courses.map(course => course.name))    
+        const courses = major.courses.map(course => course.name)
+        res.status(200).json({ courses, max: major.max_choices })    
     }catch(error){
         console.log("hello3");
         console.log(error);
