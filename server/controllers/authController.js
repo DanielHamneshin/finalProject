@@ -47,6 +47,7 @@ exports.studentRegister = async (req, res) => {
             ...req.body,
             password: hashedPassword,
             courses: mustCourses,
+            student_id: Date.now().toString(),
         });
 
         // Save the student
