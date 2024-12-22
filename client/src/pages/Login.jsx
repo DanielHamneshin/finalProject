@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import style from '../styles/login.module.css'
 import { IconButton } from '@mui/material'
 import { Email } from '@mui/icons-material'
+import { LOGIN_URL } from '../constants/endPoint'
 
 const Login = () => {
     const [emailPlaceHolder, setEmailPlaceHolder] = useState("email");
@@ -14,7 +15,7 @@ const Login = () => {
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const loging = async () => {
         try {
-            const res = await axios.post("http://127.0.0.1:5000/auth/login/student", watch());
+            const res = await axios.post(LOGIN_URL, watch());
             console.log("logged in successfully");
             reset();
             navigate("/");
