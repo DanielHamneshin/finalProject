@@ -52,8 +52,6 @@ exports.getAllCourses = async (req, res) => {
 // apply - course
 exports.UpdateCoursesInStudent = async (req, res) => {
     try{
-        console.log("hello");
-        
         const student = await Student.findById(req.params.userId)
         const studentCourses = await Promise.all( student.courses.map(async(courseId)=>{
             return await Course.findById(courseId)
@@ -65,11 +63,11 @@ exports.UpdateCoursesInStudent = async (req, res) => {
         console.log("   updateCourses : " +updateCourses);
         const updatedStudent = await Student.findByIdAndUpdate(
             req.params.userId,
-            { $set: { courses: updateCourses } },
+            { $set: { courses: updateCourses, isCoursesFull:true }},
             { new: true } 
         );
        
-        res.status(200).json(updateCourses.map(course => course.name))
+        res.status(200).json(updatedStudent)
     }catch(error){
         console.log(error);
         res.status(500).json({ msg: error })

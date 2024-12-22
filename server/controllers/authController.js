@@ -48,7 +48,8 @@ exports.studentRegister = async (req, res) => {
             password: hashedPassword,
             courses: mustCourses,
             student_id: Date.now().toString(),
-            majortitle: major
+            majortitle: major,
+            
         });
 
         // Save the student
