@@ -1,9 +1,10 @@
-const { getStudentAttendance } = require("../controllers/mashovController");
+const { getStudentAttendance, getStudentTests, getStudentAssignments } = require("../controllers/mashovController");
 
 const router = require("express").Router();
 
 router.get("/attendence/:userId", getStudentAttendance)
-router.get("/tests/:userId", getTests)
-router.get("/assignments/:userId", getAssignments)
+router.get("/tests/:userId", getStudentTests)
+router.get("/assignments/:userId", getStudentAssignments)
+
 
 module.exports = router;
