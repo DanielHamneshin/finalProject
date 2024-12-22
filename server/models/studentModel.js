@@ -63,7 +63,12 @@ const studentSchema = new mongoose.Schema({
     role: {
         type: String,
         default: "student"
+    },
+    isCoursesFull:{
+        type: Boolean,
+        default: false
     }
+
 }, { timestamps: true });
 
 
