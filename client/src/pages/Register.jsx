@@ -34,24 +34,23 @@ const Register = () => {
             console.error("error creating user " + error);
         }
     }
-    console.log(errors);
-
     return (
         <>
             <form className={style.form} onSubmit={handleSubmit(registeration)} style={{ marginTop: "150px" }}>
 
                 <h1>Register</h1>
-                {errors.name && <p>{errors.name.message}</p>}
+                {errors.name && <p className={style.error}>{errors.name.message}</p>}
                 <input type="text" placeholder='name' {...register("name", { required: { value: true, message: "name is required" } })} />
 
-                {errors.email && <p>{errors.email.message}</p>}
+                {errors.email && <p className={style.error}>{errors.email.message}</p>}
                 <input type="email" placeholder='email' {...register("email", { required: { value: true, message: "email is required" } })} />
 
-                {errors.password && <p>{errors.password.message}</p>}
+                {errors.password && <p className={style.error}>{errors.password.message}</p>}
                 <input type="password" placeholder='password' {...register("password", { required: { value: true, message: "password is required" } })} />
-                <input type="password" placeholder='password again' {...register("passwordagain", {})} />
+                {errors.passwordagain && <p className={style.error}>{errors.passwordagain.message}</p>}
+                <input type="password" placeholder='password again' {...register("passwordagain", { required: { value: true, message: "please enter your password again" } })} />
 
-                {errors.major && <p>{errors.major.message}</p>}
+                {errors.major && <p className={style.error}>{errors.major.message}</p>}
                 <select name="" id="" {...register("major", { required: { value: true, message: "please choose major" } })}>
                     <option value="">select major</option>
                     {majors.map((item, index) => <option value={item} key={index}>{item}</option>)}

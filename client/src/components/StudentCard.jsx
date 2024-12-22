@@ -13,8 +13,8 @@ const StudentCard = () => {
                 {user.img ? <img src={user.img} alt="" /> : <IconButton><Person /></IconButton>}
                 <h2>{user.name}</h2>
                 {/* <h3>Student id{user.StudentNumber}</h3> */}
-                <h2>Major: {user.major}</h2>
-                <h3>Registeration date: {user.enrolledDate.split("T")[0]}</h3>
+                <h2>Major: {user.majortitle}</h2>
+                <h3>Registeration date: {user.enrollment_date.split("T")[0]}</h3>
             </div>
         </>
     )
