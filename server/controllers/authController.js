@@ -8,31 +8,57 @@ exports.studentRegister = async (req, res) => {
     const { email, password, passwordagain, major } = req.body;
 
     try {
-
-        if (!email || !password || !passwordagain|| !major) {
+        // Validate input
+        if (!email || !password || !passwordagain || !major) {
             console.log("Validation failed: missing fields");
             console.log({ email, password, passwordagain });
-            return res.status(400).json({ msg: "missing" });
+            return res.status(400).json({ msg: "Missing required fields" });
         }
 
-        else if (password !== passwordagain) {
-            return res.status(400).json({ msg: "not the same password" });
+        if (password !== passwordagain) {
+            return res.status(400).json({ msg: "Passwords do not match" });
         }
-        const isEmailExists = await Student.findOne({ email: email })
+
+        // Check if email already exists
+        const isEmailExists = await Student.findOne({ email: email });
         if (isEmailExists) {
-            return res.status(400).json({ msg: "user already exists" });
+            return res.status(400).json({ msg: "User already exists" });
         }
-        const currentMajor = await Major.findOne({ title: major });
-        const mustCourses = currentMajor.courses.filter((item, index) => item.is_mandatory === true);
+
+        // Find the major and populate only mandatory courses
+        const currentMajor = await Major.findOne({ title: major }).populate({
+            path: "courses",
+            match: { is_mandatory: true },
+            select: "_id",
+        });
+
+        if (!currentMajor) {
+            return res.status(404).json({ msg: "Major not found" });
+        }
+
+        // Extract mandatory course IDs
+        const mustCourses = currentMajor.courses.map((course) => course._id);
+
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newStudent = await new Student({ ...req.body, password: hashedPassword, courses: mustCourses });
-        const student = await newStudent.save();
-        res.status(200).json({ msg: "user created successfully" });
+
+        // Create the new student
+        const newStudent = new Student({
+            ...req.body,
+            password: hashedPassword,
+            courses: mustCourses,
+        });
+
+        // Save the student
+        await newStudent.save();
+
+        res.status(200).json({ msg: "User created successfully" });
     } catch (error) {
-        console.error("error creating user " + error);
-        res.status(500).json({ msg: error });
+        console.error("Error creating user:", error);
+        res.status(500).json({ msg: error.message });
     }
-}
+};
+
 
 exports.studentLogin = async (req, res) => {
     try {
