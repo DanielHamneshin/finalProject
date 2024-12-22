@@ -6,7 +6,7 @@ const LOGIN_URL = USER_BASE_URL + "login/student";
 
 const REGISTER_URL = USER_BASE_URL + "register"
 
-const COURSE_URL = BASE_URL + "corse/"
+const COURSE_URL = BASE_URL + "course/"
 
 const MAJORS_URL = COURSE_URL + "majors"
 
