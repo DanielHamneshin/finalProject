@@ -29,7 +29,7 @@ const assignmentSchema = new mongoose.Schema({
             default: false
         },
         file: {
-            type:Image,
+            type:String,
             required: true
         }
     }],
@@ -38,7 +38,7 @@ const assignmentSchema = new mongoose.Schema({
         required: true
     },
     file: {
-        type: Image,
+        type: String,
         required: true
     }
 })
