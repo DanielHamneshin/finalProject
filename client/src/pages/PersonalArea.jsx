@@ -10,22 +10,37 @@ import Feedback from '../components/Feedback'
 const PersonalArea = () => {
     const { user } = useUserContext();
     const [optionalCourses, setOptionalCourses] = useState([]);
+    const [chosenCourses, setChosenCourses] = useState([]);
     const [currentCourse, setCurrentCourse] = useState("");
     const [isCoursesFull, setIsCoursesFull] = useState(false);
 
 
     const getOptionalCourses = async () => {
         try {
-            const { data } = axios.get(OPTIONAL_COURSES_URL + user._id);
+            const { data } = await axios.get(OPTIONAL_COURSES_URL + user._id);
             setOptionalCourses(data);
         } catch (error) {
             console.error(error);
         }
     }
 
-    // !isCoursesFull && useEffect(() => {
-    //     getOptionalCourses();
-    // }, []);
+    !isCoursesFull && useEffect(() => {
+        getOptionalCourses();
+    }, []);
+
+    const chooseCourses = (e) => {
+        const { value, checked } = e.target; // Get the value and checked state of the checkbox
+
+        setChosenCourses((prev) => {
+            if (checked) {
+                // Add the course if it's checked
+                return [...prev, value];
+            } else {
+                // Remove the course if it's unchecked
+                return prev.filter((course) => course !== value);
+            }
+        });
+    };
 
 
 
@@ -37,12 +52,25 @@ const PersonalArea = () => {
                     <option value="">Select course</option>
                     {user.coursesnames.map((course, index) => <option value={course} key={index}>{course}</option>)}
                 </select>}
-                {!isCoursesFull && <select name="" id="">
-                    <option value="">select optional courses</option>
-                    {optionalCourses.map((item) => {
-                        return <option value={item}>{item}</option>
+
+
+                {!isCoursesFull && <div className={style.optionalCourses}>
+                    <h4>select optional courses</h4>
+                    {optionalCourses.map((item, index) => {
+                        return (
+                            <div className={style.option} key={index}>
+                                <input
+                                    type="checkbox"
+                                    value={item} // Set the value to the course name
+                                    onChange={chooseCourses}
+                                    checked={chosenCourses.includes(item)} // Sync with state
+                                />
+                                <label htmlFor="">{item}</label>
+                            </div>
+                        );
                     })}
-                </select>}
+
+                </div>}
 
                 <Feedback />
             </main>
