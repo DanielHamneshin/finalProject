@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 
 // Student Schema
-const studentSchema = new Schema({
+const studentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -20,22 +20,13 @@ const studentSchema = new Schema({
         required: true,
         unique: true
     },
-    major: {
-        type: Schema.Types.ObjectId,
-        ref: 'Major',
-        required: true
+    majortitle: {
+       type: String,
+       
     },
     courses: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
-    }],
-    attendance: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Lesson'
-    }],
-    absences: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Lesson',
     }],
     enrollment_date: {
         type: Date,
@@ -44,8 +35,20 @@ const studentSchema = new Schema({
     },
     tests: [{
         test_id: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Test'
+        },
+        course: {
+            type: String
+        },
+        grade: {
+            type: Number
+        }
+    }],
+    assignments: [{
+        assignment_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Assignment'
         },
         course: {
             type: String

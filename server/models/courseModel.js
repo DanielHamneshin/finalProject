@@ -4,14 +4,15 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    teacher: {
-        type: Schema.Types.ObjectId,
-        ref: 'Teacher',
-        required: true
+    teacherName: {
+        type: String,
+        required: true,
+        unique: true
     },
-    students: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Student'
+    students_id: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student',
+        required: true
     }],
     is_mandatory: {
         type: Boolean,

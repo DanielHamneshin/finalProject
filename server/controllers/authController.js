@@ -9,7 +9,7 @@ exports.studentRegister = async (req, res) => {
 
     try {
 
-        if (!email || !password || !passwordagain) {
+        if (!email || !password || !passwordagain|| !major) {
             console.log("Validation failed: missing fields");
             console.log({ email, password, passwordagain });
             return res.status(400).json({ msg: "missing" });
@@ -23,7 +23,7 @@ exports.studentRegister = async (req, res) => {
             return res.status(400).json({ msg: "user already exists" });
         }
         const currentMajor = await Major.findOne({ title: major });
-        const mustCourses = currentMajor.courses.filter((item, index) => item.mustCourse);
+        const mustCourses = currentMajor.courses.filter((item, index) => item.is_mandatory === true);
         const hashedPassword = await bcrypt.hash(password, 10);
         const newStudent = await new Student({ ...req.body, password: hashedPassword, courses: mustCourses });
         const student = await newStudent.save();

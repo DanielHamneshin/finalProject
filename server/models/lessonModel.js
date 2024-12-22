@@ -6,11 +6,11 @@ const lessonSchema = new mongoose.Schema({
         unique: true // Ensures no duplicate lesson numbers
     },
     course: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,    
         ref: 'Course',
-        required: true
+       required: true
     },
-    teacher: {
+    teacher_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Teacher',
         required: true
@@ -18,20 +18,27 @@ const lessonSchema = new mongoose.Schema({
     students: [{
         student_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Student'
+            ref: 'Student',
+            required: true
         },
-        attended: {
-            type: Boolean,
-            default: true
+        status: {
+            type: String,
+            required: true,
+            enum: ['present', 'absent']
         },
-        absent: {
-            type: Boolean,
-            default: false
-        }
     }],
     date: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now,
+        validate: {
+            validator: function (value) {
+                const now = new Date();
+                const tolerance = 3000; 
+                return value.getTime() >= now.getTime() - tolerance;
+            },
+            message: props => `Lesson date (${props.value}) cannot be earlier than the current time!`
+        }
     }
 }, { timestamps: true });
 
