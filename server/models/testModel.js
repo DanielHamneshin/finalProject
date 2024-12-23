@@ -10,7 +10,6 @@ const testSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true,
-        unique: true
     },
     teacher: {
         type: mongoose.Schema.Types.ObjectId,

@@ -34,9 +34,11 @@ exports.getStudentTests = async (req, res) => {
         res.status(500).json({ msg: error })
     }
 }
-exports.getStudentAssignments = (req, res) => {
+exports.getStudentAssignments = async(req, res) => {
     try {
-        const assignments = Student.findById(req.params.userId).populate("assignments.assignment_id", "name").select("assignments")
+        const assignments = await Student.findById(req.params.userId).populate("assignments.assignment_id", "name").select("assignments, -_id")
+        console.log(assignments);
+        
         res.status(200).json(assignments)
     } catch (error) {
         console.log(error);
@@ -48,7 +50,7 @@ exports.getStudentAssignments = (req, res) => {
 // teacher
 exports.gradeTests = async (req, res) => {
     try {
-        
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: error })
