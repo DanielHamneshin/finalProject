@@ -8,6 +8,8 @@ import { GET_ALL_COURSES_URL, OPTIONAL_COURSES_CHOOSE_URL, OPTIONAL_COURSES_URL 
 import Feedback from '../components/Feedback'
 // TODO: only added studens card
 const PersonalArea = () => {
+    const [effectTrigger, setEffectTrigger] = useState(false);
+    const [isInFeedback, setIsInFeedback] = useState(true);
     const { user, setUser } = useUserContext();
     const [allCourses, setAllCourses] = useState([]);
     const [optionalCourses, setOptionalCourses] = useState([]);
@@ -15,6 +17,10 @@ const PersonalArea = () => {
     const [chosenCourses, setChosenCourses] = useState([]);
     const [currentCourse, setCurrentCourse] = useState("");
     const [error, setError] = useState("");
+
+    const switchComponents = () => {
+        setIsInFeedback((prev) => !prev)
+    }
 
     const getAllCourses = async () => {
         try {
@@ -49,13 +55,15 @@ const PersonalArea = () => {
         }
     }
 
-    !user.isCoursesFull && useEffect(() => {// If the user didnt choose all his courses yet give him the optional courses
-        getOptionalCourses();
-    }, []);
 
-    user.isCoursesFull && useEffect(() => {// If the student already chose his courses present him all his courses
-        getAllCourses();
-    }, []);
+    useEffect(() => {
+        if (user.isCoursesFull) {
+            getAllCourses();
+        } else {
+            getOptionalCourses();
+        }
+    }, [user.isCoursesFull, effectTrigger]);
+
 
 
     const chooseCourses = (e) => {
@@ -102,6 +110,7 @@ const PersonalArea = () => {
                     <button onClick={() => {
                         if (chosenCourses.length == maxChoises) {
                             updateCourses();
+                            setEffectTrigger((prev) => !prev);
                         }
                         else {
                             setError(`please choose ${maxChoises} courses`);
@@ -110,7 +119,15 @@ const PersonalArea = () => {
                     {error && <p>{error}</p>}
                 </div>}
 
-                <Feedback />
+                <nav className={style.nav}>
+                    <div className={`${isInFeedback ? style.active : style.nonActive} ${style.navChild}`} onClick={() => {
+                        if (!isInFeedback) switchComponents()
+                    }}><h1>Feedback</h1></div>
+                    <div className={`${isInFeedback ? style.nonActive : style.active} ${style.navChild}`} onClick={() => {
+                        if (isInFeedback) switchComponents()
+                    }}><h1>Classroom</h1></div>
+                </nav>
+                {isInFeedback && <Feedback />}
             </main>
         </>
     )
