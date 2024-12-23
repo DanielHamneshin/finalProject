@@ -36,7 +36,7 @@ exports.getStudentTests = async (req, res) => {
 }
 exports.getStudentAssignments = async(req, res) => {
     try {
-        const assignments = await Student.findById(req.params.userId).populate("assignments.assignment_id", "name").select("assignments, -_id")
+        const assignments = await Student.findById(req.params.userId).populate("assignments.assignment_id", "name").select("assignments")
         console.log(assignments);
         
         res.status(200).json(assignments)
