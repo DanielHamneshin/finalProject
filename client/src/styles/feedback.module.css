@@ -1,0 +1,31 @@
+.nav {
+    display: flex;
+    border-top: 3px solid black;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    width: 500px;
+    justify-content: space-evenly;
+    background-color: rgb(179, 179, 179);
+}
+
+.active {
+    background-color: white;
+    color: red;
+}
+
+.navChild {
+    width: 100%;
+    text-align: center;
+}
+
+.nonActive {
+    opacity: 0.5;
+    color: white;
+    cursor: pointer;
+}
+
+.li {
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+}
