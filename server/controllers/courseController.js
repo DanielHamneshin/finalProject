@@ -40,8 +40,17 @@ exports.getOptionalCourses = async (req, res) => {
 // courses when selected
 exports.getAllCourses = async (req, res) => {
     try{
-        const student = await Student.findById(req.params.userId).populate("courses", "name")
-        const courses = student.courses
+        const role = req.body.role;
+        let courses=[]
+        if(role === "student"){
+            const student = await Student.findById(req.params.userId);
+            courses = student.courses
+        }
+        else if(role === "teacher"){
+            const teacher = await Teacher.findById(req.params.userId);
+            courses = teacher.courses
+        }
+
         res.status(200).json(courses.map(course => course.name))    
     }catch(error){
         console.log(error);
