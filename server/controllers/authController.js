@@ -1,6 +1,7 @@
 const Student = require("../models/studentModel");
 const Major = require("../models/majorModel");
 const Teacher = require("../models/teacherModel")
+const Course = require("../models/courseModel")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -51,7 +52,9 @@ exports.studentRegister = async (req, res) => {
             majortitle: major,
             
         });
-
+         await Promise.all( mustCourses.map(async(courseId)=>{
+                    await Course.findByIdAndUpdate(courseId,{$push:{students_id:newStudent._id}})
+                }))
         // Save the student
         await newStudent.save();
 

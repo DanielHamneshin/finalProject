@@ -66,6 +66,9 @@ exports.UpdateCoursesInStudent = async (req, res) => {
             { $set: { courses: updateCourses, isCoursesFull:true }},
             { new: true } 
         );
+        await Promise.all( coursesToUpdate.map(async(courseId)=>{
+            await Course.findByIdAndUpdate(courseId,{$push:{students_id:student._id}})
+        }))
        
         res.status(200).json(updatedStudent)
     }catch(error){
