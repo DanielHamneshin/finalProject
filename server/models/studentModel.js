@@ -67,6 +67,10 @@ const studentSchema = new mongoose.Schema({
     isCoursesFull:{
         type: Boolean,
         default: false
+    },
+    debt: {
+        type: Number,
+        default: 0
     }
 
 }, { timestamps: true });

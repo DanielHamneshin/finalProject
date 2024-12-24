@@ -4,6 +4,7 @@ const Major = require("../models/majorModel")
 const Test = require("../models/testModel")
 const Course = require("../models/courseModel")
 const Assignment = require("../models/assignmentModel")
+const Teacher = require("../models/teacherModel")
 
 //for student
 exports.getStudentAttendance = async (req, res) => {
@@ -48,9 +49,29 @@ exports.getStudentAssignments = async(req, res) => {
 
 
 // teacher
-exports.gradeTests = async (req, res) => {
-    try {
 
+exports.getAllStudents = async (req, res) => {
+    try {
+        const students = await Student.find()
+        res.status(200).json({names: students.map(student => student.name), ids: students.map(student => student._id)})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
+exports.gradeTests = async (req, res) => {
+    // body:{name,course_name,teacher_id , students{ student._id, grade}}
+    try {
+        const {name} = req.body
+        const course = await Course.findOne({name: req.body.course_name})
+        const teacher = await Teacher.findById(req.body.teacher_id)
+        const newtest = new Test({name:name,teacher_id:teacher._id,course:course._id,students:req.body.students})
+        await newtest.save()
+       await Promise.all(newtest.students.map(async(student)=>{
+                  return await Student.findByIdAndUpdate(student.student_id,{$push:{tests:{test_id:newtest._id,course:course.name,grade:student.grade}}})
+               }))
+
+        res.status(200).json(newtest)
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: error })
