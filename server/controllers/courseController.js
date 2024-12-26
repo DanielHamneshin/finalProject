@@ -40,7 +40,8 @@ exports.getOptionalCourses = async (req, res) => {
 // courses when selected
 exports.getAllCourses = async (req, res) => {
     try{
-        const role = req.body.role;
+        const role = req.params.role
+        console.log(role);
         let courses=[]
         if(role === "student"){
             const student = await Student.findById(req.params.userId);
