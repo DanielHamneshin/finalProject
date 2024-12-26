@@ -24,7 +24,7 @@ const PersonalArea = () => {
 
     const getAllCourses = async () => {
         try {
-            const { data } = await axios.get(GET_ALL_COURSES_URL + user._id, { role: user.role });
+            const { data } = await axios.get(GET_ALL_COURSES_URL + user._id + "/" + user.role);
             setAllCourses(data);
         } catch (error) {
             console.error(error);
