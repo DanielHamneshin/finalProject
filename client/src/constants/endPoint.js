@@ -30,6 +30,8 @@ const TEACHER_BASE = BASE_URL + "teacher/"
 
 const GET_ALL_STUDENTS = TEACHER_BASE + "students/"
 
+const TEACHER_LOGIN = USER_BASE_URL + "login/teacher/"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -42,5 +44,6 @@ export {
     GET_ATTENDANCE_URL,
     GET_TESTS_URL,
     GET_ASSIGNMENTS_URL,
-    GET_ALL_STUDENTS
+    GET_ALL_STUDENTS,
+    TEACHER_LOGIN
 }
