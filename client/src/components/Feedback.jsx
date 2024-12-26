@@ -41,6 +41,8 @@ const Feedback = ({ course }) => {
     }
 
 
+
+
     useEffect(() => {
         if (isInGrades) {
             getTests();
@@ -71,7 +73,21 @@ const Feedback = ({ course }) => {
 
             <ul>
                 <li className={style.li}><h3>teacher</h3> <h3>course</h3> <h3>grade</h3> <h3>date</h3> </li>
+                {isInGrades && tests.map((item, index) => {
+                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
+                })}
 
+                {isInGrades && assignments.map((item, index) => {
+                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
+                })}
+
+                {!isInGrades && abesnces.map((item, index) => {
+                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
+                })}
+
+                {!isInGrades && attendances.map((item, index) => {
+                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
+                })}
             </ul>
 
         </>
