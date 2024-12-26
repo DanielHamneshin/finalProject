@@ -33,6 +33,22 @@ const studentSchema = new mongoose.Schema({
         default: Date.now,
         required: true
     },
+    presence:[{
+        lessonNum:{
+            type:Number,
+            required:true
+        },
+        course_id:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Course',
+            required:true,
+        },
+        status:{
+            type:String,
+            required: true,
+            enum: ['present', 'absent']
+        }
+    }],
     tests: [{
         test_id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -58,7 +74,7 @@ const studentSchema = new mongoose.Schema({
         }
     }],
     img: {
-        type: String // URL or file path of the student's image
+        type: Buffer // URL or file path of the student's image
     },
     role: {
         type: String,

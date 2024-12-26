@@ -59,7 +59,7 @@ exports.getAllStudents = async (req, res) => {
         res.status(500).json({ msg: error })
     }
 }
-exports.gradeTests = async (req, res) => {
+exports.createTest = async (req, res) => {
     // body:{name,course_name,teacher_id , students{ student._id, grade}}
     try {
         const {name} = req.body
@@ -73,6 +73,22 @@ exports.gradeTests = async (req, res) => {
 
         res.status(200).json(newtest)
     } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
+
+exports.createLesson =async(req,res)=>{
+    try{
+        const { course_name, teacher_id, students} = req.body
+        const course = await Course.findOne({ name: course_name })
+        const teacher = await Teacher.findById(teacher_id)
+        const lesson = new Lesson({ course: course._id, teacher_id: teacher._id, students: students, date: Date.now() })
+        await lesson.save()
+        await Promise.all(lesson.students.map(async (student) => { return await Student.findByIdAndUpdate(student.student_id, { $push: { presence: { lessonNum: lesson.lessonNum, course_id: course._id, status: student.status } } }) }))
+        res.status(200).json(lesson)
+    }
+    catch(error){
         console.log(error);
         res.status(500).json({ msg: error })
     }
