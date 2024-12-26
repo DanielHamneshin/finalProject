@@ -63,14 +63,16 @@ exports.createTest = async (req, res) => {
     // body:{name,course_name,teacher_id , students{ student._id, grade}}
     try {
         const {name} = req.body
+        console.log(req.body);
+        
         const course = await Course.findOne({name: req.body.course_name})
-        const teacher = await Teacher.findById(req.body.teacher_id)
-        const newtest = new Test({name:name,teacher_id:teacher._id,course:course._id,students:req.body.students})
+        const teacher = await Teacher.findById(req.body.teacher)
+        const newtest = new Test({name:name,teacher:teacher,course:course._id,students:req.body.students})
         await newtest.save()
        await Promise.all(newtest.students.map(async(student)=>{
                   return await Student.findByIdAndUpdate(student.student_id,{$push:{tests:{test_id:newtest._id,course:course.name,grade:student.grade}}})
                }))
-
+        console.log(newtest);
         res.status(200).json(newtest)
     } catch (error) {
         console.log(error);
