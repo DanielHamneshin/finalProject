@@ -114,6 +114,8 @@ exports.teacherLogin = async (req, res) => {
             sameSite: "none"
         })
 
+        res.status(200).json(user)
+
 
     } catch (error) {
         console.error("error login " + error);
@@ -136,3 +138,39 @@ exports.logout = (req, res) => {
         res.status(500).json(error);
     }
 }
+exports.createTeacher = async (req, res) => {
+    try {
+        const { email, password,name,courses} = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ msg: "fill all fields" });
+        }
+
+        const isEmailExists = await Teacher.findOne({ email: email });
+        if (isEmailExists) {
+            return res.status(400).json({ msg: "email already exists" });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const coursesIds = courses.map(course => course._id)
+            
+        // Create the new teacher
+        const newTeacher = new Teacher({
+            ...req.body,
+            password: hashedPassword,
+            teacher_id: Date.now().toString(),
+            role: "teacher",
+        });
+
+        // Save the teacher
+        await newTeacher.save();
+
+        res.status(200).json({ msg: "Teacher created successfully" });
+    } catch (error) {
+        console.error("Error creating teacher:", error);
+        res.status(500).json({ msg: error.message });
+    }
+}
+        
+
+        
