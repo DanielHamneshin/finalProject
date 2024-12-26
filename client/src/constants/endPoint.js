@@ -24,6 +24,12 @@ const GET_TESTS_URL = MASHOV_BASE_URL + "tests/"
 
 const GET_ASSIGNMENTS_URL = MASHOV_BASE_URL + "assignments/"
 
+//teacher
+
+const TEACHER_BASE = BASE_URL + "teacher/"
+
+const GET_ALL_STUDENTS = TEACHER_BASE + "students/"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -35,5 +41,6 @@ export {
     GET_ALL_COURSES_URL,
     GET_ATTENDANCE_URL,
     GET_TESTS_URL,
-    GET_ASSIGNMENTS_URL
+    GET_ASSIGNMENTS_URL,
+    GET_ALL_STUDENTS
 }
