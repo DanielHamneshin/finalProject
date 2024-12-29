@@ -44,7 +44,21 @@ exports.getStudentAssignments = async(req, res) => {
 
 
 // teacher
-
+exports.getTeacherCourses = async (req, res) => {
+    try {
+        const teacher = await Teacher.findById(req.params.userId)
+        console.log(teacher);
+        console.log(teacher.courses);
+        
+        const courses = await Promise.all(teacher.courses.map(async (courseId) => {
+            return await Course.findById(courseId).select("name _id")
+        }))
+        res.status(200).json(courses)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
 exports.getAllStudents = async (req, res) => {
     try {
         const students = await Student.find()
@@ -72,7 +86,7 @@ exports.studentInfoByCourse = async (req, res) => {
     try{
         console.log("hi1");
         
-        
+
         const course = await Course.findById(req.params.course_id)
         const student = await Student.findById(req.params.student_id).populate("tests.test_id","name")
         .select("presence tests assignments") 
