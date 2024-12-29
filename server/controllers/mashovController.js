@@ -72,7 +72,7 @@ exports.getAllStudentsByCourse = async (req, res) => {
     // params: course_id
     try {
         const course = await Course.findById(req.params.course_id)
-        students = await Promise.all(course.students_id.map(async (studentId) => {
+        const students = await Promise.all(course.students_id.map(async (studentId) => {
             return await Student.findById(studentId).select("name _id email") 
         }))
         res.status(200).json(students)
