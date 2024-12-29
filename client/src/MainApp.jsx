@@ -10,6 +10,7 @@ import { Container, createTheme, ThemeProvider } from '@mui/material'
 import { useUserContext } from './contexts/UserContext'
 import axios from 'axios'
 import NotFound from './pages/NotFound'
+import TeacherPersonalArea from './pages/TeacherPersonalArea'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -36,7 +37,8 @@ const MainApp = () => {
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Home />} />
-                    {user && <Route path='/personal' element={<PersonalArea />} />}
+                    {user && user.role === "student" && <Route path='/personal' element={<PersonalArea />} />}
+                    {user && user.role === "teacher" && <Route path='/teacherpersonal' element={<TeacherPersonalArea />} />}
                     <Route path='/*' element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
