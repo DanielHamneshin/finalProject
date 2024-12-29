@@ -9,12 +9,10 @@ const CreateTest = ({ course, close }) => {
     const [testName, setTestName] = useState("");
     const getAllStudents = async () => {
         try {
-            const { data } = await axios.get(GET_ALL_STUDENTS + user._id + "/" + course)
-            setStudents(() => {
-                return data.map((item) => {
-                    return { ...item, grade: 0 }
-                })
-            })
+            const { data } = await axios.get(GET_ALL_STUDENTS + course._id)
+            setStudents(data.map((item) => {
+                return { ...item, grade: 0 }
+            }))
         } catch (error) {
             console.error(error);
         }
@@ -28,7 +26,8 @@ const CreateTest = ({ course, close }) => {
     // body:{name,course_name,teacher_id , students{ student._id, grade}}
     const createTest = async () => {
         try {
-            const { data } = await axios.post(CREATE_TEST, { name: testName, course: course, teacher: user._id, students: students });
+            const { data } = await axios.post(CREATE_TEST, { name: testName, course_name: course, teacher_id: user._id, students: students });
+            close();
         } catch (error) {
             console.error(error);
         }
@@ -45,12 +44,11 @@ const CreateTest = ({ course, close }) => {
         <>
             <form onSubmit={() => {
                 createTest();
-                close();
             }}>
                 <input value={testName} type="text" placeholder='test name' onChange={(e) => setTestName(e.target.value)} />
                 <ul>
                     {students.map((item, index) => {
-                        <li key={index}><h3>{item.name}</h3><input type="number" onChange={(e) => updateGrade(e, index)} /></li>
+                        return <li key={index}><h3>{item.name}</h3><input type="number" onChange={(e) => updateGrade(e, index)} /></li>
                     })}
                 </ul>
 
