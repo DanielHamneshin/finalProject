@@ -24,7 +24,15 @@ const Header = () => {
         <AppBar>
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", bgcolor: "white" }}>
                 {user && <h1 style={{ color: "black", marginLeft: "50px" }}>Hello {user.name}</h1>}
-                <IconButton onClick={() => navigate(user ? "/personal" : "/login")} sx={{
+                <IconButton onClick={() => {
+                    if (user) {
+                        if (user.role === "student") navigate("/personal")
+                        if (user.role === "teacher") navigate("/teacherpersonal")
+                    }
+                    else {
+                        navigate("/login")
+                    }
+                }} sx={{
                     marginLeft: "auto",
                     marginRight: "15px"
                 }}><AccountCircle /></IconButton>
