@@ -9,16 +9,11 @@ const Teacher = require("../models/teacherModel")
 //for student
 exports.getStudentAttendance = async (req, res) => {
     try{
-        const attendence = await Lesson.find({
-            "students.student_id":req.params.userId,
-            "students.status":"present"
-        }).populate("course","name").populate("teacher_id", "name").select("course LessonNum date teacher_id")
-        
-        const absence = await Lesson.find({
-            "students.student_id":req.params.userId,
-            "students.status":"absent"
-        }).populate("course","name").populate("teacher_id", "name").select("course LessonNum date teacher_id")
-
+    
+        const student = await Student.findById(req.params.userId).populate("presence.course_id", "name teacherName").select("presence")
+        const attendence= student.presence.filter(record => record.status === 'present');
+        const absence = student.presence.filter(record => record.status === 'absent');
+      
         res.status(200).json({ attendence, absence })
     }catch(error){
         console.log(error);
@@ -59,6 +54,46 @@ exports.getAllStudents = async (req, res) => {
         res.status(500).json({ msg: error })
     }
 }
+exports.getAllStudentsByCourse = async (req, res) => {
+    // params: course_id
+    try {
+        const course = await Course.findById(req.params.course_id)
+        students = await Promise.all(course.students_id.map(async (studentId) => {
+            return await Student.findById(studentId).select("name _id email") 
+        }))
+        res.status(200).json(students)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
+
+exports.studentInfoByCourse = async (req, res) => {
+    try{
+        console.log("hi1");
+        
+        
+        const course = await Course.findById(req.params.course_id)
+        const student = await Student.findById(req.params.student_id).populate("tests.test_id","name")
+        .select("presence tests assignments") 
+        .populate("presence.course_id", "name");
+        console.log(student);
+       const tests =  student.tests.filter(test => test.course == course.name)
+        const assignments = student.assignments.filter(assignment => assignment.course == course.name)
+        console.log("hi2");
+        
+        const attendence = student.presence.filter(lesson=> lesson.course_id.toString() == course._id.toString() && lesson.status == "present")
+        const absence = student.presence.filter(lesson => lesson.course_id.toString() == course._id.toString() && lesson.status == "absent")
+     res.status(200).json({tests, assignments, attendence, absence})
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
+
+
+
 exports.createTest = async (req, res) => {
     // body:{name,course_name,teacher_id , students{ student._id, grade}}
     try {
@@ -95,3 +130,5 @@ exports.createLesson =async(req,res)=>{
         res.status(500).json({ msg: error })
     }
 }
+
+
