@@ -72,6 +72,7 @@ exports.studentInfoByCourse = async (req, res) => {
     try{
         console.log("hi1");
         
+        
         const course = await Course.findById(req.params.course_id)
         const student = await Student.findById(req.params.student_id).populate("tests.test_id","name")
         .select("presence tests assignments") 
