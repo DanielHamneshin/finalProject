@@ -94,10 +94,11 @@ exports.studentInfoByCourse = async (req, res) => {
         console.log(student);
        const tests =  student.tests.filter(test => test.course == course.name)
         const assignments = student.assignments.filter(assignment => assignment.course == course.name)
-        console.log("hi2");
+        console.log(student.presence);
+        const attendence = student.presence.filter(lesson => lesson.course_id._id.toString() == course._id.toString() && lesson.status == "present")
+        const absence = student.presence.filter(lesson => lesson.course_id._id.toString() == course._id.toString() && lesson.status == "absent")
+        console.log(attendence);
         
-        const attendence = student.presence.filter(lesson=> lesson.course_id.toString() == course._id.toString() && lesson.status == "present")
-        const absence = student.presence.filter(lesson => lesson.course_id.toString() == course._id.toString() && lesson.status == "absent")
      res.status(200).json({tests, assignments, attendence, absence})
 
     }catch(error){
