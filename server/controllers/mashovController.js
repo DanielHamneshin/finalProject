@@ -72,7 +72,7 @@ exports.getAllStudentsByCourse = async (req, res) => {
     // params: course_id
     try {
         const course = await Course.findById(req.params.course_id)
-        students = await Promise.all(course.students_id.map(async (studentId) => {
+        const students = await Promise.all(course.students_id.map(async (studentId) => {
             return await Student.findById(studentId).select("name _id email") 
         }))
         res.status(200).json(students)
@@ -94,10 +94,11 @@ exports.studentInfoByCourse = async (req, res) => {
         console.log(student);
        const tests =  student.tests.filter(test => test.course == course.name)
         const assignments = student.assignments.filter(assignment => assignment.course == course.name)
-        console.log("hi2");
+        console.log(student.presence);
+        const attendence = student.presence.filter(lesson => lesson.course_id._id.toString() == course._id.toString() && lesson.status == "present")
+        const absence = student.presence.filter(lesson => lesson.course_id._id.toString() == course._id.toString() && lesson.status == "absent")
+        console.log(attendence);
         
-        const attendence = student.presence.filter(lesson=> lesson.course_id.toString() == course._id.toString() && lesson.status == "present")
-        const absence = student.presence.filter(lesson => lesson.course_id.toString() == course._id.toString() && lesson.status == "absent")
      res.status(200).json({tests, assignments, attendence, absence})
 
     }catch(error){
