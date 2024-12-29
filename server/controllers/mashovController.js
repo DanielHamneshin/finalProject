@@ -111,15 +111,15 @@ exports.studentInfoByCourse = async (req, res) => {
 exports.createTest = async (req, res) => {
     // body:{name,course_name,teacher_id , students{ student._id, grade}}
     try {
-        const {name} = req.body
+        const {name,teacher_id} = req.body
         console.log(req.body);
         
         const course = await Course.findOne({name: req.body.course_name})
         const teacher = await Teacher.findById(req.body.teacher)
-        const newtest = new Test({name:name,teacher:teacher,course:course._id,students:req.body.students})
+        const newtest = new Test({name:name,teacher:teacher_id,course:course._id,students:req.body.students})
         await newtest.save()
        await Promise.all(newtest.students.map(async(student)=>{
-                  return await Student.findByIdAndUpdate(student.student_id,{$push:{tests:{test_id:newtest._id,course:course.name,grade:student.grade}}})
+                  return await Student.findByIdAndUpdate(student._id,{$push:{tests:{test_id:newtest._id,course:course.name,grade:student.grade}}})
                }))
         console.log(newtest);
         res.status(200).json(newtest)
@@ -131,9 +131,13 @@ exports.createTest = async (req, res) => {
 
 exports.createLesson =async(req,res)=>{
     try{
+        console.log("hi")
         const { course_name, teacher_id, students} = req.body
         const course = await Course.findOne({ name: course_name })
         const teacher = await Teacher.findById(teacher_id)
+        const students1 = students.map((student)=>{
+            return{...student,student_id:student._id}
+        })
         const lesson = new Lesson({ course: course._id, teacher_id: teacher._id, students: students, date: Date.now() })
         await lesson.save()
         await Promise.all(lesson.students.map(async (student) => { return await Student.findByIdAndUpdate(student.student_id, { $push: { presence: { lessonNum: lesson.lessonNum, course_id: course._id, status: student.status } } }) }))

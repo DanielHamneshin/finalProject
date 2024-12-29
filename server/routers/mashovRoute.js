@@ -10,7 +10,7 @@ router.get("/admin/students", getAllStudents)
 router.get("/teacher/students/:course_id", getAllStudentsByCourse)
 router.get("/teacher/studentinfo/:student_id/:course_id", studentInfoByCourse)
 router.post("/teacher/test",createTest)
-router.post("teacher/lesson",createLesson)
+router.post("/teacher/lesson",createLesson)
 router.get("/teacher/courses/:userId",getTeacherCourses)
 
 
