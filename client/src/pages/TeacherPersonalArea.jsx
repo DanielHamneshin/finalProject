@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useUserContext } from '../contexts/UserContext'
 import axios from 'axios'
-import { GET_ALL_STUDENTS } from '../constants/endPoint'
+import { GET_ALL_STUDENTS, GET_TEACHER_COURSES } from '../constants/endPoint'
 import Header from '../components/Header'
 import { Backdrop, Box, ClickAwayListener } from '@mui/material'
 import CreateTest from '../components/teacher/CreateTest'
@@ -16,8 +16,10 @@ const TeacherPersonalArea = () => {
 
     const getAllCourses = async () => {
         try {
-            const { data } = await axios.get();
-            setCourses(data);
+            const { data } = await axios.get(GET_TEACHER_COURSES + user._id);
+            setCourses(data.map((item) => {
+                return item.name;
+            }));
         } catch (error) {
             console.error(error);
         }
@@ -32,7 +34,7 @@ const TeacherPersonalArea = () => {
     }
 
     useEffect(() => {
-
+        getAllCourses();
     }, [])
 
 
