@@ -36,7 +36,7 @@ const CREATE_TEST = TEACHER_MASHOV_BASE + "test/"
 
 const CREATE_LESSON = TEACHER_MASHOV_BASE + "lesson/"
 
-const GET_TEACHER_COURSES = TEACHER_MASHOV_BASE + "courses"
+const GET_TEACHER_COURSES = TEACHER_MASHOV_BASE + "courses/"
 
 export {
     USER_BASE_URL,

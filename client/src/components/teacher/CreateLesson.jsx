@@ -8,12 +8,10 @@ const CreateLesson = ({ course, close }) => {
     const [students, setStudents] = useState([]);
     const getAllStudents = async () => {
         try {
-            const { data } = await axios.get(GET_ALL_STUDENTS + user._id + "/" + course)
-            setStudents(() => {
-                return data.map((item) => {
-                    return { ...item, status: "absent" }
-                })
-            })
+            const { data } = await axios.get(GET_ALL_STUDENTS + course._id)
+            setStudents(data.map((item) => {
+                return { ...item, status: "present" }
+            }))
         } catch (error) {
             console.error(error);
         }
@@ -25,7 +23,8 @@ const CreateLesson = ({ course, close }) => {
 
     const createLesson = async () => {
         try {
-            const { data } = await axios.post(CREATE_LESSON, { course: course, teacher: user._id, students: students });
+            const { data } = await axios.post(CREATE_LESSON, { course_name: course.name, teacher_id: user._id, students: students });
+            close();
         } catch (error) {
             console.error(error);
         }
@@ -35,19 +34,19 @@ const CreateLesson = ({ course, close }) => {
         const { checked } = e.target;
         setStudents((prev) => {
             let newStudents = [...prev];
-            newStudents[index].status = checked ? "present" : "absent";
+            newStudents[index].status = checked ? "absent" : "present";
             return newStudents;
         })
     }
     return (
         <div>
-            <form onSubmit={() => {
+            <form style={{ marginTop: "150px" }} onSubmit={(e) => {
+                e.preventDefault();
                 createLesson();
-                close();
             }}>
                 <ul>
                     {students.map((item, index) => {
-                        <li key={index}><h3>{item.name}</h3><input type="checkbox" onChange={(e) => updateStudentStatus(e, index)} /><label htmlFor="">presence</label></li>
+                        return <li key={index}><h3>{item.name}</h3><input type="checkbox" onChange={(e) => updateStudentStatus(e, index)} /><label htmlFor="">presence</label></li>
                     })}
                 </ul>
 

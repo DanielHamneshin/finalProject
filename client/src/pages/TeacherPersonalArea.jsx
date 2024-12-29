@@ -12,14 +12,12 @@ const TeacherPersonalArea = () => {
     const [courses, setCourses] = useState([]);
     const [openTestCreation, setOpenTestCreation] = useState(false);
     const [openLessonCreation, setOpenLessonCreation] = useState(false);
-    const [currentCourse, setCurrentCourse] = useState("");
+    const [currentCourse, setCurrentCourse] = useState(null);
 
     const getAllCourses = async () => {
         try {
             const { data } = await axios.get(GET_TEACHER_COURSES + user._id);
-            setCourses(data.map((item) => {
-                return item.name;
-            }));
+            setCourses(data);
         } catch (error) {
             console.error(error);
         }
@@ -43,33 +41,33 @@ const TeacherPersonalArea = () => {
         <>
             <Header />
 
-            <ul>
+            <ul style={{ marginTop: "150px" }}>
                 {courses.map((item, index) => {
                     return <li key={index}><h3>{item.name}</h3><button onClick={() => {
-                        setCurrentCourse(item.name)
+                        setCurrentCourse(item)
                         setOpenTestCreation(true);
                     }}>create test</button><button onClick={() => {
-                        setCurrentCourse(item.name)
+                        setCurrentCourse(item)
                         setOpenLessonCreation(true)
                     }}>create lesson</button></li>
                 })}
             </ul>
 
-            <Backdrop open={openTestCreation}>
+            {openTestCreation && <Backdrop open={openTestCreation}>
                 <ClickAwayListener onClickAway={() => closeTest()}>
                     <Box>
                         <CreateTest course={currentCourse} close={closeTest} />
                     </Box>
                 </ClickAwayListener>
-            </Backdrop>
+            </Backdrop>}
 
-            <Backdrop open={openLessonCreation}>
+            {openLessonCreation && <Backdrop open={openLessonCreation}>
                 <ClickAwayListener onClickAway={() => closeLesson()}>
                     <Box>
                         <CreateLesson course={currentCourse} close={closeLesson} />
                     </Box>
                 </ClickAwayListener>
-            </Backdrop>
+            </Backdrop>}
         </>
     )
 }
