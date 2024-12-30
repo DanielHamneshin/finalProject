@@ -47,6 +47,10 @@ const studentSchema = new mongoose.Schema({
             type:String,
             required: true,
             enum: ['present', 'absent']
+        },
+        date: {
+            type: Date,
+            required: true
         }
     }],
     tests: [{
@@ -59,7 +63,7 @@ const studentSchema = new mongoose.Schema({
         },
         grade: {
             type: Number
-        }
+        },
     }],
     assignments: [{
         assignment_id: {

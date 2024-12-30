@@ -30,7 +30,7 @@ const lessonSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        default: Date.now,
+        default: Date.now(),
         validate: {
             validator: function (value) {
                 const now = new Date();

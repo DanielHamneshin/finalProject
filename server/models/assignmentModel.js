@@ -29,8 +29,8 @@ const assignmentSchema = new mongoose.Schema({
             default: false
         },
         file: {
-            type:String,
-            required: true
+            type:Buffer,
+            default: null
         }
     }],
     finishDate: {
@@ -38,7 +38,7 @@ const assignmentSchema = new mongoose.Schema({
         required: true
     },
     file: {
-        type: String,
+        type: Buffer,
         required: true
     }
 })
