@@ -6,12 +6,14 @@ import Header from '../components/Header'
 import { Backdrop, Box, ClickAwayListener } from '@mui/material'
 import CreateTest from '../components/teacher/CreateTest'
 import CreateLesson from '../components/teacher/CreateLesson'
+import StudentsInfo from '../components/teacher/StudentsInfo'
 
 const TeacherPersonalArea = () => {
     const { user } = useUserContext();
     const [courses, setCourses] = useState([]);
     const [openTestCreation, setOpenTestCreation] = useState(false);
     const [openLessonCreation, setOpenLessonCreation] = useState(false);
+    const [openStudentInfo, setOpenStudentInfo] = useState(false)
     const [currentCourse, setCurrentCourse] = useState(null);
 
     const getAllCourses = async () => {
@@ -31,6 +33,10 @@ const TeacherPersonalArea = () => {
         setOpenLessonCreation(false);
     }
 
+    const closeStudentInfo = () => {
+        setOpenStudentInfo(false);
+    }
+
     useEffect(() => {
         getAllCourses();
     }, [])
@@ -44,14 +50,21 @@ const TeacherPersonalArea = () => {
             <ul style={{ marginTop: "150px" }}>
                 {courses.map((item, index) => {
                     return <li key={index}><h3>{item.name}</h3><button onClick={() => {
-                        setCurrentCourse(item)
+                        setCurrentCourse(item);
                         setOpenTestCreation(true);
                     }}>create test</button><button onClick={() => {
-                        setCurrentCourse(item)
-                        setOpenLessonCreation(true)
-                    }}>create lesson</button></li>
+                        setCurrentCourse(item);
+                        setOpenLessonCreation(true);
+                    }}>create lesson</button>
+                        <button onClick={() => {
+                            setCurrentCourse(item);
+                            setOpenStudentInfo(true);
+                        }}>students info</button>
+                    </li>
                 })}
             </ul>
+
+            {openStudentInfo && <StudentsInfo course={currentCourse} close={closeStudentInfo} />}
 
             {openTestCreation && <Backdrop open={openTestCreation}>
                 <ClickAwayListener onClickAway={() => closeTest()}>
