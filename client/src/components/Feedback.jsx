@@ -13,11 +13,11 @@ const Feedback = ({ course }) => {
     const [filterPresenceBy, setFilterPresenceBy] = useState('');
     const [presence, setPresence] = useState([]);
 
-    const getAbsencesAndAttendences = async () => {
+    const getPresence = async () => {
         try {
             const { data } = await axios.get(GET_ATTENDANCE_URL + user._id);
             console.log(data);
-            setPresence([...data.attendence, ...data.absence]);
+            setPresence(data);
 
         } catch (error) {
             console.error(error);
@@ -51,7 +51,7 @@ const Feedback = ({ course }) => {
             getAssignments();
         }
         else {
-            getAbsencesAndAttendences()
+            getPresence()
         }
     }, [isInGrades])
 
@@ -61,11 +61,9 @@ const Feedback = ({ course }) => {
         setIsInGrades((prev) => !prev);
     }
 
-    console.log(presence);
 
     return (
         <>
-            <StudentCard />
             <nav className={style.nav}>
                 <div className={`${isInGrades ? style.active : style.nonActive} ${style.navChild}`} onClick={() => {
                     if (!isInGrades) switchComponents()
@@ -92,7 +90,7 @@ const Feedback = ({ course }) => {
                 </select>
                 }
                 {!isInGrades && presence.map((item, index) => {
-                    if (item.status === filterPresenceBy || !filterPresenceBy) return <li className={style.li} key={index}><h3>{item.lessonNum}</h3> <h3>{item.course_id.name}</h3> <h3>{item.status}</h3> <h3>date</h3> </li>
+                    if (item.status === filterPresenceBy || !filterPresenceBy) return <li className={style.li} key={index}><h3>{item.lessonNum}</h3> <h3>{item.course_id.name}</h3> <h3>{item.status}</h3> <h3>{item.date ? item.date.split("T")[0] : ""}</h3> </li>
                 })}
             </ul>
 

@@ -12,8 +12,51 @@ const Carousel = () => {
         slidesToShow: 3, // Slides visible at once
         slidesToScroll: 1, // Slides to scroll at once
         autoplay: true, // Enable autoplay
-        autoplaySpeed: 2500, // Autoplay interval (ms)
+        autoplaySpeed: 3000, // Autoplay interval (ms)
         arrows: true, // Show navigation arrows
+        centerMode: true,  // Added center mode
+        centerPadding: '0',
+        focusOnSelect: true,
+        className: "center",
+        responsive: [
+            {
+                breakpoint: 1200, // Large screens
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    centerMode: true,
+                }
+            },
+            {
+                breakpoint: 992, // Medium screens
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                    arrows: true,
+                }
+            },
+            {
+                breakpoint: 768, // Small screens
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: true,
+                    arrows: false, // Hide arrows on mobile
+                    centerPadding: '40px'
+                }
+            },
+            {
+                breakpoint: 480, // Extra small screens
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: true,
+                    arrows: false,
+                    centerPadding: '20px'
+                }
+            }
+        ]
     };
 
     return (
