@@ -11,11 +11,13 @@ exports.getAllAssignmentsByCourse = async (req, res) => {
         const course = await Course.findById(req.params.course_id)
         const assignments = await Assignment.find({
             course_id: course._id,
-            'students.student_id': student._id
+            'students._id': student._id
         }, {
             finishDate: 1,
+            title: 1,
+            description: 1,
             file: 1,
-            students: { $elemMatch: { student_id: student._id } }, // Include only the specific student
+            students: { $elemMatch: {_id: student._id } }, // Include only the specific student
         })
         res.status(200).json(assignments)
     } catch (error) {
