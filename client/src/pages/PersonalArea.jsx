@@ -32,8 +32,6 @@ const PersonalArea = () => {
     }
 
 
-
-
     const getOptionalCourses = async () => {
         try {
             const { data } = await axios.get(OPTIONAL_COURSES_URL + user._id);
@@ -88,7 +86,7 @@ const PersonalArea = () => {
             <main className={style.main}>
                 {user.isCoursesFull && <select name="" id="" onChange={(e) => setCurrentCourse(e.target.value)}>
                     <option value="">Select course</option>
-                    {allCourses.map((course, index) => <option value={course} key={index}>{course}</option>)}
+                    {allCourses.map((course, index) => <option value={course} key={index}>{course.name}</option>)}
                 </select>}
 
 
