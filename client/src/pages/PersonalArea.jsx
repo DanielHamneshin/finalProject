@@ -6,6 +6,7 @@ import style from '../styles/personal.module.css'
 import axios from 'axios'
 import { GET_ALL_COURSES_URL, OPTIONAL_COURSES_CHOOSE_URL, OPTIONAL_COURSES_URL } from '../constants/endPoint'
 import Feedback from '../components/Feedback'
+import StudentClassroom from '../components/StudentClassroom'
 // TODO: only added studens card
 const PersonalArea = () => {
     const [effectTrigger, setEffectTrigger] = useState(false);
@@ -125,7 +126,7 @@ const PersonalArea = () => {
                         if (isInFeedback) switchComponents()
                     }}><h1>Classroom</h1></div>
                 </nav>
-                {isInFeedback && <Feedback />}
+                {isInFeedback ? <Feedback /> : <StudentClassroom courses={allCourses} />}
             </main>
         </>
     )
