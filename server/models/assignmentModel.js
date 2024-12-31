@@ -15,6 +15,9 @@ const assignmentSchema = new mongoose.Schema({
         ref: 'Teacher',
         required: true
     },
+    description: {
+        type: String,
+    },
     students: [{
         student_id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -37,10 +40,14 @@ const assignmentSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    uploadDate: {
+        type: Date,
+        default: Date.now()
+    },
     file: {
         type: Buffer,
         required: true
     }
-})
+});
 
 module.exports = mongoose.model('Assignment', assignmentSchema);
