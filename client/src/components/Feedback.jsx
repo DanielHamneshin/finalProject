@@ -16,7 +16,6 @@ const Feedback = ({ course }) => {
     const getPresence = async () => {
         try {
             const { data } = await axios.get(GET_ATTENDANCE_URL + user._id);
-            console.log(data);
             setPresence(data);
 
         } catch (error) {

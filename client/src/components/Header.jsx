@@ -9,7 +9,6 @@ const Header = () => {
     const { user, setUser } = useUserContext();
     const firstName = user ? user.name.split(" ")[0] : "";
     const lastName = user ? user.name.split(" ")[1] : "";
-    console.log(lastName);
     const logout = async () => {
         try {
             await axios.post("http://127.0.0.1:5000/auth/logout");
