@@ -55,7 +55,7 @@ exports.getAllCourses = async (req, res) => {
 
         const courseNames = await Promise.all(courses.map(async(courseId)=>{
             const course = await Course.findById(courseId)
-            return course.name
+            return {name: course.name, _id: course._id} //course.name
         }))
         console.log(courseNames);
         
