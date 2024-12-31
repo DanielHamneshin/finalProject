@@ -37,6 +37,7 @@ exports.studentUploadFile = async (req, res) => {
                 'students.$.submitted': true
             }
         })
+       const finalAssignment = await Assignment.findById(req.params.assignment_id)
 
 
         // const fileBuffer = Buffer.from(req.body.file, 'base64')
@@ -54,7 +55,7 @@ exports.studentUploadFile = async (req, res) => {
         //     },
         //     { new: true } // Return the updated document
         // );
-        res.status(200).json(assignment)
+        res.status(200).json(finalAssignment)
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: error })
