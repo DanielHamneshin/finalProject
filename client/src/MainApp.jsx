@@ -13,6 +13,10 @@ import NotFound from './pages/NotFound'
 import TeacherPersonalArea from './pages/TeacherPersonalArea'
 import TeacherClassRoom from './components/teacher/TeacherClassRoom'
 import CourseAssignments from './components/teacher/CourseAssignments'
+import StudentClassroom from './components/StudentClassroom'
+import ClassroomCourse from './components/ClassroomCourse'
+import Feedback from './components/Feedback'
+import Assignment from './components/Assignment'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -39,8 +43,19 @@ const MainApp = () => {
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Home />} />
-                    {user && user.role === "student" && <Route path='/personal' element={<PersonalArea />} />}
-                    {user && user.role === "teacher" && 
+                    {user && user.role === "student" && (
+                        <>
+                            <Route path='/personal' element={<PersonalArea />} />
+                            <Route path='/personal/feedback' element={<Feedback />} />
+                            <Route path='/personal/classroom' element={<StudentClassroom />} />
+                            <Route
+                                path='/personal/classroom/:courseId'
+                                element={<ClassroomCourse key={window.location.pathname} />}
+                            />
+                            <Route path='/personal/classroom/:courseId/assignment/:assignmentId' element={<Assignment />} />
+                        </>
+                    )}
+                    {user && user.role === "teacher" &&
                         <Route path='/teacherpersonal' element={<TeacherPersonalArea />}>
                             <Route path="classroom" element={<TeacherClassRoom />} />
                             <Route path="classroom/:courseName" element={<CourseAssignments />} />
