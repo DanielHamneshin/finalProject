@@ -11,6 +11,8 @@ import { useUserContext } from './contexts/UserContext'
 import axios from 'axios'
 import NotFound from './pages/NotFound'
 import TeacherPersonalArea from './pages/TeacherPersonalArea'
+import TeacherClassRoom from './components/teacher/TeacherClassRoom'
+import CourseAssignments from './components/teacher/CourseAssignments'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -38,7 +40,11 @@ const MainApp = () => {
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Home />} />
                     {user && user.role === "student" && <Route path='/personal' element={<PersonalArea />} />}
-                    {user && user.role === "teacher" && <Route path='/teacherpersonal' element={<TeacherPersonalArea />} />}
+                    {user && user.role === "teacher" && 
+                        <Route path='/teacherpersonal' element={<TeacherPersonalArea />}>
+                            <Route path="classroom" element={<TeacherClassRoom />} />
+                            <Route path="classroom/:courseName" element={<CourseAssignments />} />
+                        </Route>}
                     <Route path='/*' element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
