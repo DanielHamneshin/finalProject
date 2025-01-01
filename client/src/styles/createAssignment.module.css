@@ -1,0 +1,63 @@
+.inputGroup {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.inputGroup label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+.inputGroup input[type="text"],
+.inputGroup input[type="date"],
+.inputGroup textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.inputGroup input[type="text"]:focus,
+.inputGroup input[type="date"]:focus,
+.inputGroup textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+}
+
+.inputGroup textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.uploadSection {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 12px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.submitButton:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+}
