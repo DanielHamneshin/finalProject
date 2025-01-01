@@ -25,8 +25,8 @@ exports.getStudentAttendance = async (req, res) => {
 exports.getStudentTests = async (req, res) => {
   try {
     const tests = await Student.findById(req.params.userId)
-      .populate("tests.test_id", "name ")
-      .select("tests","createdAt");
+      .populate("tests.test_id", "name createdAt")
+      .select("tests");
     res.status(200).json(tests);
   } catch (error) {
     console.log(error);
