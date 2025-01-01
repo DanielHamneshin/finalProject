@@ -9,7 +9,9 @@ import ClassroomCourse from './ClassroomCourse';
 const StudentClassroom = ({ courses }) => {
     const { user } = useUserContext();
     const [course, setCourse] = useState(null);
-
+    const closeCourse = () => {
+        setCourse(null);
+    }
     return (
         <>
             {courses.map((course) => (
@@ -18,7 +20,7 @@ const StudentClassroom = ({ courses }) => {
                     {/* <h2>{course.teacher}</h2> */}
                 </div>
             ))}
-            {course && <ClassroomCourse course={course} />}
+            {course && <ClassroomCourse course={course} closeCourse={closeCourse} />}
         </>
     )
 }
