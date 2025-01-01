@@ -3,11 +3,13 @@ import { useUserContext } from '../contexts/UserContext';
 import style from '../styles/feedback.module.css'
 import axios from 'axios';
 import { GET_ASSIGNMENTS_URL, GET_ATTENDANCE_URL, GET_TESTS_URL } from '../constants/endPoint';
-import StudentCard from './StudentCard';
+import { useNavigate } from 'react-router-dom';
+import Header from './Header';
 
-const Feedback = ({ course }) => {
+const Feedback = () => {
     const { user } = useUserContext();
-    const [isInGrades, setIsInGrades] = useState(false);
+    const navigate = useNavigate();
+    const [isInGrades, setIsInGrades] = useState(true);
     const [tests, setTests] = useState([]);
     const [assignments, setAssignments] = useState([]);
     const [filterPresenceBy, setFilterPresenceBy] = useState('');
@@ -45,54 +47,79 @@ const Feedback = ({ course }) => {
 
 
     useEffect(() => {
-        if (isInGrades) {
-            getTests();
-            getAssignments();
-        }
-        else {
-            getPresence()
-        }
-    }, [isInGrades])
+        getTests();
+        getAssignments();
+        getPresence()
+    }, [])
 
-
-
-    const switchComponents = () => {
-        setIsInGrades((prev) => !prev);
-    }
-
-
+    console.log(tests);
     return (
         <>
-            <nav className={style.nav}>
-                <div className={`${isInGrades ? style.active : style.nonActive} ${style.navChild}`} onClick={() => {
-                    if (!isInGrades) switchComponents()
-                }}><h1>Grades</h1></div>
-                <div className={`${isInGrades ? style.nonActive : style.active} ${style.navChild}`} onClick={() => {
-                    if (isInGrades) switchComponents()
-                }}><h1>Attendance</h1></div>
-            </nav>
+            <Header />
+            <div className={style.container}>
+                {/* Header Section */}
+                <div className={style.headerPaper}>
+                    <div className={style.headerContent}>
+                        <div>
+                            <h1>My Feedback</h1>
+                            <p>Welcome, {user?.name}</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/personal')}
+                            className={style.backButton}
+                        >
+                            Back
+                        </button>
+                    </div>
+                </div>
 
-            <ul>
-                <li className={style.li}><h3>Test Name</h3> <h3>course</h3> <h3>grade</h3> <h3>date</h3> </li>
-                {isInGrades && tests.map((item, index) => {
-                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
-                })}
+                {/* Navigation */}
+                <div className={style.navigationGrid}>
+                    <div
+                        className={`${style.navItem} ${isInGrades ? style.active : ''}`}
+                        onClick={() => setIsInGrades(true)}
+                    >
+                        <h2>Grades</h2>
+                        <p>{tests.length} Tests</p>
+                    </div>
+                    <div
+                        className={`${style.navItem} ${!isInGrades ? style.active : ''}`}
+                        onClick={() => setIsInGrades(false)}
+                    >
+                        <h2>Attendance</h2>
+                        <p>{presence.length} Records</p>
+                    </div>
+                </div>
 
-                {isInGrades && assignments.map((item, index) => {
-                    return <li className={style.li} key={index}><h3>{item.test_id.name}</h3> <h3>{item.course}</h3> <h3>{item.grade}</h3> <h3>date</h3> </li>
-                })}
-
-                {!isInGrades && <select name="" id="" onChange={(e) => setFilterPresenceBy(e.target.value)}>
-                    <option value="">all</option>
-                    <option value="present">present</option>
-                    <option value="absent">absent</option>
-                </select>
-                }
-                {!isInGrades && presence.map((item, index) => {
-                    if (item.status === filterPresenceBy || !filterPresenceBy) return <li className={style.li} key={index}><h3>{item.lessonNum}</h3> <h3>{item.course_id.name}</h3> <h3>{item.status}</h3> <h3>{item.date ? item.date.split("T")[0] : ""}</h3> </li>
-                })}
-            </ul>
-
+                {/* Content Section */}
+                <div className={style.content}>
+                    {isInGrades ? (
+                        // Grades content
+                        <div className={style.gradesGrid}>
+                            {tests.map((test, index) => (
+                                <div key={index} className={style.gradeCard}>
+                                    <h3>{test.test_id.name}</h3>
+                                    <p>Grade: {test.grade}</p>
+                                    <p>Course: {test.course}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        // Attendance content
+                        <div className={style.attendanceGrid}>
+                            {presence.map((record, index) => (
+                                <div key={index} className={style.attendanceCard}>
+                                    <h3>{record.date ? record.date.split("T")[0] : ""}</h3>
+                                    <p>Status: {record.status}</p>
+                                    <p>Course: {record.course_id.name}</p>
+                                    <p>Lesson: {record.lessonNum}</p>
+                                    <p>Teacher: {record.course_id.teacherName}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
         </>
     )
 }

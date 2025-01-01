@@ -82,35 +82,56 @@ const PersonalArea = () => {
     };
 
     const navigateToClassroom = () => {
-        console.log("Courses being passed:", allCourses); // Debug log
         navigate('/personal/classroom', {
             state: { courses: allCourses }
         });
     };
 
-    // Add this to check when courses are loaded
-    useEffect(() => {
-        console.log("Current allCourses:", allCourses);
-    }, [allCourses]);
-    console.log(allCourses);
-    // Let's also check your existing course fetching logic
+
 
 
     return (
         <>
             <Header />
 
-            <div className={style.navigationButtons} style={{ marginTop: '100px' }}>
+            {!user.isCoursesFull && <div className={style.optionalCourses}>
+                <h4>select optional courses max: {maxChoises}</h4>
+                {optionalCourses.map((item, index) => {
+                    return (
+                        <div className={style.option} key={index}>
+                            <input
+                                type="checkbox"
+                                value={item} // Set the value to the course name
+                                onChange={chooseCourses}
+                                checked={chosenCourses.includes(item)} // Sync with state
+                            />
+                            <label htmlFor="">{item}</label>
+                        </div>
+                    );
+                })}
+                <button onClick={() => {
+                    if (chosenCourses.length == maxChoises) {
+                        updateCourses();
+                        setEffectTrigger((prev) => !prev);
+                    }
+                    else {
+                        setError(`please choose ${maxChoises} courses`);
+                    }
+                }}>aplly</button>
+                {error && <p>{error}</p>}
+            </div>}
+
+
+            {user.isCoursesFull && <div className={style.navigationButtons} style={{ marginTop: '100px' }}>
                 <button onClick={() => navigate('/personal/feedback')}>
                     Go to Feedback Page
                 </button>
                 <button onClick={navigateToClassroom}>
                     Go to Classroom Page ({allCourses.length} courses) {/* Debug info */}
                 </button>
-            </div>
+            </div>}
             <Outlet />
         </>
     )
 }
-
 export default PersonalArea
