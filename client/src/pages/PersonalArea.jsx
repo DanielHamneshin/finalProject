@@ -93,44 +93,62 @@ const PersonalArea = () => {
     return (
         <>
             <Header />
-
-            {!user.isCoursesFull && <div className={style.optionalCourses}>
-                <h4>select optional courses max: {maxChoises}</h4>
-                {optionalCourses.map((item, index) => {
-                    return (
-                        <div className={style.option} key={index}>
-                            <input
-                                type="checkbox"
-                                value={item} // Set the value to the course name
-                                onChange={chooseCourses}
-                                checked={chosenCourses.includes(item)} // Sync with state
-                            />
-                            <label htmlFor="">{item}</label>
+            <div className={style.main}>
+                {/* Header Section */}
+                <div className={style.headerPaper}>
+                    <div className={style.headerContent}>
+                        <div>
+                            <h1>Personal Area</h1>
+                            <p>Welcome, {user?.name}</p>
                         </div>
-                    );
-                })}
-                <button onClick={() => {
-                    if (chosenCourses.length == maxChoises) {
-                        updateCourses();
-                        setEffectTrigger((prev) => !prev);
-                    }
-                    else {
-                        setError(`please choose ${maxChoises} courses`);
-                    }
-                }}>aplly</button>
-                {error && <p>{error}</p>}
-            </div>}
+                    </div>
+                </div>
 
+                {!user.isCoursesFull && (
+                    <div className={style.optionalCourses}>
+                        <h4>Select Optional Courses (Max: {maxChoises})</h4>
+                        {optionalCourses.map((item, index) => (
+                            <div className={style.option} key={index}>
+                                <input
+                                    type="checkbox"
+                                    value={item}
+                                    onChange={chooseCourses}
+                                    checked={chosenCourses.includes(item)}
+                                    id={`course-${index}`}
+                                />
+                                <label htmlFor={`course-${index}`}>{item}</label>
+                            </div>
+                        ))}
+                        <button
+                            onClick={() => {
+                                if (chosenCourses.length === maxChoises) {
+                                    updateCourses();
+                                    setEffectTrigger(prev => !prev);
+                                } else {
+                                    setError(`Please choose ${maxChoises} courses`);
+                                }
+                            }}
+                        >
+                            Apply Selection
+                        </button>
+                        {error && <p className={style.error}>{error}</p>}
+                    </div>
+                )}
 
-            {user.isCoursesFull && <div className={style.navigationButtons} style={{ marginTop: '100px' }}>
-                <button onClick={() => navigate('/personal/feedback')}>
-                    Go to Feedback Page
-                </button>
-                <button onClick={navigateToClassroom}>
-                    Go to Classroom Page ({allCourses.length} courses) {/* Debug info */}
-                </button>
-            </div>}
-            <Outlet />
+                {user.isCoursesFull && (
+                    <div className={style.navigationButtons}>
+                        <button onClick={() => navigate('/personal/feedback')}>
+                            <h2>Feedback</h2>
+                            <p>View your grades and attendance</p>
+                        </button>
+                        <button onClick={navigateToClassroom}>
+                            <h2>Classroom</h2>
+                            <p>{allCourses.length} Courses Available</p>
+                        </button>
+                    </div>
+                )}
+                <Outlet />
+            </div>
         </>
     )
 }

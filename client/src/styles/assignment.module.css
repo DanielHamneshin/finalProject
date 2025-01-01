@@ -1,0 +1,164 @@
+.container {
+    max-width: 1200px;
+    margin: 100px auto 0;
+    padding: 0 20px;
+}
+
+.headerPaper {
+    padding: 24px;
+    margin-bottom: 24px;
+    margin-top: 64px;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: white;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerContent h1 {
+    margin: 0;
+    font-size: 2.125rem;
+}
+
+.headerContent p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+}
+
+.backButton {
+    padding: 8px 16px;
+    background-color: white;
+    color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.backButton:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Assignment Content */
+.content {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    margin-top: 24px;
+}
+
+.content h2 {
+    color: #1a73e8;
+    margin: 0 0 16px 0;
+    font-size: 1.5rem;
+}
+
+.content p {
+    color: #666;
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+/* File Upload Section */
+.uploadSection {
+    margin: 24px 0;
+    padding: 24px;
+    background: #f5f9ff;
+    border-radius: 8px;
+    border: 1px dashed #1a73e8;
+    text-align: center;
+}
+
+.uploadSection h3 {
+    color: #1a73e8;
+    margin: 0 0 16px 0;
+    font-size: 1.2rem;
+}
+
+/* Custom file input styling */
+.fileInputLabel {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #1a73e8;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.fileInputLabel:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+}
+
+.fileInput {
+    display: none;
+}
+
+.fileName {
+    margin-top: 12px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Preview Image */
+.previewImage {
+    margin-top: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.previewImage:hover {
+    transform: scale(1.02);
+}
+
+.previewImage img {
+    max-width: 300px;
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Large Image Modal */
+.modalImage {
+    max-width: 95vw;
+    max-height: 95vh;
+    width: 80vw;
+    height: 70vh;
+    object-fit: contain;
+    margin: auto;
+    margin-top: 15vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Indicator */
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 16px;
+}
+
+.statusSubmitted {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.statusPending {
+    background-color: #fff3e0;
+    color: #f57c00;
+}

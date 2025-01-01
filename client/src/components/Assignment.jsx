@@ -17,6 +17,7 @@ const Assignment = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [isLarge, setIsLarge] = useState(false);
     const [assignmentImage, setAssignmentImage] = useState(null);
+    const [selectedFileName, setSelectedFileName] = useState('');
 
     useEffect(() => {
         if (assignment?.students[0]?.file) {
@@ -47,59 +48,97 @@ const Assignment = () => {
         }
     }
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFileName(file.name);
+            uploadFile(e);
+        }
+    };
+
     if (!assignment) {
         navigate('/personal/classroom');
         return null;
     }
 
+
     return (
         <>
             <Header />
-            <div className={style.container} style={{ marginTop: '100px' }}>
-                <button
-                    onClick={() => navigate(`/personal/classroom/${course._id}`, {
-                        state: { course, allCourses }
-                    })}
-                    className={style.backButton}
-                >
-                    Back to Course
-                </button>
+            <div className={style.container}>
+                {/* Header Section */}
+                <div className={style.headerPaper}>
+                    <div className={style.headerContent}>
+                        <div>
+                            <h1>{assignment.title}</h1>
+                            <p>Assignment Details</p>
+                        </div>
+                        <button
+                            onClick={() => navigate(`/personal/classroom/${course._id}`, {
+                                state: { course, allCourses }
+                            })}
+                            className={style.backButton}
+                        >
+                            Back to Course
+                        </button>
+                    </div>
+                </div>
 
-                <h2>{assignment.title}</h2>
-                <p>Submitted: {assignment.students[0].submitted.toString()}</p>
-                <input type="file" onChange={uploadFile} />
+                {/* Content Section */}
+                <div className={style.content}>
+                    <h2>Assignment Information</h2>
+                    <p className={`${style.status} ${assignment.students[0].submitted ? style.statusSubmitted : style.statusPending}`}>
+                        Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}
+                    </p>
 
-                {assignmentImage && (
-                    <img
-                        onClick={(e) => {
-                            setImageUrl(e.target.src)
-                            setIsLarge(true)
-                        }}
-                        src={assignmentImage}
-                        alt={`Assignment ${assignment.title}`}
-                        style={{ maxWidth: '300px', width: '300px', height: '200px' }}
-                    />
-                )}
+                    {/* Upload Section */}
+                    {(new Date(assignment.finishDate) > new Date()) && (
+                        <div className={style.uploadSection}>
+                            <h3>Submit Your Work</h3>
+                            <label className={style.fileInputLabel}>
+                                Choose File
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className={style.fileInput}
+                                    accept="image/*"
+                                />
+                            </label>
+                            {selectedFileName && (
+                                <p className={style.fileName}>
+                                    Selected file: {selectedFileName}
+                                </p>
+                            )}
+                        </div>
+                    )}
 
-                {isLarge && (
-                    <Backdrop open={isLarge}>
-                        <ClickAwayListener onClickAway={() => setIsLarge(false)}>
+                    {/* Preview Section */}
+                    {assignmentImage && (
+                        <div className={style.previewImage}>
                             <img
-                                src={imageUrl}
-                                alt="Assignment"
-                                style={{
-                                    maxWidth: '95vw',
-                                    maxHeight: '95vh',
-                                    width: '80vw',
-                                    height: '70vh',
-                                    objectFit: 'contain',
-                                    margin: 'auto',
-                                    marginTop: '15vh'
+                                onClick={(e) => {
+                                    setImageUrl(e.target.src)
+                                    setIsLarge(true)
                                 }}
+                                src={assignmentImage}
+                                alt={`Assignment ${assignment.title}`}
                             />
-                        </ClickAwayListener>
-                    </Backdrop>
-                )}
+                        </div>
+                    )}
+
+                    {/* Large Image Modal */}
+                    {isLarge && (
+                        <Backdrop open={isLarge}>
+                            <ClickAwayListener onClickAway={() => setIsLarge(false)}>
+                                <img
+                                    src={imageUrl}
+                                    alt="Assignment"
+                                    className={style.modalImage}
+                                />
+                            </ClickAwayListener>
+                        </Backdrop>
+                    )}
+                </div>
             </div>
         </>
     )

@@ -1,0 +1,131 @@
+.container {
+    max-width: 1200px;
+    margin: 100px auto 0;
+    padding: 0 20px;
+}
+
+.headerPaper {
+    padding: 24px;
+    margin-bottom: 24px;
+    margin-top: 64px;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: white;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerContent h1 {
+    margin: 0;
+    font-size: 2.125rem;
+}
+
+.headerContent p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+}
+
+.backButton {
+    padding: 8px 16px;
+    background-color: white;
+    color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.backButton:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Course grid styling */
+.coursesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.course {
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.course:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    border-color: #1a73e8;
+}
+
+.course h2 {
+    margin: 0;
+    color: #1a73e8;
+    font-size: 1.5rem;
+}
+
+.course p {
+    margin: 8px 0 0;
+    color: #666;
+}
+
+/* Assignment grid styling */
+.assignmentsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.assignmentCard {
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.assignmentCard:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    border-color: #1a73e8;
+}
+
+.assignmentCard h2 {
+    margin: 0;
+    color: #1a73e8;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.assignmentCard p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Status colors */
+.assignmentCard p:last-child {
+    margin-top: 16px;
+    font-weight: 500;
+}
+
+.assignmentCard p:last-child:has(span:contains("Submitted")) {
+    color: #4caf50;
+}
+
+.assignmentCard p:last-child:has(span:contains("Pending")) {
+    color: #f57c00;
+}

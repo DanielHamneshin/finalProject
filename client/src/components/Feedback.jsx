@@ -101,6 +101,7 @@ const Feedback = () => {
                                     <h3>{test.test_id.name}</h3>
                                     <p>Grade: {test.grade}</p>
                                     <p>Course: {test.course}</p>
+                                    <p>Date: {test.test_id.createdAt.split("T")[0]}</p>
                                 </div>
                             ))}
                         </div>

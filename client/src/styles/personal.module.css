@@ -1,108 +1,121 @@
 .main {
-    margin-top: 150px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 100px auto 0;
+    padding: 0 20px;
 }
 
-.nav {
-    display: flex;
-    border: 3px solid #333;
-    width: 500px;
-    justify-content: space-evenly;
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+/* Header styling similar to Feedback */
+.headerPaper {
+    padding: 24px;
+    margin-bottom: 24px;
+    margin-top: 64px;
     border-radius: 8px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.active {
-    background-color: white;
-    color: #e63946;
-    font-weight: bold;
-    border-bottom: 4px solid #e63946;
-    box-shadow: inset 0 -2px 4px rgba(230, 57, 70, 0.4);
-    transition: all 0.3s ease;
-}
-
-.navChild {
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    cursor: pointer;
-    font-size: 1.2rem;
-    user-select: none;
-    transition: all 0.3s ease;
-}
-
-.navChild:hover {
-    background-color: #f1f1f1;
-    color: #e63946;
-    transform: scale(1.05);
-}
-
-.nonActive {
-    opacity: 0.7;
+    background: #1a73e8;
     color: white;
 }
 
-.optionalCourses {
-    background-color: #ffffff;
-    padding: 20px;
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerContent h1 {
+    margin: 0;
+    font-size: 2.125rem;
+}
+
+.headerContent p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+}
+
+/* Navigation buttons styling */
+.navigationButtons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.navigationButtons button {
+    padding: 24px;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    color: #1a73e8;
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+.navigationButtons button:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    border-color: #1a73e8;
+    background-color: white;
+}
+
+/* Optional courses styling */
+.optionalCourses {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    max-width: 600px;
+    margin: 24px auto;
 }
 
 .optionalCourses h4 {
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 15px;
+    color: #1a73e8;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
 }
 
 .option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #f5f9ff;
 }
 
 .option input[type="checkbox"] {
-    margin-right: 10px;
+    margin-right: 12px;
     transform: scale(1.2);
-    cursor: pointer;
 }
 
-button {
-    background-color: #e63946;
+.option label {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.optionalCourses button {
+    background-color: #1a73e8;
     color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
     border: none;
-    padding: 10px 20px;
     font-size: 1rem;
-    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
 }
 
-button:hover {
-    background-color: #d62828;
-    transform: scale(1.05);
-}
-
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+.optionalCourses button:hover {
+    background-color: #1557b0;
+    transform: translateY(-2px);
 }
 
 .error {
-    color: #e63946;
+    color: #d32f2f;
+    margin-top: 12px;
     font-size: 0.9rem;
-    margin-top: 10px;
 }

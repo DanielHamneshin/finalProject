@@ -42,33 +42,42 @@ const ClassroomCourse = () => {
             }
         });
     };
-
+    console.log(assignments);
     return (
         <>
             <Header />
-            <div className={style.container} style={{ marginTop: '100px' }}>
-                <button
-                    onClick={() => navigate('/personal/classroom', {
-                        state: { courses: allCourses }
-                    })}
-                    className={style.backButton}
-                >
-                    Back to Classroom
-                </button>
-
-                <h2>{course.name}</h2>
-
-                {assignments.map((assignment) => (
-                    <div
-                        key={assignment._id}
-                        className={style.assignment}
-                        onClick={() => handleAssignmentClick(assignment)}
-                    >
-                        <h3>{assignment.title}</h3>
-                        <p>Upload Date: {assignment.uploadDate}</p>
-                        <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
+            <div className={style.container}>
+                <div className={style.headerPaper}>
+                    <div className={style.headerContent}>
+                        <div>
+                            <h1>{course.name}</h1>
+                            <p>Course Assignments</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/personal/classroom', {
+                                state: { courses: allCourses }
+                            })}
+                            className={style.backButton}
+                        >
+                            Back
+                        </button>
                     </div>
-                ))}
+                </div>
+
+                <div className={style.assignmentsGrid}>
+                    {assignments.map((assignment) => (
+                        <div
+                            key={assignment._id}
+                            className={style.assignmentCard}
+                            onClick={() => handleAssignmentClick(assignment)}
+                        >
+                            <h2>{assignment.title}</h2>
+                            <p>Upload Date: {assignment.uploadDate}</p>
+                            <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
+                            <p>Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )
