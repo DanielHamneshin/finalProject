@@ -1,26 +1,43 @@
-import React, { useState } from 'react'
-import { GET_ASSIGNMENTS_BY_COURSE } from '../constants/endPoint';
+import React from 'react'
 import style from '../styles/studentClassroom.module.css';
-import { useUserContext } from '../contexts/UserContext'
-import axios from 'axios';
-import ClassroomCourse from './ClassroomCourse';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Header from './Header';
 
+const StudentClassroom = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const courses = location.state?.courses || [];
 
-const StudentClassroom = ({ courses }) => {
-    const { user } = useUserContext();
-    const [course, setCourse] = useState(null);
-    const closeCourse = () => {
-        setCourse(null);
-    }
+    const handleCourseClick = (course) => {
+        navigate(`/personal/classroom/${course._id}`, {
+            state: {
+                course,
+                allCourses: courses
+            }
+        });
+    };
+
     return (
         <>
-            {courses.map((course) => (
-                <div className={style.course} key={course._id} onClick={() => setCourse(course)}>
-                    <h2>{course.name}</h2>
-                    {/* <h2>{course.teacher}</h2> */}
-                </div>
-            ))}
-            {course && <ClassroomCourse course={course} closeCourse={closeCourse} />}
+            <Header />
+            <div className={style.container} style={{ marginTop: '100px' }}>
+                <button
+                    onClick={() => navigate('/personal')}
+                    className={style.backButton}
+                >
+                    Back to Personal Area
+                </button>
+
+                {courses.map((course) => (
+                    <div
+                        className={style.course}
+                        key={course._id}
+                        onClick={() => handleCourseClick(course)}
+                    >
+                        <h2>{course.name}</h2>
+                    </div>
+                ))}
+            </div>
         </>
     )
 }

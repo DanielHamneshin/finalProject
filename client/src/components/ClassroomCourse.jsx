@@ -1,106 +1,75 @@
-import React, { useEffect, useState } from 'react'
-import { GET_ASSIGNMENTS_BY_COURSE, UPLOAD_FILE } from '../constants/endPoint';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
+import Header from './Header';
+import style from '../styles/studentClassroom.module.css';
+import { GET_ASSIGNMENTS_BY_COURSE } from '../constants/endPoint';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
-import Backdrop from '@mui/material/Backdrop';
-import { ClickAwayListener } from '@mui/material';
 
-const ClassroomCourse = ({ course, closeCourse }) => {
-    const [imageUrl, setImageUrl] = useState('');
-    const [isLarge, setIsLarge] = useState(false);
-    const { user } = useUserContext();
+const ClassroomCourse = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const course = location.state?.course;
+    const allCourses = location.state?.allCourses;
     const [assignments, setAssignments] = useState([]);
-    const [assignmentImages, setAssignmentImages] = useState({});
-
-    const getAssignmentsByCourse = async () => {
-        try {
-            const { data } = await axios.get(GET_ASSIGNMENTS_BY_COURSE + user._id + "/" + course._id);
-            setAssignments(data);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const { user } = useUserContext();
 
     useEffect(() => {
-        getAssignmentsByCourse();
-    }, []);
-
-    const uploadFile = async (e, assignment) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const base64 = e.target.result;
-                try {
-                    const { data } = await axios.post(UPLOAD_FILE + assignment._id + "/" + user._id, {
-                        file: base64.split(',')[1]
-                    });
-                    console.log(data);
-                    await getAssignmentsByCourse();
-                } catch (error) {
-                    console.error(error);
-                }
+        const getAssignmentsByCourse = async () => {
+            try {
+                const { data } = await axios.get(GET_ASSIGNMENTS_BY_COURSE + user._id + "/" + course._id);
+                setAssignments(data);
+            } catch (error) {
+                console.error(error);
             }
-            reader.readAsDataURL(file);
         }
+        if (course && user) {
+            getAssignmentsByCourse();
+        }
+    }, [course, user]);
+
+    if (!course) {
+        navigate('/personal/classroom');
+        return null;
     }
 
-    useEffect(() => {
-        assignments.forEach(assignment => {
-            if (assignment.students[0]?.file) {
-                const bytes = new Uint8Array(assignment.students[0].file.data);
-                const base64String = btoa(String.fromCharCode.apply(null, bytes));
-                const imageUrl = `data:image/png;base64,${base64String}`;
-                setAssignmentImages(prev => ({
-                    ...prev,
-                    [assignment._id]: imageUrl
-                }));
+    const handleAssignmentClick = (assignment) => {
+        navigate(`/personal/classroom/${course._id}/assignment/${assignment._id}`, {
+            state: {
+                assignment,
+                course,
+                allCourses
             }
         });
-    }, [assignments]);
+    };
 
     return (
         <>
-            {assignments.map((assignment, index) => (
-                <div key={assignment._id}>
-                    <h2>{assignment.title}</h2>
-                    <p>{assignment.uploadDate}</p>
-                    <p>{assignment.finishDate.split("T")[0]}</p>
-                    <p>{assignment.students[0].submitted.toString()}</p>
-                    {/* <h2>{course.teacher}</h2> */}
-                    {<input type="file" onChange={(e) => uploadFile(e, assignment)} />}
+            <Header />
+            <div className={style.container} style={{ marginTop: '100px' }}>
+                <button
+                    onClick={() => navigate('/personal/classroom', {
+                        state: { courses: allCourses }
+                    })}
+                    className={style.backButton}
+                >
+                    Back to Classroom
+                </button>
 
-                    {assignmentImages[assignment._id] && (
-                        <img
-                            onClick={(e) => {
-                                setImageUrl(e.target.src)
-                                setIsLarge(true)
-                            }}
-                            src={assignmentImages[assignment._id]}
-                            alt={`Assignment ${assignment.title}`}
-                            style={{ maxWidth: '300px' }}
-                        />
-                    )}
-                </div>
-            ))}
-            <button onClick={closeCourse}>close</button>
-            {isLarge && <Backdrop open={isLarge} >
-                <ClickAwayListener onClickAway={() => setIsLarge(false)}>
-                    <img
-                        src={imageUrl}
-                        alt="Assignment"
-                        style={{
-                            maxWidth: '95vw',
-                            maxHeight: '95vh',
-                            width: '80vw',
-                            height: '85vh',
-                            objectFit: 'contain',
-                            margin: 'auto',
-                            marginTop: '10vh'
-                        }}
-                    />
-                </ClickAwayListener>
-            </Backdrop>}
+                <h2>{course.name}</h2>
+
+                {assignments.map((assignment) => (
+                    <div
+                        key={assignment._id}
+                        className={style.assignment}
+                        onClick={() => handleAssignmentClick(assignment)}
+                    >
+                        <h3>{assignment.title}</h3>
+                        <p>Upload Date: {assignment.uploadDate}</p>
+                        <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
+                    </div>
+                ))}
+            </div>
         </>
     )
 }

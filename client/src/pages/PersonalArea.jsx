@@ -7,6 +7,7 @@ import axios from 'axios'
 import { GET_ALL_COURSES_URL, OPTIONAL_COURSES_CHOOSE_URL, OPTIONAL_COURSES_URL } from '../constants/endPoint'
 import Feedback from '../components/Feedback'
 import StudentClassroom from '../components/StudentClassroom'
+import { Outlet, useNavigate } from 'react-router-dom'
 // TODO: only added studens card
 const PersonalArea = () => {
     const [effectTrigger, setEffectTrigger] = useState(false);
@@ -18,6 +19,7 @@ const PersonalArea = () => {
     const [chosenCourses, setChosenCourses] = useState([]);
     const [currentCourse, setCurrentCourse] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const switchComponents = () => {
         setIsInFeedback((prev) => !prev)
@@ -79,55 +81,34 @@ const PersonalArea = () => {
         });
     };
 
+    const navigateToClassroom = () => {
+        console.log("Courses being passed:", allCourses); // Debug log
+        navigate('/personal/classroom', {
+            state: { courses: allCourses }
+        });
+    };
+
+    // Add this to check when courses are loaded
+    useEffect(() => {
+        console.log("Current allCourses:", allCourses);
+    }, [allCourses]);
+    console.log(allCourses);
+    // Let's also check your existing course fetching logic
 
 
     return (
         <>
             <Header />
-            <main className={style.main}>
-                {user.isCoursesFull && <select name="" id="" onChange={(e) => setCurrentCourse(e.target.value)}>
-                    <option value="">Select course</option>
-                    {allCourses.map((course, index) => <option value={course} key={index}>{course.name}</option>)}
-                </select>}
 
-
-                {!user.isCoursesFull && <div className={style.optionalCourses}>
-                    <h4>select optional courses max: {maxChoises}</h4>
-                    {optionalCourses.map((item, index) => {
-                        return (
-                            <div className={style.option} key={index}>
-                                <input
-                                    type="checkbox"
-                                    value={item} // Set the value to the course name
-                                    onChange={chooseCourses}
-                                    checked={chosenCourses.includes(item)} // Sync with state
-                                />
-                                <label htmlFor="">{item}</label>
-                            </div>
-                        );
-                    })}
-                    <button onClick={() => {
-                        if (chosenCourses.length == maxChoises) {
-                            updateCourses();
-                            setEffectTrigger((prev) => !prev);
-                        }
-                        else {
-                            setError(`please choose ${maxChoises} courses`);
-                        }
-                    }}>aplly</button>
-                    {error && <p>{error}</p>}
-                </div>}
-
-                <nav className={style.nav}>
-                    <div className={`${isInFeedback ? style.active : style.nonActive} ${style.navChild}`} onClick={() => {
-                        if (!isInFeedback) switchComponents()
-                    }}><h1>Feedback</h1></div>
-                    <div className={`${isInFeedback ? style.nonActive : style.active} ${style.navChild}`} onClick={() => {
-                        if (isInFeedback) switchComponents()
-                    }}><h1>Classroom</h1></div>
-                </nav>
-                {isInFeedback ? <Feedback /> : <StudentClassroom courses={allCourses} />}
-            </main>
+            <div className={style.navigationButtons} style={{ marginTop: '100px' }}>
+                <button onClick={() => navigate('/personal/feedback')}>
+                    Go to Feedback Page
+                </button>
+                <button onClick={navigateToClassroom}>
+                    Go to Classroom Page ({allCourses.length} courses) {/* Debug info */}
+                </button>
+            </div>
+            <Outlet />
         </>
     )
 }
