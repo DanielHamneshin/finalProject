@@ -68,12 +68,13 @@ exports.studentUploadFile = async (req, res) => {
 exports.createAssignment = async (req, res) => {
 
     try {
-        const { title, coures_id, teacher_id, finishDate, file } = req.body
+        const { title,description, coures_id, teacher_id, finishDate, file } = req.body
         const course = await Course.findById(coures_id)
         const students = course.students_id
         const binaryFile = Buffer.from(file, 'base64');
         const assignment = new Assignment({
             title: title,
+            description: description,
             course_id: coures_id,
             teacher_id: teacher_id,
             finishDate: finishDate,
