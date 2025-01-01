@@ -17,7 +17,7 @@ exports.getAllAssignmentsByCourse = async (req, res) => {
             title: 1,
             description: 1,
             file: 1,
-            students: { $elemMatch: {_id: student._id } }, // Include only the specific student
+            students: { $elemMatch: { _id: student._id } }, // Include only the specific student
         })
         res.status(200).json(assignments)
     } catch (error) {
@@ -28,16 +28,17 @@ exports.getAllAssignmentsByCourse = async (req, res) => {
 // upload file for student
 exports.studentUploadFile = async (req, res) => {
     try {
+        const binaryFile = Buffer.from(req.body.file, 'base64');
         let assignment = await Assignment.updateOne({
             _id: req.params.assignment_id,
             'students._id': req.params.student_id
         }, {
             $set: {
-                'students.$.file': req.body.file,
+                'students.$.file': binaryFile,
                 'students.$.submitted': true
             }
         })
-       const finalAssignment = await Assignment.findById(req.params.assignment_id)
+        const finalAssignment = await Assignment.findById(req.params.assignment_id)
 
 
         // const fileBuffer = Buffer.from(req.body.file, 'base64')
@@ -124,6 +125,20 @@ exports.gradeAssignment = async (req, res) => {
                 'students.$.grade': grade
             }
         })
+        // update the student assignment array
+        const course = await Course.findById(assignment.course_id)
+        await Student.updateOne(
+            { _id: student_id },
+            {
+                $push: {
+                    assignments: {
+                        assignment_id: assignmentId,
+                        grade: grade,
+                        course_id: course._id
+                    }
+                }
+            }
+        );
 
         res.status(200).json(updatedAssignment);
     } catch (error) {
@@ -131,5 +146,4 @@ exports.gradeAssignment = async (req, res) => {
         res.status(500).json({ msg: "Internal server error" });
     }
 };
-
 
