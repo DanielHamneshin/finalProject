@@ -24,6 +24,11 @@ router.put(
     classroomController.gradeAssignment
 );
 
+router.get(
+    "/courseassignments/:course_id",
+    classroomController.getCourseAssignments
+);
+
 // General routes
 router.get(
     "/courses/:student_id",

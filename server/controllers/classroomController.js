@@ -147,3 +147,13 @@ exports.gradeAssignment = async (req, res) => {
     }
 };
 
+exports.getCourseAssignments = async (req, res) => {
+    try {
+        const assignments = await Assignment.find({ course_id: req.params.course_id })
+        console.log(assignments);
+        res.status(200).json(assignments)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error })
+    }
+}
