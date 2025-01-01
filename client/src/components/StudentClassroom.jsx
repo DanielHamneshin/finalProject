@@ -16,27 +16,39 @@ const StudentClassroom = () => {
             }
         });
     };
-
     return (
         <>
             <Header />
-            <div className={style.container} style={{ marginTop: '100px' }}>
-                <button
-                    onClick={() => navigate('/personal')}
-                    className={style.backButton}
-                >
-                    Back to Personal Area
-                </button>
-
-                {courses.map((course) => (
-                    <div
-                        className={style.course}
-                        key={course._id}
-                        onClick={() => handleCourseClick(course)}
-                    >
-                        <h2>{course.name}</h2>
+            <div className={style.container}>
+                {/* Header Section */}
+                <div className={style.headerPaper}>
+                    <div className={style.headerContent}>
+                        <div>
+                            <h1>My Classroom</h1>
+                            <p>Available Courses</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/personal')}
+                            className={style.backButton}
+                        >
+                            Back
+                        </button>
                     </div>
-                ))}
+                </div>
+
+                {/* Courses Grid */}
+                <div className={style.coursesGrid}>
+                    {courses.map((course) => (
+                        <div
+                            className={style.course}
+                            key={course._id}
+                            onClick={() => handleCourseClick(course)}
+                        >
+                            <h2>{course.name}</h2>
+                            <p>Teacher: {course.teacher}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </>
     )
