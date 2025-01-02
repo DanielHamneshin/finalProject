@@ -18,6 +18,7 @@ const Assignment = () => {
     const [isLarge, setIsLarge] = useState(false);
     const [assignmentImage, setAssignmentImage] = useState(null);
     const [selectedFileName, setSelectedFileName] = useState('');
+    const [assignmentFileImage, setAssignmentFileImage] = useState(null);
 
     useEffect(() => {
         if (assignment?.students[0]?.file) {
@@ -25,6 +26,13 @@ const Assignment = () => {
             const base64String = btoa(String.fromCharCode.apply(null, bytes));
             const imageUrl = `data:image/png;base64,${base64String}`;
             setAssignmentImage(imageUrl);
+        }
+
+        if (assignment?.file) {
+            const bytes = new Uint8Array(assignment.file.data);
+            const base64String = btoa(String.fromCharCode.apply(null, bytes));
+            const imageUrl = `data:image/png;base64,${base64String}`;
+            setAssignmentFileImage(imageUrl);
         }
     }, [assignment]);
 
@@ -61,7 +69,7 @@ const Assignment = () => {
         return null;
     }
 
-
+    console.log(assignment);
     return (
         <>
             <Header />
@@ -86,10 +94,32 @@ const Assignment = () => {
 
                 {/* Content Section */}
                 <div className={style.content}>
-                    <h2>Assignment Information</h2>
-                    <p className={`${style.status} ${assignment.students[0].submitted ? style.statusSubmitted : style.statusPending}`}>
-                        Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}
-                    </p>
+                    {/* Info and File Preview Flex Container */}
+                    <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                        {/* Left side - Assignment Information */}
+                        <div style={{ flex: '1' }}>
+                            <h2>Assignment Information</h2>
+                            <p className={`${style.status} ${assignment.students[0].submitted ? style.statusSubmitted : style.statusPending}`}>
+                                Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}
+                            </p>
+                        </div>
+
+                        {/* Right side - Assignment File Preview */}
+                        {assignmentFileImage && (
+                            <div style={{ textAlign: 'center' }}>
+                                <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Assignment File</p>
+                                <img
+                                    className={style.scaleImage}
+                                    onClick={(e) => {
+                                        setImageUrl(e.target.src)
+                                        setIsLarge(true)
+                                    }}
+                                    src={assignmentFileImage}
+                                    alt="Assignment File"
+                                />
+                            </div>
+                        )}
+                    </div>
 
                     {/* Upload Section */}
                     {(new Date(assignment.finishDate) > new Date()) && (
@@ -112,16 +142,18 @@ const Assignment = () => {
                         </div>
                     )}
 
-                    {/* Preview Section */}
+                    {/* Student Submission Preview */}
                     {assignmentImage && (
-                        <div className={style.previewImage}>
+                        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                            <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Your Submission</p>
                             <img
+                                className={style.scaleImage}
                                 onClick={(e) => {
                                     setImageUrl(e.target.src)
                                     setIsLarge(true)
                                 }}
                                 src={assignmentImage}
-                                alt={`Assignment ${assignment.title}`}
+                                alt="Student Submission"
                             />
                         </div>
                     )}

@@ -11,13 +11,13 @@ exports.getAllAssignmentsByCourse = async (req, res) => {
         const course = await Course.findById(req.params.course_id)
         const assignments = await Assignment.find({
             course_id: course._id,
-            'students._id': student._id
+            'students.student_details': student._id
         }, {
             finishDate: 1,
             title: 1,
             description: 1,
             file: 1,
-            students: { $elemMatch: { _id: student._id } }, // Include only the specific student
+            students: { $elemMatch: { student_details: student._id } },
         })
         res.status(200).json(assignments)
     } catch (error) {
@@ -31,7 +31,7 @@ exports.studentUploadFile = async (req, res) => {
         const binaryFile = Buffer.from(req.body.file, 'base64');
         let assignment = await Assignment.updateOne({
             _id: req.params.assignment_id,
-            'students._id': req.params.student_id
+            'students.student_details': req.params.student_id
         }, {
             $set: {
                 'students.$.file': binaryFile,
@@ -68,18 +68,27 @@ exports.studentUploadFile = async (req, res) => {
 exports.createAssignment = async (req, res) => {
 
     try {
-        const { title,description, coures_id, teacher_id, finishDate, file } = req.body
-        const course = await Course.findById(coures_id)
+        const { title, description, course_id, teacher_id, finishDate, file } = req.body
+        const course = await Course.findOne({ _id: course_id })
         const students = course.students_id
+        const studentsl = students.map(student => {
+            return {
+                student_details: student,
+                grade: null,
+                submitted: false,
+                file: null
+            }
+        })
+        console.log(studentsl);
         const binaryFile = Buffer.from(file, 'base64');
         const assignment = new Assignment({
             title: title,
             description: description,
-            course_id: coures_id,
+            course_id: course_id,
             teacher_id: teacher_id,
             finishDate: finishDate,
             file: binaryFile,
-            students: students
+            students: studentsl
         })
         await assignment.save()
 
@@ -92,7 +101,7 @@ exports.createAssignment = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
     try {
-        const courses = await Course.find({ "students_id": req.params.student_id })
+        const courses = await Course.find({ "students.student_details": req.params.student_id })
         res.status(200).json(courses)
     } catch (error) {
         console.log(error);
@@ -106,7 +115,7 @@ exports.gradeAssignment = async (req, res) => {
         const assignmentId = req.params.assignment_id;
         const { student_id, grade } = req.body
         // Find the assignment
-        const assignment = await Assignment.findOne({ _id: assignmentId, "students._id": student_id });
+        const assignment = await Assignment.findOne({ _id: assignmentId, "students.student_details": student_id });
         console.log(assignment)
         if (!assignment) {
             return res.status(404).json({ msg: "Assignment not found" });
@@ -120,7 +129,7 @@ exports.gradeAssignment = async (req, res) => {
 
         const updatedAssignment = await Assignment.updateOne({
             _id: assignmentId,
-            'students._id': student_id
+            'students.student_details': student_id
         }, {
             $set: {
                 'students.$.grade': grade
@@ -151,7 +160,7 @@ exports.gradeAssignment = async (req, res) => {
 exports.getCourseAssignments = async (req, res) => {
     try {
         const assignments = await Assignment.find({ course_id: req.params.course_id })
-        console.log(assignments);
+            .populate("students.student_details", "name")
         res.status(200).json(assignments)
     } catch (error) {
         console.log(error);

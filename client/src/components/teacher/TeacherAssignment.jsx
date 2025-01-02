@@ -21,6 +21,16 @@ const TeacherAssignment = () => {
         }
     }, [assignment]);
 
+    const handleStudentClick = (student) => {
+        if (student?.file?.data) {
+            const bytes = new Uint8Array(student.file.data);
+            const base64String = btoa(String.fromCharCode.apply(null, bytes));
+            const imageUrl = `data:image/png;base64,${base64String}`;
+            setImageUrl(imageUrl);
+            setIsLarge(true);
+        }
+    };
+
     if (!assignment) {
         navigate('/teacherpersonal/classroom');
         return null;
@@ -67,6 +77,30 @@ const TeacherAssignment = () => {
                             />
                         </div>
                     )}
+
+                    {/* Students Section */}
+                    <div className={style.studentsGrid}>
+                        {assignment.students.map((student, index) => (
+                            <div key={index} className={style.studentCard}>
+                                <p className={style.studentName}>{student.student_details.name}</p>
+                                <p className={style.studentGrade}>
+                                    Grade: {student.grade || 'Not graded'}
+                                </p>
+                                <p className={`${style.submissionStatus} ${student.submitted ? style.statusSubmitted : style.statusPending
+                                    }`}>
+                                    {student.submitted ? "Submitted" : "Not Submitted"}
+                                </p>
+                                {student.file?.data && (
+                                    <button
+                                        className={style.viewFileButton}
+                                        onClick={() => handleStudentClick(student)}
+                                    >
+                                        View Submission
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
 
                     {/* Large Image Modal */}
                     {isLarge && (
