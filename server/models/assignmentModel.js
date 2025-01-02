@@ -6,12 +6,12 @@ const assignmentSchema = new mongoose.Schema({
         required: true
     },
     course_id: {
-       type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true
     },
     teacher_id: {
-       type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Teacher',
         required: true
     },
@@ -19,20 +19,20 @@ const assignmentSchema = new mongoose.Schema({
         type: String,
     },
     students: [{
-        student_id: {
+        student_details: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Student'
         },
-        grade: {    
-            type: Number ,
-            default: null       
+        grade: {
+            type: Number,
+            default: null
         },
         submitted: {
             type: Boolean,
             default: false
         },
         file: {
-            type:Buffer,
+            type: Buffer,
             default: null
         }
     }],

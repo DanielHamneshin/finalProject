@@ -8,6 +8,7 @@ import CreateTest from '../components/teacher/CreateTest'
 import CreateLesson from '../components/teacher/CreateLesson'
 import StudentsInfo from '../components/teacher/StudentsInfo'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import style from '../styles/teacherPersonal.module.css'
 
 const TeacherPersonalArea = () => {
     const { user } = useUserContext();
@@ -51,33 +52,51 @@ const TeacherPersonalArea = () => {
             <Header />
 
             {location.pathname === '/teacherpersonal' && (
-                <>
-                    <button 
+                <div className={style.container}>
+                    <button
                         onClick={() => navigate('classroom')}
-                        style={{ marginTop: "100px" }}
+                        className={style.classroomButton}
                     >
                         Go to Classroom
                     </button>
 
-                    <ul style={{ marginTop: "20px" }}>
-                        {courses.map((item, index) => {
-                            return <li key={index}><h3>{item.name}</h3>
-                                <button onClick={() => {
-                                    setCurrentCourse(item);
-                                    setOpenTestCreation(true);
-                                }}>create test</button>
-                                <button onClick={() => {
-                                    setCurrentCourse(item);
-                                    setOpenLessonCreation(true);
-                                }}>create lesson</button>
-                                <button onClick={() => {
-                                    setCurrentCourse(item);
-                                    setOpenStudentInfo(true);
-                                }}>students info</button>
+                    <ul className={style.coursesList}>
+                        {courses.map((item, index) => (
+                            <li key={index} className={style.courseCard}>
+                                <h3 className={style.courseName}>{item.name}</h3>
+                                <div className={style.actionButtons}>
+                                    <button
+                                        className={style.actionButton}
+                                        onClick={() => {
+                                            setCurrentCourse(item);
+                                            setOpenTestCreation(true);
+                                        }}
+                                    >
+                                        Create Test
+                                    </button>
+                                    <button
+                                        className={style.actionButton}
+                                        onClick={() => {
+                                            setCurrentCourse(item);
+                                            setOpenLessonCreation(true);
+                                        }}
+                                    >
+                                        Create Lesson
+                                    </button>
+                                    <button
+                                        className={style.actionButton}
+                                        onClick={() => {
+                                            setCurrentCourse(item);
+                                            setOpenStudentInfo(true);
+                                        }}
+                                    >
+                                        Students Info
+                                    </button>
+                                </div>
                             </li>
-                        })}
+                        ))}
                     </ul>
-                </>
+                </div>
             )}
 
             <Outlet context={{ courses }} />
