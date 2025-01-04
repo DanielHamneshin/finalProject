@@ -47,7 +47,7 @@
 /* Assignment Content */
 .content {
     background: white;
-    padding: 24px;
+    padding: 0;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     border: 1px solid #e0e0e0;
@@ -64,6 +64,16 @@
     color: #666;
     margin: 8px 0;
     font-size: 1rem;
+}
+
+.content>* {
+    margin: 0;
+    padding: 0;
+}
+
+.content>div {
+    margin: 0;
+    padding: 0;
 }
 
 /* File Upload Section */
@@ -163,6 +173,9 @@
 }
 
 .scaleImage {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
     transition: transform 0.3s ease;
     cursor: pointer;
 }

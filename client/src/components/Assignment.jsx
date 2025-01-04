@@ -106,7 +106,7 @@ const Assignment = () => {
 
                         {/* Right side - Assignment File Preview */}
                         {assignmentFileImage && (
-                            <div style={{ textAlign: 'center' }}>
+                            <div style={{ textAlign: 'center', margin: 0 }}>
                                 <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Assignment File</p>
                                 <img
                                     className={style.scaleImage}
@@ -144,7 +144,7 @@ const Assignment = () => {
 
                     {/* Student Submission Preview */}
                     {assignmentImage && (
-                        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                        <div style={{ textAlign: 'center', margin: 0 }}>
                             <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Your Submission</p>
                             <img
                                 className={style.scaleImage}

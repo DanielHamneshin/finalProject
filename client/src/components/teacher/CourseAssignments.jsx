@@ -37,7 +37,6 @@ const CourseAssignments = () => {
           const { data } = await axios.get(
             `${CLASSROOM_BASE_URL}courseassignments/${currentCourse._id}`
           );
-          // console.log(data);
           setAssignments(data);
         } catch (error) {
           console.log(error);
@@ -56,7 +55,6 @@ const CourseAssignments = () => {
       }
     });
   };
-
 
   // console.log(assignments);
   return (
