@@ -105,3 +105,14 @@
     transform: translateY(-4px);
     border-color: #1a73e8;
 }
+
+.gradesGrid h2 {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1a73e8;
+}
+
+.gradesGrid h2:first-child {
+    margin-top: 0;
+}

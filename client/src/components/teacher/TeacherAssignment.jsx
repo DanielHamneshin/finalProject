@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import style from '../../styles/teacherAssignment.module.css';
 import { Backdrop, ClickAwayListener } from '@mui/material';
+import { GRADE_ASSIGNMENT } from '../../constants/endPoint';
+import axios from 'axios';
 
 const TeacherAssignment = () => {
     const location = useLocation();
@@ -11,15 +13,19 @@ const TeacherAssignment = () => {
     const [assignmentImage, setAssignmentImage] = useState(null);
     const [isLarge, setIsLarge] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
+    const [assignmentState, setAssignmentState] = useState(assignment);
+    const [grades, setGrades] = useState(() => {
+        return assignmentState?.students?.map(() => ({ grade: '', student_id: '' })) || [];
+    });
 
     useEffect(() => {
-        if (assignment?.file?.data) {
-            const bytes = new Uint8Array(assignment.file.data);
+        if (assignmentState?.file?.data) {
+            const bytes = new Uint8Array(assignmentState.file.data);
             const base64String = btoa(String.fromCharCode.apply(null, bytes));
             const imageUrl = `data:image/png;base64,${base64String}`;
             setAssignmentImage(imageUrl);
         }
-    }, [assignment]);
+    }, [assignmentState]);
 
     const handleStudentClick = (student) => {
         if (student?.file?.data) {
@@ -31,11 +37,33 @@ const TeacherAssignment = () => {
         }
     };
 
+    const handleGradeChange = (e, studentId, index) => {
+        const newGrades = [...grades];
+        newGrades[index] = {
+            grade: e.target.value,
+            student_id: studentId
+        };
+        setGrades(newGrades);
+    };
+
+    const handleGradeSubmit = async (index) => {
+        try {
+            if (grades[index].grade && grades[index].student_id && assignmentState.students[index].submitted) {
+                const { data } = await axios.put(GRADE_ASSIGNMENT + assignmentState._id, grades[index]);
+                console.log(data);
+                setAssignmentState(data);
+            } else {
+                console.log("Please fill all the fields");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     if (!assignment) {
         navigate('/teacherpersonal/classroom');
         return null;
     }
-
     return (
         <>
             <Header />
@@ -44,7 +72,7 @@ const TeacherAssignment = () => {
                 <div className={style.headerPaper}>
                     <div className={style.headerContent}>
                         <div>
-                            <h1>{assignment.title}</h1>
+                            <h1>{assignmentState.title}</h1>
                             <p>Assignment Details</p>
                         </div>
                         <button
@@ -61,8 +89,9 @@ const TeacherAssignment = () => {
                 {/* Content Section */}
                 <div className={style.content}>
                     <h2>Assignment Information</h2>
-                    <p>Due Date: {new Date(assignment.finishDate).toLocaleDateString()}</p>
-                    <p>Description: {assignment.description}</p>
+                    <p>Uploaded Date: {new Date(assignmentState.uploadDate).toLocaleDateString()}</p>
+                    <p>Due Date: {new Date(assignmentState.finishDate).toLocaleDateString()}</p>
+                    <p>Description: {assignmentState.description}</p>
 
                     {/* Preview Section */}
                     {assignmentImage && (
@@ -73,23 +102,42 @@ const TeacherAssignment = () => {
                                     setIsLarge(true);
                                 }}
                                 src={assignmentImage}
-                                alt={`Assignment ${assignment.title}`}
+                                alt={`Assignment ${assignmentState.title}`}
                             />
                         </div>
                     )}
 
                     {/* Students Section */}
                     <div className={style.studentsGrid}>
-                        {assignment.students.map((student, index) => (
+                        {assignmentState.students.map((student, index) => (
                             <div key={index} className={style.studentCard}>
                                 <p className={style.studentName}>{student.student_details.name}</p>
                                 <p className={style.studentGrade}>
                                     Grade: {student.grade || 'Not graded'}
                                 </p>
-                                <p className={`${style.submissionStatus} ${student.submitted ? style.statusSubmitted : style.statusPending
-                                    }`}>
+                                <p className={`${style.submissionStatus} ${student.submitted ? style.statusSubmitted : style.statusPending}`}>
                                     {student.submitted ? "Submitted" : "Not Submitted"}
                                 </p>
+                                {!student.grade && (
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                        <input
+                                            className={style.gradeInput}
+                                            type="number"
+                                            min={0}
+                                            max={100}
+                                            placeholder="Grade"
+                                            value={grades[index]?.grade || ''}
+                                            onChange={(e) => handleGradeChange(e, student.student_details._id, index)}
+                                        />
+                                        <button
+                                            disabled={!grades[index]?.grade || !grades[index]?.student_id || !assignmentState.students[index].submitted}
+                                            className={style.gradeButton}
+                                            onClick={() => handleGradeSubmit(index)}
+                                        >
+                                            Submit Grade
+                                        </button>
+                                    </div>
+                                )}
                                 {student.file?.data && (
                                     <button
                                         className={style.viewFileButton}

@@ -37,6 +37,7 @@ const Feedback = () => {
     const getAssignments = async () => {
         try {
             const { data } = await axios.get(GET_ASSIGNMENTS_URL + user._id);
+            console.log(data);
             setAssignments(data.assignments);
         } catch (error) {
             console.error(error);
@@ -52,7 +53,6 @@ const Feedback = () => {
         getPresence()
     }, [])
 
-    console.log(tests);
     return (
         <>
             <Header />
@@ -80,7 +80,7 @@ const Feedback = () => {
                         onClick={() => setIsInGrades(true)}
                     >
                         <h2>Grades</h2>
-                        <p>{tests.length} Tests</p>
+                        <p>{tests.length + assignments.length} Items</p>
                     </div>
                     <div
                         className={`${style.navItem} ${!isInGrades ? style.active : ''}`}
@@ -96,6 +96,8 @@ const Feedback = () => {
                     {isInGrades ? (
                         // Grades content
                         <div className={style.gradesGrid}>
+                            {/* Tests Section */}
+                            <h2>Tests</h2>
                             {tests.map((test, index) => (
                                 <div key={index} className={style.gradeCard}>
                                     <h3>{test.test_id.name}</h3>
@@ -104,7 +106,20 @@ const Feedback = () => {
                                     <p>Date: {test.test_id.createdAt.split("T")[0]}</p>
                                 </div>
                             ))}
+
+                            {/* Assignments Section */}
+                            <h2>Assignments</h2>
+                            {assignments.map((assignment, index) => (
+                                <div key={index} className={style.gradeCard}>
+                                    <h3>{assignment.name}</h3>
+                                    <p>Grade: {assignment.students[0]?.grade || 'Not graded'}</p>
+                                    <p>Course: {assignment.course_id?.name}</p>
+                                    <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
+                                    <p>Status: {assignment.students[0]?.submitted ? 'Submitted' : 'Pending'}</p>
+                                </div>
+                            ))}
                         </div>
+
                     ) : (
                         // Attendance content
                         <div className={style.attendanceGrid}>
