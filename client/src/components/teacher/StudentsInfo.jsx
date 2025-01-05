@@ -4,16 +4,18 @@ import { GET_ALL_STUDENTS, GET_STUDENTS_INFO } from '../../constants/endPoint';
 import { useUserContext } from '../../contexts/UserContext';
 import { IconButton } from '@mui/material';
 import { Cancel } from '@mui/icons-material';
+import style from '../../styles/teacherFeedback.module.css';
 
 const StudentsInfo = ({ course, close }) => {
     const { user } = useUserContext();
     const [allStudents, setAllStudents] = useState([]);
-    const [student, setStudent] = useState(null);
+    const [studentName, setStudentName] = useState("");
+    const [studentInfo, setStudentInfo] = useState(null);
 
     const getStudentsInfo = async (student) => {
         try {
             const { data } = await axios.get(GET_STUDENTS_INFO + student._id + "/" + course._id);
-            setStudent(data);
+            setStudentInfo(data);
         } catch (error) {
             console.error(error);
         }
@@ -32,70 +34,87 @@ const StudentsInfo = ({ course, close }) => {
     useEffect(() => {
         getAllStudents(course);
     }, [])
-    console.log(student);
+    console.log(studentInfo);
 
     return (
-        <>
-            <IconButton onClick={() => {
-                close();
-                setStudent(null);
-            }}><Cancel /></IconButton>
-            <ul>
-                {allStudents.map((student) => {
-                    return (
-                        <li key={student._id} onClick={() => getStudentsInfo(student)}>{student.name}</li>
-                    )
-                })}
-            </ul>
+        <div className={style.modalContent}>
+            <div className={style.modalHeader}>
+                <h2>Students Info - {course.name}</h2>
+                <button className={style.closeButton} onClick={close}>×</button>
+            </div>
 
-            {student && (<IconButton onClick={() => {
-                setStudent(null);
-            }}><Cancel /></IconButton>)}
-            {student && (
-                <ul>
-                    <li>Tests:</li>
-                    <ul>
-                        {student.tests.map((test) => {
-
-                            return (
-                                <li key={test._id}>{test.test_id.name}  Grade:    {test.grade}</li>
-
-                            )
-                        })}
-                    </ul>
-
-                    <li>Assignments:</li>
-                    <ul>
-                        {student.assignments.map((assignment) => {
-                            return (
-                                <li key={assignment._id}>{assignment.assignment_id.name}  Grade:    {assignment.grade}</li>
-                            )
-                        })}
-                    </ul>
-
-                    <li>Attendence:</li>
-                    <ul>
-                        {student.attendence.map((lesson) => {
-                            return (
-                                <li key={lesson._id}>Lesson number: {lesson.lessonNum}{lesson.course_id.name}  Status:    {lesson.status}</li>
-                            )
-                        })}
-                    </ul>
-
-                    <li>Absence:</li>
-                    <ul>
-                        {student.absence.map((lesson) => {
-                            return (
-                                <li key={lesson._id}>Lesson number: {lesson.lessonNum}{lesson.course_id.name}  Status:    {lesson.status}</li>
-                            )
-                        })}
-                    </ul>
-
-
-
+            {!studentInfo ? (
+                <ul className={style.studentsList}>
+                    {allStudents.map((student) => (
+                        <li
+                            key={student._id}
+                            className={style.studentInfoItem}
+                            onClick={() => {
+                                getStudentsInfo(student)
+                                setStudentName(student.name)
+                            }}
+                        >
+                            {student.name}
+                        </li>
+                    ))}
                 </ul>
+            ) : (
+                <div>
+                    <div className={style.infoSection}>
+                        <h2>{studentName}</h2>
+                        <h3>Tests</h3>
+                        <ul className={style.infoList}>
+                            {studentInfo.tests.map((test) => (
+                                <li key={test._id} className={style.infoItem}>
+                                    <span>{test.test_id.name}</span>
+                                    <span>Grade: {test.grade}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className={style.infoSection}>
+                        <h3>Assignments</h3>
+                        <ul className={style.infoList}>
+                            {studentInfo.assignments.map((assignment) => (
+                                <li key={assignment._id} className={style.infoItem}>
+                                    <span>{assignment.assignment_id.name}</span>
+                                    <span>Grade: {assignment.grade}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className={style.infoSection}>
+                        <h3>Attendance</h3>
+                        <ul className={style.infoList}>
+                            {studentInfo.attendence.map((lesson) => (
+                                <li key={lesson._id} className={style.infoItem}>
+                                    <span>Lesson {lesson.lessonNum} - {lesson.course_id.name}</span>
+                                    <span>Status: {lesson.status}</span>
+                                </li>
+                            ))}
+                            {studentInfo.absence.map((absence) => (
+                                <li key={absence._id} className={style.infoItem}>
+                                    <span>Lesson {absence.lessonNum} - {absence.course_id.name}</span>
+                                    <span>Status: {absence.status}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <button
+                        className={style.backButton}
+                        onClick={() => {
+                            setStudentInfo(null)
+                            setStudentName("")
+                        }}
+                    >
+                        Back to Students List
+                    </button>
+                </div>
             )}
-        </>
+        </div>
     )
 }
 

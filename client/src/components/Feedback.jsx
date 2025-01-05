@@ -111,11 +111,10 @@ const Feedback = () => {
                             <h2>Assignments</h2>
                             {assignments.map((assignment, index) => (
                                 <div key={index} className={style.gradeCard}>
-                                    <h3>{assignment.name}</h3>
-                                    <p>Grade: {assignment.students[0]?.grade || 'Not graded'}</p>
-                                    <p>Course: {assignment.course_id?.name}</p>
-                                    <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
-                                    <p>Status: {assignment.students[0]?.submitted ? 'Submitted' : 'Pending'}</p>
+                                    <h3>{assignment.assignment_id.title}</h3>
+                                    <p>Grade: {assignment?.grade || 'Not graded'}</p>
+                                    <p>Course: {assignment?.assignment_id?.course_id?.name}</p>
+                                    <p>Teacher: {assignment?.assignment_id?.course_id?.teacherName}</p>
                                 </div>
                             ))}
                         </div>

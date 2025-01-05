@@ -18,6 +18,7 @@ import ClassroomCourse from './components/ClassroomCourse'
 import Feedback from './components/Feedback'
 import Assignment from './components/Assignment'
 import TeacherAssignment from './components/teacher/TeacherAssignment'
+import TeacherFeedback from './components/teacher/TeacherFeedback'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -61,6 +62,7 @@ const MainApp = () => {
                             <Route path="classroom" element={<TeacherClassRoom />} />
                             <Route path="classroom/:courseName" element={<CourseAssignments />} />
                             <Route path="classroom/:courseName/assignment/:assignmentId" element={<TeacherAssignment />} />
+                            <Route path="feedback" element={<TeacherFeedback />} />
                         </Route>}
                     <Route path='/*' element={<NotFound />} />
                 </Routes>

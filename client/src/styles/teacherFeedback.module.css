@@ -1,0 +1,243 @@
+/* TeacherFeedback Component */
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 0 20px;
+}
+
+.headerPaper {
+    padding: 24px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: white;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerContent h1 {
+    margin: 0;
+    font-size: 2.125rem;
+}
+
+.headerContent p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+}
+
+.backButton {
+    padding: 8px 16px;
+    background-color: white;
+    color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.backButton:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.coursesList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.courseCard {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+}
+
+.courseCard h2 {
+    color: #1a73e8;
+    margin: 0 0 16px 0;
+    font-size: 1.5rem;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.actionButtons button {
+    width: 100%;
+    padding: 16px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.actionButtons button:hover {
+    background: #f1f3f4;
+    transform: translateY(-2px);
+}
+
+.actionButtons h3 {
+    margin: 0;
+    color: #1a73e8;
+    font-size: 1.1rem;
+}
+
+.actionButtons p {
+    margin: 4px 0 0;
+    color: #5f6368;
+    font-size: 0.9rem;
+}
+
+/* Modal Styles for CreateTest, CreateLesson, and StudentsInfo */
+.modalContent {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    color: #1a73e8;
+}
+
+.closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: #5f6368;
+}
+
+/* Form Styles */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.inputField {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.inputField:focus {
+    outline: none;
+    border-color: #1a73e8;
+}
+
+.studentsList {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+}
+
+.studentItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.studentItem:last-child {
+    border-bottom: none;
+}
+
+.studentName {
+    flex: 1;
+    margin: 0;
+    color: #202124;
+}
+
+.gradeInput {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.submitButton {
+    padding: 12px 24px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    align-self: flex-end;
+}
+
+.submitButton:hover {
+    background: #1557b0;
+}
+
+/* StudentsInfo Specific Styles */
+.studentsList {
+    list-style: none;
+    padding: 0;
+}
+
+.studentInfoItem {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.studentInfoItem:hover {
+    background-color: #f8f9fa;
+}
+
+.infoSection {
+    margin-top: 24px;
+}
+
+.infoSection h3 {
+    color: #1a73e8;
+    margin-bottom: 12px;
+}
+
+.infoList {
+    list-style: none;
+    padding: 0;
+}
+
+.infoItem {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f1f3f4;
+}

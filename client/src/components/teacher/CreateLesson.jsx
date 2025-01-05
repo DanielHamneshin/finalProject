@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useUserContext } from '../../contexts/UserContext'
 import { CREATE_LESSON, GET_ALL_STUDENTS } from '../../constants/endPoint';
 import axios from 'axios';
+import style from '../../styles/teacherFeedback.module.css';
 
 const CreateLesson = ({ course, close }) => {
     const { user } = useUserContext();
@@ -39,19 +40,29 @@ const CreateLesson = ({ course, close }) => {
         })
     }
     return (
-        <div>
-            <form style={{ marginTop: "150px" }} onSubmit={(e) => {
+        <div className={style.modalContent}>
+            <div className={style.modalHeader}>
+                <h2>Create Lesson for {course.name}</h2>
+                <button className={style.closeButton} onClick={close}>×</button>
+            </div>
+            <form className={style.form} onSubmit={(e) => {
                 e.preventDefault();
                 createLesson();
             }}>
-                <ul>
-                    {students.map((item, index) => {
-                        return <li key={index}><h3>{item.name}</h3><input type="checkbox" onChange={(e) => updateStudentStatus(e, index)} /><label htmlFor="">presence</label></li>
-                    })}
+                <ul className={style.studentsList}>
+                    {students.map((item, index) => (
+                        <li key={index} className={style.studentItem}>
+                            <h3 className={style.studentName}>{item.name}</h3>
+                            <input
+                                type="checkbox"
+                                className={style.checkbox}
+                                onChange={(e) => updateStudentStatus(e, index)}
+                            />
+                            <label>{item.status}</label>
+                        </li>
+                    ))}
                 </ul>
-
-                <button>create</button>
-
+                <button className={style.submitButton}>Create Lesson</button>
             </form>
         </div>
     )

@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useUserContext } from '../contexts/UserContext'
 import axios from 'axios'
-import { GET_ALL_STUDENTS, GET_TEACHER_COURSES } from '../constants/endPoint'
+import { GET_TEACHER_COURSES } from '../constants/endPoint'
 import Header from '../components/Header'
-import { Backdrop, Box, ClickAwayListener } from '@mui/material'
-import CreateTest from '../components/teacher/CreateTest'
-import CreateLesson from '../components/teacher/CreateLesson'
-import StudentsInfo from '../components/teacher/StudentsInfo'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import style from '../styles/teacherPersonal.module.css'
 
 const TeacherPersonalArea = () => {
     const { user } = useUserContext();
     const [courses, setCourses] = useState([]);
-    const [openTestCreation, setOpenTestCreation] = useState(false);
-    const [openLessonCreation, setOpenLessonCreation] = useState(false);
-    const [openStudentInfo, setOpenStudentInfo] = useState(false)
-    const [currentCourse, setCurrentCourse] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -29,95 +21,37 @@ const TeacherPersonalArea = () => {
         }
     }
 
-    const closeTest = () => {
-        setOpenTestCreation(false);
-    }
-
-    const closeLesson = () => {
-        setOpenLessonCreation(false);
-    }
-
-    const closeStudentInfo = () => {
-        setOpenStudentInfo(false);
-    }
-
     useEffect(() => {
         getAllCourses();
     }, [])
 
-
-
     return (
         <>
             <Header />
-
             {location.pathname === '/teacherpersonal' && (
-                <div className={style.container}>
-                    <button
-                        onClick={() => navigate('classroom')}
-                        className={style.classroomButton}
-                    >
-                        Go to Classroom
-                    </button>
+                <div className={style.main}>
+                    <div className={style.headerPaper}>
+                        <div className={style.headerContent}>
+                            <div>
+                                <h1>Personal Area</h1>
+                                <p>Welcome, {user?.name}</p>
+                            </div>
+                        </div>
+                    </div>
 
-                    <ul className={style.coursesList}>
-                        {courses.map((item, index) => (
-                            <li key={index} className={style.courseCard}>
-                                <h3 className={style.courseName}>{item.name}</h3>
-                                <div className={style.actionButtons}>
-                                    <button
-                                        className={style.actionButton}
-                                        onClick={() => {
-                                            setCurrentCourse(item);
-                                            setOpenTestCreation(true);
-                                        }}
-                                    >
-                                        Create Test
-                                    </button>
-                                    <button
-                                        className={style.actionButton}
-                                        onClick={() => {
-                                            setCurrentCourse(item);
-                                            setOpenLessonCreation(true);
-                                        }}
-                                    >
-                                        Create Lesson
-                                    </button>
-                                    <button
-                                        className={style.actionButton}
-                                        onClick={() => {
-                                            setCurrentCourse(item);
-                                            setOpenStudentInfo(true);
-                                        }}
-                                    >
-                                        Students Info
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className={style.navigationButtons}>
+                        <button onClick={() => navigate('classroom')}>
+                            <h2>Classroom</h2>
+                            <p>{courses.length} Courses Available</p>
+                        </button>
+                        <button onClick={() => navigate('feedback')}>
+                            <h2>Feedback</h2>
+                            <p>Manage courses and students</p>
+                        </button>
+                    </div>
                 </div>
             )}
-
             <Outlet context={{ courses }} />
-
-            {openStudentInfo && <StudentsInfo course={currentCourse} close={closeStudentInfo} />}
-
-            {openTestCreation && <Backdrop open={openTestCreation}>
-                <ClickAwayListener onClickAway={() => closeTest()}>
-                    <Box>
-                        <CreateTest course={currentCourse} close={closeTest} />
-                    </Box>
-                </ClickAwayListener>
-            </Backdrop>}
-
-            {openLessonCreation && <Backdrop open={openLessonCreation}>
-                <ClickAwayListener onClickAway={() => closeLesson()}>
-                    <Box>
-                        <CreateLesson course={currentCourse} close={closeLesson} />
-                    </Box>
-                </ClickAwayListener>
-            </Backdrop>}
         </>
     )
 }
