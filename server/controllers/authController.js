@@ -2,6 +2,7 @@ const Student = require("../models/studentModel");
 const Major = require("../models/majorModel");
 const Teacher = require("../models/teacherModel")
 const Course = require("../models/courseModel")
+const Admin = require("../models/adminModel")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -98,11 +99,38 @@ exports.studentLogin = async (req, res) => {
 exports.teacherLogin = async (req, res) => {
     try {
         const { email, password, teacherPassword } = req.body;
-        if (!email || !password) {
+        if (!email || !password || !teacherPassword) {
             return res.status(400).json({ msg: "fill all fields" });
         }
         const user = await Teacher.findOne({ email: email })
         if (!user || !(await bcrypt.compare(password, user.password)) || teacherPassword !== process.env.TEACHER_PASSWORD) {
+            return res.status(400).json({ msg: "invalid email or password" })
+        }
+
+        const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin, role: user.role }, process.env.TOKEN_SECRET_KEY, { expiresIn: "30d" });
+
+        res.cookie("access_token", "Bearer " + token, {
+            httpOnly: true, // Secure the cookie (can't be accessed via JavaScript)
+            secure: true, // Use secure cookies in production
+            sameSite: "none"
+        })
+
+        res.status(200).json(user)
+
+
+    } catch (error) {
+        console.error("error login " + error);
+        res.status(500).json({ msg: error })
+    }
+}
+exports.adminLogin = async (req, res) => {
+    try {
+        const { email, password, adminPassword } = req.body;
+        if (!email || !password || !adminPassword) {
+            return res.status(400).json({ msg: "fill all fields" });
+        }
+        const user = await Admin.findOne({ email: email })
+        if (!user || !(await bcrypt.compare(password, user.password)) || adminPassword !== process.env.ADMIN_PASSWORD) {
             return res.status(400).json({ msg: "invalid email or password" })
         }
 
@@ -140,7 +168,7 @@ exports.logout = (req, res) => {
 }
 exports.createTeacher = async (req, res) => {
     try {
-        const { email, password,name,courses} = req.body;
+        const { email, password} = req.body;
         if (!email || !password) {
             return res.status(400).json({ msg: "fill all fields" });
         }
@@ -152,7 +180,6 @@ exports.createTeacher = async (req, res) => {
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const coursesIds = courses.map(course => course._id)
             
         // Create the new teacher
         const newTeacher = new Teacher({
@@ -171,6 +198,24 @@ exports.createTeacher = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+exports.createAdmin = async (req, res) => {
+    try{
+        const {email,password} = req.body;
+        const hashedPassword = await bcrypt.hash(password,10);
+        const newAdmin = new Admin({
+            ...req.body,
+            password:hashedPassword,
+            role:"admin",
+        })
+        await newAdmin.save();
+        res.status(200).json({msg:"Admin created successfully"});
+    }catch(error){
+        console.error("Error creating admin:", error);
+        res.status(500).json({ msg: error.message });
+    }
+}
+
         
 
         
