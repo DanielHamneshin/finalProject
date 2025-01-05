@@ -12,12 +12,12 @@ router.put("/students/:id/debt", adminController.giveStudentDebt);
 
 // Teachers
 router.get("/teachers", adminController.getAllTeachers);
-router.delete("/teachers/:id", adminController.removeTeacher);
+router.delete("/teachers/:id", adminController.removeTeacherAndReplace);
 
 // Majors
 router.post("/majors", adminController.addMajor);
 
 // Courses
-router.post("/courses", adminController.addCourse);
+router.post("/courses", adminController.addCourses);
 
 module.exports = router;
