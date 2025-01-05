@@ -19,6 +19,7 @@ import Feedback from './components/Feedback'
 import Assignment from './components/Assignment'
 import TeacherAssignment from './components/teacher/TeacherAssignment'
 import TeacherFeedback from './components/teacher/TeacherFeedback'
+import AdminPersonalArea from './pages/AdminPersonalArea'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -64,6 +65,11 @@ const MainApp = () => {
                             <Route path="classroom/:courseName/assignment/:assignmentId" element={<TeacherAssignment />} />
                             <Route path="feedback" element={<TeacherFeedback />} />
                         </Route>}
+                    {user && user.role === "admin" &&
+                        <Route path='/adminpersonal' element={<AdminPersonalArea />}>
+                            {/* Add nested admin routes here if needed */}
+                        </Route>
+                    }
                     <Route path='/*' element={<NotFound />} />
                 </Routes>
             </BrowserRouter>

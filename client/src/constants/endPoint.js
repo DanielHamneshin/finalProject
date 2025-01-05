@@ -53,6 +53,16 @@ const UPLOAD_FILE = CLASSROOM_BASE_URL + "upload/"
 
 const GRADE_ASSIGNMENT = CLASSROOM_BASE_URL + "grade/"
 
+//admin
+
+const ADMIN_BASE_URL = BASE_URL + "admin/"
+
+const ADMIN_LOGIN = USER_BASE_URL + "login/" + "admin/"
+
+const STUDENTS_URL = ADMIN_BASE_URL + "students/"
+
+const TEACHERS_URL = ADMIN_BASE_URL + "teachers/"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -75,5 +85,8 @@ export {
     UPLOAD_FILE,
     CLASSROOM_BASE_URL,
     CREATE_ASSIGNMENT,
-    GRADE_ASSIGNMENT
+    GRADE_ASSIGNMENT,
+    ADMIN_LOGIN,
+    STUDENTS_URL,
+    TEACHERS_URL
 }

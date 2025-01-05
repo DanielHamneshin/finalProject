@@ -28,6 +28,7 @@ const Header = () => {
                     if (user) {
                         if (user.role === "student") navigate("/personal")
                         if (user.role === "teacher") navigate("/teacherpersonal")
+                        if (user.role === "admin") navigate("/adminpersonal")
                     }
                     else {
                         navigate("/login")

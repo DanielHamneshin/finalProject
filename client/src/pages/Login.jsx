@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import style from '../styles/login.module.css'
 import { IconButton } from '@mui/material'
 import { Email } from '@mui/icons-material'
-import { LOGIN_URL, TEACHER_LOGIN } from '../constants/endPoint'
+import { ADMIN_LOGIN, LOGIN_URL, TEACHER_LOGIN } from '../constants/endPoint'
 
 const Login = () => {
     const [emailPlaceHolder, setEmailPlaceHolder] = useState("email");
@@ -36,6 +36,17 @@ const Login = () => {
             console.error("error loginng in " + error);
         }
     }
+
+    const adminLoging = async () => {
+        try {
+            const res = await axios.post(ADMIN_LOGIN, watch());
+            console.log("logged in successfully");
+            reset();
+            navigate("/");
+        } catch (error) {
+            console.error("error loginng in " + error);
+        }
+    }
     return (
         <>
             <div className={style.container}>
@@ -48,7 +59,7 @@ const Login = () => {
                             teacherLoging();
                             break;
                         case "admin":
-                            studentLoging();
+                            adminLoging();
                             break;
 
                         default:
@@ -60,6 +71,7 @@ const Login = () => {
                     <input onBlurCapture={() => setEmailPlaceHolder("email")} onFocus={() => setEmailPlaceHolder("")} type="email" placeholder={emailPlaceHolder} {...register("email")} />
                     <input onBlurCapture={() => setPasswordPlaceHolder("password")} onFocus={() => setPasswordPlaceHolder("")} type="password" placeholder={passwordPlaceHolder} {...register("password")} />
                     {role === "teacher" && <input type="password" {...register("teacherPassword")} placeholder='teacher password' />}
+                    {role === "admin" && <input type="password" {...register("adminPassword")} placeholder='admin password' />}
 
                     <select name="" id="" onChange={(e) => setRole(e.target.value)}>
                         <option value="student">student</option>
