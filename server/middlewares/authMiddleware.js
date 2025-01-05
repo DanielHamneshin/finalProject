@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel");
-const Teacher = require("../models/teacherModel")
+const Teacher = require("../models/teacherModel");
+const Admin = require("../models/adminModel");
 
 
 
@@ -16,7 +17,7 @@ exports.auth = async (req, res, next) => {
         // req.role = decodedToken.role;
         // req.isAdmin = decodedToken.isAdmin ? true : false;
 
-        const curruntUser = (decodedToken.role == "student") ? await Student.findById(decodedToken.id) : await Teacher.findById(decodedToken.id);
+        const curruntUser = (decodedToken.role == "student") ? await Student.findById(decodedToken.id) : (decodedToken.role == "teacher") ? await Teacher.findById(decodedToken.id) : await Admin.findById(decodedToken.id);
         req.user = curruntUser;
 
         next();
