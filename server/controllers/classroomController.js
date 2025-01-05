@@ -121,9 +121,9 @@ exports.gradeAssignment = async (req, res) => {
             return res.status(404).json({ msg: "Assignment not found" });
         }
         // Check if the assignment deadline has passed
-        if (Date.now() <= new Date(assignment.finishDate)) {
-            return res.status(400).json({ msg: "Assignment not finished yet" });
-        }
+        // if (Date.now() <= new Date(assignment.finishDate)) {
+        //     return res.status(400).json({ msg: "Assignment not finished yet" });
+        // }
         console.log(grade);
 
 
@@ -149,8 +149,8 @@ exports.gradeAssignment = async (req, res) => {
                 }
             }
         );
-
-        res.status(200).json(updatedAssignment);
+        const finalAssignment = await Assignment.findById(assignmentId)
+        res.status(200).json(finalAssignment);
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: "Internal server error" });
