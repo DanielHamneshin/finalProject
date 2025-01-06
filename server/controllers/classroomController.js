@@ -144,7 +144,7 @@ exports.gradeAssignment = async (req, res) => {
                     assignments: {
                         assignment_id: assignmentId,
                         grade: grade,
-                        course_id: course._id
+                        course: course.name
                     }
                 }
             }
