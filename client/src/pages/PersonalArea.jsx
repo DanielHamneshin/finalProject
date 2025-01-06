@@ -93,61 +93,87 @@ const PersonalArea = () => {
     return (
         <>
             <Header />
-            <div className={style.main}>
-                {/* Header Section */}
-                <div className={style.headerPaper}>
-                    <div className={style.headerContent}>
-                        <div>
-                            <h1>Personal Area</h1>
-                            <p>Welcome, {user?.name}</p>
+            <div className={style.pageWrapper}>
+                {/* Side Debt Alert - Moved outside main container */}
+                {user?.debt > 0 && (
+                    <div className={style.sideDebtAlert}>
+                        <div className={style.debtInfo}>
+                            <span className={style.debtLabel}>Outstanding Balance</span>
+                            <span className={style.debtAmount}>${user.debt}</span>
+                            <span className={style.debtMessage}>
+                                Please settle your payment to maintain full access to all features.
+                            </span>
+                        </div>
+                        <button
+                            className={style.payDebtButton}
+                            onClick={() => navigate('/personal/paydebt')}
+                        >
+                            Pay Now
+                        </button>
+                    </div>
+                )}
+
+                <div className={style.main}>
+                    {/* Header Section */}
+                    <div className={style.headerPaper}>
+                        <div className={style.headerContent}>
+                            <div>
+                                <h1>Personal Area</h1>
+                                <p>Welcome, {user?.name}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={style.contentWrapper}>
+                        {/* Main Content */}
+                        <div className={style.mainContent}>
+                            {!user.isCoursesFull && (
+                                <div className={style.optionalCourses}>
+                                    <h4>Select Optional Courses (Max: {maxChoises})</h4>
+                                    {optionalCourses.map((item, index) => (
+                                        <div className={style.option} key={index}>
+                                            <input
+                                                type="checkbox"
+                                                value={item}
+                                                onChange={chooseCourses}
+                                                checked={chosenCourses.includes(item)}
+                                                id={`course-${index}`}
+                                            />
+                                            <label htmlFor={`course-${index}`}>{item}</label>
+                                        </div>
+                                    ))}
+                                    <button
+                                        onClick={() => {
+                                            if (chosenCourses.length === maxChoises) {
+                                                updateCourses();
+                                                setEffectTrigger(prev => !prev);
+                                            } else {
+                                                setError(`Please choose ${maxChoises} courses`);
+                                            }
+                                        }}
+                                    >
+                                        Apply Selection
+                                    </button>
+                                    {error && <p className={style.error}>{error}</p>}
+                                </div>
+                            )}
+
+                            {user.isCoursesFull && (
+                                <div className={style.navigationButtons}>
+                                    <button onClick={() => navigate('/personal/feedback')}>
+                                        <h2>Feedback</h2>
+                                        <p>View your grades and attendance</p>
+                                    </button>
+                                    <button onClick={navigateToClassroom}>
+                                        <h2>Classroom</h2>
+                                        <p>{allCourses.length} Courses Available</p>
+                                    </button>
+                                </div>
+                            )}
+                            <Outlet />
                         </div>
                     </div>
                 </div>
-
-                {!user.isCoursesFull && (
-                    <div className={style.optionalCourses}>
-                        <h4>Select Optional Courses (Max: {maxChoises})</h4>
-                        {optionalCourses.map((item, index) => (
-                            <div className={style.option} key={index}>
-                                <input
-                                    type="checkbox"
-                                    value={item}
-                                    onChange={chooseCourses}
-                                    checked={chosenCourses.includes(item)}
-                                    id={`course-${index}`}
-                                />
-                                <label htmlFor={`course-${index}`}>{item}</label>
-                            </div>
-                        ))}
-                        <button
-                            onClick={() => {
-                                if (chosenCourses.length === maxChoises) {
-                                    updateCourses();
-                                    setEffectTrigger(prev => !prev);
-                                } else {
-                                    setError(`Please choose ${maxChoises} courses`);
-                                }
-                            }}
-                        >
-                            Apply Selection
-                        </button>
-                        {error && <p className={style.error}>{error}</p>}
-                    </div>
-                )}
-
-                {user.isCoursesFull && (
-                    <div className={style.navigationButtons}>
-                        <button onClick={() => navigate('/personal/feedback')}>
-                            <h2>Feedback</h2>
-                            <p>View your grades and attendance</p>
-                        </button>
-                        <button onClick={navigateToClassroom}>
-                            <h2>Classroom</h2>
-                            <p>{allCourses.length} Courses Available</p>
-                        </button>
-                    </div>
-                )}
-                <Outlet />
             </div>
         </>
     )

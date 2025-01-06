@@ -10,15 +10,19 @@ import { useUserContext } from '../contexts/UserContext'
 import axios from 'axios'
 
 
-const Home = () => {
+const Home = ({ setIsInitialLoad }) => {
     const { user, setUser } = useUserContext()
     useEffect(() => {
         const checkUser = async () => {
             try {
                 const { data } = await axios.get("http://127.0.0.1:5000/authentication")
                 setUser(data);
+                setIsInitialLoad(true)
             } catch (error) {
                 console.error(error);
+            }
+            finally {
+                setIsInitialLoad(true)
             }
         }
 

@@ -63,6 +63,8 @@ const STUDENTS_URL = ADMIN_BASE_URL + "students/"
 
 const TEACHERS_URL = ADMIN_BASE_URL + "teachers/"
 
+const UPDATE_DEBT_URL = ADMIN_BASE_URL + "students/debt/"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -88,5 +90,6 @@ export {
     GRADE_ASSIGNMENT,
     ADMIN_LOGIN,
     STUDENTS_URL,
-    TEACHERS_URL
+    TEACHERS_URL,
+    UPDATE_DEBT_URL
 }

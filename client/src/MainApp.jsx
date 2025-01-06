@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -20,32 +20,50 @@ import Assignment from './components/Assignment'
 import TeacherAssignment from './components/teacher/TeacherAssignment'
 import TeacherFeedback from './components/teacher/TeacherFeedback'
 import AdminPersonalArea from './pages/AdminPersonalArea'
+import PayDebt from './pages/PayDebt'
+import PayPal from './components/PayPal'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
     const { setUser, user } = useUserContext()
-
+    const [showPayDebt, setShowPayDebt] = useState(false)
+    const [isInitialLoad, setIsInitialLoad] = useState(true)
 
     useEffect(() => {
         const checkUser = async () => {
             try {
                 const { data } = await axios.get("http://127.0.0.1:5000/authentication")
-                setUser(data);
+                setUser(data)
+
+                if (isInitialLoad && data?.role === "student" && data?.debt > 0) {
+                    setShowPayDebt(true)
+                }
+                setIsInitialLoad(false)
             } catch (error) {
-                console.error(error);
+                console.error(error)
+                setIsInitialLoad(false)
+            }
+            finally {
+                setIsInitialLoad(false)
             }
         }
 
-        checkUser();
+        checkUser()
+    }, [isInitialLoad])
 
-    }, [])
     return (
         <>
             <BrowserRouter>
+                {showPayDebt && (
+                    <div className="modalOverlay">
+                        <PayDebt onClose={() => setShowPayDebt(false)} />
+                    </div>
+                )}
+
                 <Routes>
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
-                    <Route path='/' element={<Home />} />
+                    <Route path='/' element={<Home setIsInitialLoad={setIsInitialLoad} />} />
                     {user && user.role === "student" && (
                         <>
                             <Route path='/personal' element={<PersonalArea />} />
@@ -56,6 +74,7 @@ const MainApp = () => {
                                 element={<ClassroomCourse key={window.location.pathname} />}
                             />
                             <Route path='/personal/classroom/:courseId/assignment/:assignmentId' element={<Assignment />} />
+                            {user?.debt > 0 && <Route path='/personal/paydebt' element={<PayPal />} />}
                         </>
                     )}
                     {user && user.role === "teacher" &&

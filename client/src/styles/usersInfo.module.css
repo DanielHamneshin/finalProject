@@ -1,53 +1,179 @@
 .container {
-    padding: 24px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
     margin-top: 100px;
+    padding: 24px;
 }
 
+/* Header/Title section */
+.headerPaper {
+    padding: 24px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: white;
+}
+
+/* Filters section */
 .filters {
     display: flex;
     gap: 16px;
     margin-bottom: 24px;
+    background: linear-gradient(to right, #f2f2f2, #efeeee);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.searchInput,
-.select {
-    padding: 8px 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
+/* Search Input Styling */
 .searchInput {
     min-width: 240px;
+    padding: 10px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
+.searchInput::placeholder {
+    color: #999;
+}
+
+.searchInput:hover {
+    border-color: #1a73e8;
+    background-color: white;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #1a73e8;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Select Dropdown Styling */
 .select {
-    min-width: 120px;
+    min-width: 160px;
+    padding: 10px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+    transition: all 0.3s ease;
+    color: #333;
 }
 
+.select:hover {
+    border-color: #1a73e8;
+    background-color: white;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #1a73e8;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Filter Button Styling */
+.filterButton {
+    padding: 10px 20px;
+    border: 2px solid #1a73e8;
+    border-radius: 8px;
+    background-color: white;
+    color: #1a73e8;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filterButton:hover {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.filterButton.active {
+    background-color: #1a73e8;
+    color: white;
+}
+
+/* Filter Group Styling */
+.filterGroup {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.filterLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+/* Table styles */
 .tableContainer {
-    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+    table-layout: fixed;
 }
 
 .table th {
-    background-color: #f8f9fa;
+    background-color: #1a73e8;
+    color: white;
     font-weight: 500;
-    color: #5f6368;
+    padding: 16px 12px;
+    text-align: left;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+    height: 60px;
+}
+
+.numberCol {
+    width: 50px;
+    min-width: 50px;
+    text-align: center !important;
+}
+
+.nameCol {
+    width: 25%;
+}
+
+.emailCol {
+    width: 30%;
+}
+
+.debtCol {
+    width: 200px;
+    padding-right: 24px !important;
+}
+
+.actionsCol {
+    width: 100px;
 }
 
 .userInfo {
@@ -63,38 +189,218 @@
     object-fit: cover;
 }
 
-.status {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.active {
-    background-color: #e8f5e9;
-    color: #4caf50;
-}
-
-.inactive {
-    background-color: #fafafa;
-    color: #9e9e9e;
-}
-
+/* Action Buttons */
 .actionButton {
     padding: 6px 12px;
     border: none;
     border-radius: 4px;
     margin-right: 8px;
     cursor: pointer;
+    font-size: 13px;
+    background-color: #1a73e8;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.actionButton:hover {
+    background-color: #1557b0;
+}
+
+.actionButton.delete {
+    background-color: #dc3545;
+}
+
+.actionButton.delete:hover {
+    background-color: #c82333;
+}
+
+/* Hover effect on table rows */
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .searchInput,
+    .select,
+    .filterButton {
+        width: 100%;
+    }
+
+    .filterGroup {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tableContainer {
+        overflow-x: auto;
+    }
+}
+
+/* Add these new styles */
+.debtEditContainer {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    height: 36px;
+    margin-left: -70px;
+}
+
+.debtInput {
+    width: 70px;
+    padding: 6px 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 28px;
+}
+
+.debtInput:focus {
+    outline: none;
+    border-color: #1a73e8;
+}
+
+.debtDisplay {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    margin-left: -12px;
+}
+
+.editDebtButton,
+.applyButton,
+.cancelButton {
+    padding: 4px 6px;
+    height: 28px;
+    min-width: 45px;
     font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editDebtButton {
+    background-color: transparent;
+    border: 1px solid #1a73e8;
+    color: #1a73e8;
+}
+
+.editDebtButton:hover {
     background-color: #1a73e8;
     color: white;
 }
 
-.delete {
-    background-color: #dc3545;
+.applyButton {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
 }
 
-.actionButton:hover {
-    opacity: 0.9;
+.cancelButton {
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+.applyButton:hover {
+    background-color: #1557b0;
+}
+
+.cancelButton:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmationModal {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.confirmationModal h3 {
+    margin: 0 0 16px 0;
+    color: #1a73e8;
+}
+
+.confirmationModal p {
+    margin: 0 0 24px 0;
+    color: #5f6368;
+}
+
+.modalButtons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.confirmButton {
+    padding: 8px 16px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.confirmButton:hover {
+    background-color: #1557b0;
+}
+
+/* Update existing cancel button styles */
+.cancelButton {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.cancelButton:hover {
+    background-color: #dc3545;
+    color: white;
 }
