@@ -110,7 +110,8 @@ exports.studentInfoByCourse = async (req, res) => {
     const student = await Student.findById(req.params.student_id)
       .populate("tests.test_id", "name")
       .select("presence tests assignments")
-      .populate("presence.course_id", "name");
+      .populate("presence.course_id", "name")
+      .populate("assignments.assignment_id", "title")
     const tests = student.tests.filter((test) => test.course == course.name);
     console.log(student.assignments)
     const assignments = student.assignments.filter(
