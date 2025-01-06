@@ -58,7 +58,7 @@ const CourseAssignments = () => {
 
   // console.log(assignments);
   return (
-    <Box sx={{ maxWidth: 1200, margin: "0 auto", padding: 3 }}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", padding: 3, marginTop: "50px" }}>
       {/* Header */}
       <Paper
         elevation={3}

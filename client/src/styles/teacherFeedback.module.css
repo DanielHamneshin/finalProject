@@ -2,7 +2,7 @@
 .main {
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 150px;
     padding: 0 20px;
 }
 
@@ -240,4 +240,23 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #f1f3f4;
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.statusPresent {
+    background: #e3fcef;
+    color: #0a7c42;
+}
+
+.statusAbsent {
+    background: #ffe9e9;
+    color: #dc3545;
 }

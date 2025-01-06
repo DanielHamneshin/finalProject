@@ -15,6 +15,14 @@ const Feedback = () => {
     const [filterPresenceBy, setFilterPresenceBy] = useState('');
     const [presence, setPresence] = useState([]);
 
+    const getGradeClass = (grade) => {
+        const numGrade = Number(grade);
+        if (numGrade < 55) return style.gradeFail;
+        if (numGrade < 70) return style.gradeWarning;
+        if (numGrade < 85) return style.gradeGood;
+        return style.gradeExcellent;
+    };
+
     const getPresence = async () => {
         try {
             const { data } = await axios.get(GET_ATTENDANCE_URL + user._id);
@@ -101,7 +109,7 @@ const Feedback = () => {
                             {tests.map((test, index) => (
                                 <div key={index} className={style.gradeCard}>
                                     <h3>{test.test_id.name}</h3>
-                                    <p>Grade: {test.grade}</p>
+                                    <p>Grade: <span className={`${style.grade} ${getGradeClass(test.grade)}`}>{test.grade}</span></p>
                                     <p>Course: {test.course}</p>
                                     <p>Date: {test.test_id.createdAt.split("T")[0]}</p>
                                 </div>
@@ -112,7 +120,7 @@ const Feedback = () => {
                             {assignments.map((assignment, index) => (
                                 <div key={index} className={style.gradeCard}>
                                     <h3>{assignment?.assignment_id?.title}</h3>
-                                    <p>Grade: {assignment?.grade || 'Not graded'}</p>
+                                    <p>Grade: <span className={`${style.grade} ${getGradeClass(assignment.grade)}`}>{assignment?.grade || 'Not graded'}</span></p>
                                     <p>Course: {assignment?.assignment_id?.course_id?.name}</p>
                                     <p>Teacher: {assignment?.assignment_id?.course_id?.teacherName}</p>
                                 </div>
@@ -125,7 +133,12 @@ const Feedback = () => {
                             {presence.map((record, index) => (
                                 <div key={index} className={style.attendanceCard}>
                                     <h3>{record.date ? record.date.split("T")[0] : ""}</h3>
-                                    <p>Status: {record.status}</p>
+                                    <p>Status: <span className={`${style.status} ${record.status.toLowerCase() === 'present'
+                                            ? style.statusPresent
+                                            : style.statusAbsent
+                                        }`}>
+                                        {record.status}
+                                    </span></p>
                                     <p>Course: {record.course_id.name}</p>
                                     <p>Lesson: {record.lessonNum}</p>
                                     <p>Teacher: {record.course_id.teacherName}</p>
