@@ -5,6 +5,7 @@ const Test = require("../models/testModel")
 const Course = require("../models/courseModel")
 const Assignment = require("../models/assignmentModel")
 const Teacher = require("../models/teacherModel")
+const { mailSender } = require("../mailSender")
 const createTeacher = require("../controllers/authController").createTeacher
 
 exports.getAllStudents = async (req, res) => {
@@ -27,15 +28,15 @@ exports.getAllTeachers = async (req, res) => {
 
 exports.removeTeacherAndReplace = async (req, res) => {
     try {
-        const {replace} = req.body// student_id
+        const { replace } = req.body// student_id
         const teacherReplace = await Teacher.findById(replace)
         const teacher = await Teacher.findById(req.params.id);
         console.log(teacher)
         const teacherCourses = teacher.courses
         console.log(teacherCourses)
         await Teacher.UpdateOne({ _id: teacherReplace._id }, { $push: { courses: teacherCourses } })
-       const courses =  await Course.updateMany({ teacherName: teacher.name }, { $set: { teacherName: teacherReplace.name } });
-       console.log(courses)
+        const courses = await Course.updateMany({ teacherName: teacher.name }, { $set: { teacherName: teacherReplace.name } });
+        console.log(courses)
         await Assignment.updateMany({ teacher_id: teacher._id }, { $set: { teacher_id: teacherReplace._id } });
         await Lesson.updateMany({ teacher_id: teacher._id }, { $set: { teacher_id: teacherReplace._id } });
         res.status(200).json(teacher);
@@ -64,8 +65,9 @@ exports.getStudentsWithDebt = async (req, res) => {
 exports.giveStudentDebt = async (req, res) => {
     try {
         const student = await Student.findByIdAndUpdate({ _id: req.params.id }, { $set: { debt: req.body.debt } });
+        mailSender(student.email, "Debt Update", req.body.debt ? `Your debt has been updated to ${req.body.debt}` : "Your debt has been cleared");
         res.status(200).json(student);
-    }catch (err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 }
@@ -92,7 +94,7 @@ exports.addMajor = async (req, res) => {
 
         await newMajor.save();
         res.status(200).json(newMajor);
-    }catch (err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 }
@@ -117,11 +119,11 @@ exports.addCourses = async (req, res) => {
             { $push: { courses: { $each: newCourses } } }
         );
         res.status(200).json(newcourse);
-    }catch (err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 }
 
- 
+
 
 

@@ -8,7 +8,7 @@ const adminController = require("../controllers/adminController");
 router.get("/students", adminController.getAllStudents);
 router.delete("/students/:id", adminController.removeStudent);
 router.get("/students/debt", adminController.getStudentsWithDebt);
-router.put("/students/:id/debt", adminController.giveStudentDebt);
+router.put("/students/debt/:id", adminController.giveStudentDebt);
 
 // Teachers
 router.get("/teachers", adminController.getAllTeachers);
