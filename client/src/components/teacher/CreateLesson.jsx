@@ -58,7 +58,12 @@ const CreateLesson = ({ course, close }) => {
                                 className={style.checkbox}
                                 onChange={(e) => updateStudentStatus(e, index)}
                             />
-                            <label>{item.status}</label>
+                            <span className={`${style.status} ${item.status.toLowerCase() === 'present'
+                                    ? style.statusPresent
+                                    : style.statusAbsent
+                                }`}>
+                                {item.status}
+                            </span>
                         </li>
                     ))}
                 </ul>
