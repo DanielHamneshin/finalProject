@@ -111,7 +111,7 @@ const Feedback = () => {
                             <h2>Assignments</h2>
                             {assignments.map((assignment, index) => (
                                 <div key={index} className={style.gradeCard}>
-                                    <h3>{assignment.assignment_id.title}</h3>
+                                    <h3>{assignment?.assignment_id?.title}</h3>
                                     <p>Grade: {assignment?.grade || 'Not graded'}</p>
                                     <p>Course: {assignment?.assignment_id?.course_id?.name}</p>
                                     <p>Teacher: {assignment?.assignment_id?.course_id?.teacherName}</p>

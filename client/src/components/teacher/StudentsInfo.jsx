@@ -78,7 +78,7 @@ const StudentsInfo = ({ course, close }) => {
                         <ul className={style.infoList}>
                             {studentInfo.assignments.map((assignment) => (
                                 <li key={assignment._id} className={style.infoItem}>
-                                    <span>{assignment.assignment_id.name}</span>
+                                    <span>{assignment.assignment_id.title}</span>
                                     <span>Grade: {assignment.grade}</span>
                                 </li>
                             ))}

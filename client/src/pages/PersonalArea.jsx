@@ -4,7 +4,7 @@ import StudentCard from '../components/StudentCard'
 import { useUserContext } from '../contexts/UserContext'
 import style from '../styles/personal.module.css'
 import axios from 'axios'
-import { GET_ALL_COURSES_URL, OPTIONAL_COURSES_CHOOSE_URL, OPTIONAL_COURSES_URL } from '../constants/endPoint'
+import { GET_ALL_COURSES_URL, GET_RECENT_ACTIVITIES_URL, OPTIONAL_COURSES_CHOOSE_URL, OPTIONAL_COURSES_URL } from '../constants/endPoint'
 import Feedback from '../components/Feedback'
 import StudentClassroom from '../components/StudentClassroom'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -19,6 +19,7 @@ const PersonalArea = () => {
     const [chosenCourses, setChosenCourses] = useState([]);
     const [currentCourse, setCurrentCourse] = useState("");
     const [error, setError] = useState("");
+    const [recentActivities, setRecentActivities] = useState([]);
     const navigate = useNavigate();
 
     const switchComponents = () => {
@@ -63,6 +64,7 @@ const PersonalArea = () => {
         } else {
             getOptionalCourses();
         }
+        getRecentActivities();
     }, [user.isCoursesFull, effectTrigger]);
 
 
@@ -87,8 +89,24 @@ const PersonalArea = () => {
         });
     };
 
+    const getRecentActivities = async () => {
+        try {
+            const { data } = await axios.get(GET_RECENT_ACTIVITIES_URL + user._id);
+            setRecentActivities(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    console.log(recentActivities);
 
-
+    // Helper function to determine grade class
+    const getGradeClass = (grade) => {
+        const numGrade = Number(grade);
+        if (numGrade < 55) return style.gradeFail;
+        if (numGrade < 70) return style.gradeWarning;
+        if (numGrade < 85) return style.gradeGood;
+        return style.gradeExcellent;
+    };
 
     return (
         <>
@@ -115,9 +133,9 @@ const PersonalArea = () => {
 
                 <div className={style.main}>
                     {/* Header Section */}
-                    <div className={style.headerPaper}>
+                    <div className={style.headerPaper} >
                         <div className={style.headerContent}>
-                            <div>
+                            <div >
                                 <h1>Personal Area</h1>
                                 <p>Welcome, {user?.name}</p>
                             </div>
@@ -170,6 +188,65 @@ const PersonalArea = () => {
                                     </button>
                                 </div>
                             )}
+                            <div className={style.recentActivities}>
+                                <h2>Recent Activities</h2>
+                                <div className={style.activitiesContainer}>
+                                    {/* Lessons Section */}
+                                    <div className={style.activitySection}>
+                                        <h3>Recent Lessons</h3>
+                                        {recentActivities?.lessons?.map((lesson, index) => (
+                                            <div key={index} className={style.activityItem}>
+                                                <p>{lesson.course_id.name}</p>
+                                                <p>Lesson: {lesson?.lessonNum}</p>
+                                                <p>Teacher: {lesson?.course_id?.teacherName}</p>
+                                                <p>
+                                                    <span className={`${style.status} ${lesson.status.toLowerCase() === 'present'
+                                                        ? style.statusPresent
+                                                        : style.statusAbsent
+                                                        }`}>
+                                                        {lesson.status}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Tests Section */}
+                                    <div className={style.activitySection}>
+                                        <h3>Recent Tests</h3>
+                                        {recentActivities?.tests?.map((test, index) => (
+                                            <div key={index} className={style.activityItem}>
+                                                <p>{test?.course}</p>
+                                                <p>Test: {test?.test_id?.name}</p>
+                                                <p>Teacher: {test?.test_id?.teacher?.name}</p>
+                                                <p>Date: {test?.test_id?.createdAt?.split("T")[0]}</p>
+                                                <p>Grade:
+                                                    <span className={`${style.grade} ${getGradeClass(test.grade)}`}>
+                                                        {test.grade}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Assignments Section */}
+                                    <div className={style.activitySection}>
+                                        <h3>Recent Assignments</h3>
+                                        {recentActivities?.assignments?.map((assignment, index) => (
+                                            <div key={index} className={style.activityItem}>
+                                                <p>{assignment?.assignment_id?.course_id?.name}</p>
+                                                <p>{assignment.assignment_id.title}</p>
+                                                <p>{assignment?.assignment_id?.course_id?.teacherName}</p>
+                                                <p>Grade:
+                                                    <span className={`${style.grade} ${getGradeClass(assignment.grade)}`}>
+                                                        {assignment.grade}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                             <Outlet />
                         </div>
                     </div>

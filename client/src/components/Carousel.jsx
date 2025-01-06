@@ -72,8 +72,8 @@ const Carousel = () => {
                     }}
                 >
                     <img
-                        src=""
-                        alt="Slide 1"
+                        src="/uni1.jpg"
+
                         style={{ width: "100%", height: "auto" }}
                     />
                 </Box>
@@ -87,7 +87,7 @@ const Carousel = () => {
                     }}
                 >
                     <img
-                        src="https://via.placeholder.com/600x300/32CD32/000000?text=Slide+2"
+                        src="./uni2.jpg"
                         alt=""
                         style={{ width: "100%", height: "auto", }}
                     />
@@ -102,7 +102,7 @@ const Carousel = () => {
                     }}
                 >
                     <img
-                        src="https://via.placeholder.com/600x300/F08080/000000?text=Slide+3"
+                        src="./uni3.jpg"
                         alt=""
                         style={{ width: "100%", height: "auto" }}
                     />

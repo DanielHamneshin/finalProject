@@ -12,7 +12,7 @@ exports.getStudentAttendance = async (req, res) => {
     const student = await Student.findById(req.params.userId)
       .populate("presence.course_id", "name teacherName")
       .select("presence");
-    
+
     // const attendence = student.presence.filter(record => record.status === 'present');
     //const absence = student.presence.filter(record => record.status === 'absent');
 
@@ -43,10 +43,10 @@ exports.getStudentAssignments = async (req, res) => {
           path: "course_id",
           select: "name teacherName"
         }
-      })      .select("assignments");
+      }).select("assignments");
 
     console.log(assignments);
-  
+
 
     res.status(200).json(assignments);
   } catch (error) {
@@ -211,32 +211,50 @@ exports.createLesson = async (req, res) => {
   }
 };
 
-exports.getLastThreeLessons = async (req, res) => {
+exports.getLastThree = async (req, res) => {
   try {
-    const lessons = await Lesson.find().sort({ date: -1 }).limit(3);
-    res.status(200).json(lessons);
+    const userId = req.params.userId;
+    const student = await Student.findById(userId)
+      .populate({
+        path: "presence.course_id",
+        select: "name teacherName"
+      })
+      // Populate tests with test info and course info
+      .populate({
+        path: "tests.test_id",
+        select: "name createdAt teacher",
+        populate: {
+          path: "teacher",
+          select: "name"
+        }
+      })
+      // Populate assignments with assignment info and course info
+      .populate({
+        path: "assignments.assignment_id",
+        select: "title course_id",
+        populate: {
+          path: "course_id",
+          select: "name teacherName"
+        }
+      });
+    const lessons = student.presence
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 3);
+
+    const tests = student.tests
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 3);
+
+    const assignments = student.assignments
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 3);
+
+    res.status(200).json({ lessons, tests, assignments });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error });
   }
 };
 
-exports.getLastThreeTests = async (req, res) => {
-  try {
-    const tests = await Test.find().sort({ date: -1 }).limit(3);
-    res.status(200).json(tests);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: error });
-  }
-};
-exports.getLastThreeAssignments = async (req, res) => {
-  try {
-    const assignments = await Assignment.find().sort({ date: -1 }).limit(3);
-    res.status(200).json(assignments);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: error });
-  }
-};
+
 

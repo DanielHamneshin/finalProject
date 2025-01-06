@@ -72,9 +72,9 @@ const ClassroomCourse = () => {
                             onClick={() => handleAssignmentClick(assignment)}
                         >
                             <h2>{assignment.title}</h2>
-                            <p>Upload Date: {assignment.uploadDate}</p>
-                            <p>Due Date: {assignment.finishDate.split("T")[0]}</p>
-                            <p>Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}</p>
+                            <p>Upload Date: {assignment?.uploadDate?.split("T")[0]}</p>
+                            <p>Due Date: {assignment?.finishDate?.split("T")[0]}</p>
+                            <p>Status: {assignment?.students[0]?.submitted ? "Submitted" : "Pending"}</p>
                         </div>
                     ))}
                 </div>

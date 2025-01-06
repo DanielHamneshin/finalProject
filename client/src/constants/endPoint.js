@@ -24,6 +24,8 @@ const GET_TESTS_URL = MASHOV_BASE_URL + "tests/"
 
 const GET_ASSIGNMENTS_URL = MASHOV_BASE_URL + "assignments/"
 
+const GET_RECENT_ACTIVITIES_URL = MASHOV_BASE_URL + "lastThree/"
+
 //teacher
 
 const TEACHER_MASHOV_BASE = MASHOV_BASE_URL + "teacher/"
@@ -91,5 +93,6 @@ export {
     ADMIN_LOGIN,
     STUDENTS_URL,
     TEACHERS_URL,
-    UPDATE_DEBT_URL
+    UPDATE_DEBT_URL,
+    GET_RECENT_ACTIVITIES_URL
 }

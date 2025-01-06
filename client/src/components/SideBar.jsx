@@ -23,9 +23,12 @@ const SideBar = () => {
                     top: 12,
                     left: 0,
                     zIndex: 1201, // Keeps button above the sidebar
+                    width: "70px",
+                    height: "70px",
+                    borderRadius: "50%",
                 }}
             >
-                <DensityMedium />
+                <DensityMedium sx={{ fontSize: "50px" }} />
             </IconButton>
 
             {isOpen && (

@@ -18,6 +18,7 @@ exports.getAllAssignmentsByCourse = async (req, res) => {
             description: 1,
             file: 1,
             students: { $elemMatch: { student_details: student._id } },
+            uploadDate: 1
         })
         res.status(200).json(assignments)
     } catch (error) {

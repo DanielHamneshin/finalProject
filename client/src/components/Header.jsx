@@ -22,7 +22,7 @@ const Header = () => {
     const navigate = useNavigate()
     return (
         <AppBar>
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between", bgcolor: "white" }}>
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between", bgcolor: "white", height: "120px" }}>
                 {user && <h1 style={{ color: "black", marginLeft: "50px" }}>Hello {user.name}</h1>}
                 <IconButton onClick={() => {
                     if (user) {
@@ -36,11 +36,11 @@ const Header = () => {
                 }} sx={{
                     marginLeft: "auto",
                     marginRight: "15px",
-                    width: "50px",
-                    height: "50px",
+                    width: "85px",
+                    height: "85px",
                     borderRadius: "50%"
-                }}>{user ? <img style={{ width: "45px", height: "45px", borderRadius: "50%" }} src={user.img ? user.img : `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`} alt="" /> : <AccountCircle sx={{ width: "35px", height: "35px" }} />}</IconButton>
-                <IconButton sx={{ marginRight: "-20px" }} onClick={() => user ? logout() : navigate("/login")}>{user ? <Logout sx={{ width: "27px", height: "27px" }} /> : <Login sx={{ width: "27px", height: "27px" }} />}</IconButton>
+                }}>{user ? <img style={{ width: "70px", height: "70px", borderRadius: "50%" }} src={user.img ? user.img : `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`} alt="" /> : <AccountCircle sx={{ width: "35px", height: "35px" }} />}</IconButton>
+                <IconButton sx={{ marginRight: "-20px" }} onClick={() => user ? logout() : navigate("/login")}>{user ? <Logout sx={{ width: "50px", height: "50px" }} /> : <Login sx={{ width: "50px", height: "50px" }} />}</IconButton>
                 <SideBar />
             </Toolbar>
         </AppBar>

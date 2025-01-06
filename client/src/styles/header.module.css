@@ -13,6 +13,7 @@
     justify-content: center;
     /* Centers horizontally */
     align-items: center;
+    opacity: 0.8;
     /* Centers vertically */
 }
 
@@ -25,12 +26,14 @@
     /* Optional: add text shadow for better contrast on the background */
     margin: 0;
     /* Remove default margin */
+    font-size: 90px;
 }
 
 .Learning {
     background-color: #2da184;
     /* Background color for the word "Learning" */
-    padding: 5px 5px;
+    padding: 20px;
+    font-size: 100px;
     /* Adds some space around the text */
 
     /* Optional: rounded corners */
