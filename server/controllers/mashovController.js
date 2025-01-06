@@ -105,19 +105,17 @@ exports.getAllStudentsByCourse = async (req, res) => {
 
 exports.studentInfoByCourse = async (req, res) => {
   try {
-    console.log("hi1");
 
     const course = await Course.findById(req.params.course_id);
     const student = await Student.findById(req.params.student_id)
       .populate("tests.test_id", "name")
       .select("presence tests assignments")
       .populate("presence.course_id", "name");
-    console.log(student);
     const tests = student.tests.filter((test) => test.course == course.name);
+    console.log(student.assignments)
     const assignments = student.assignments.filter(
       (assignment) => assignment.course == course.name
     );
-    console.log(student.presence);
     const attendence = student.presence.filter(
       (lesson) =>
         lesson.course_id._id.toString() == course._id.toString() &&
@@ -128,7 +126,7 @@ exports.studentInfoByCourse = async (req, res) => {
         lesson.course_id._id.toString() == course._id.toString() &&
         lesson.status == "absent"
     );
-    console.log(attendence);
+    console.log(assignments);
 
     res.status(200).json({ tests, assignments, attendence, absence });
   } catch (error) {
@@ -211,3 +209,33 @@ exports.createLesson = async (req, res) => {
     res.status(500).json({ msg: error });
   }
 };
+
+exports.getLastThreeLessons = async (req, res) => {
+  try {
+    const lessons = await Lesson.find().sort({ date: -1 }).limit(3);
+    res.status(200).json(lessons);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+};
+
+exports.getLastThreeTests = async (req, res) => {
+  try {
+    const tests = await Test.find().sort({ date: -1 }).limit(3);
+    res.status(200).json(tests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+};
+exports.getLastThreeAssignments = async (req, res) => {
+  try {
+    const assignments = await Assignment.find().sort({ date: -1 }).limit(3);
+    res.status(200).json(assignments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error });
+  }
+};
+
