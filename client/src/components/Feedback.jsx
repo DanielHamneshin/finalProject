@@ -5,6 +5,7 @@ import axios from 'axios';
 import { GET_ASSIGNMENTS_URL, GET_ATTENDANCE_URL, GET_TESTS_URL } from '../constants/endPoint';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import { PieChart } from '@mui/x-charts';
 
 const Feedback = () => {
     const { user } = useUserContext();
@@ -52,8 +53,31 @@ const Feedback = () => {
         }
     }
 
+    const calculateAttendanceStats = () => {
+        const presentCount = presence.filter(record =>
+            record.status.toLowerCase() === 'present'
+        ).length;
+        const absentCount = presence.length - presentCount;
 
+        return [
+            { id: 0, value: presentCount, label: 'Present', color: '#0a7c42' },
+            { id: 1, value: absentCount, label: 'Absent', color: '#dc3545' }
+        ];
+    };
 
+    const calculateGradeStats = (items) => {
+        const failCount = items.filter(item => item.grade < 55).length;
+        const warningCount = items.filter(item => item.grade >= 55 && item.grade < 70).length;
+        const goodCount = items.filter(item => item.grade >= 70 && item.grade < 85).length;
+        const excellentCount = items.filter(item => item.grade >= 85).length;
+
+        return [
+            { id: 0, value: failCount, label: 'Below 55', color: '#dc3545' },
+            { id: 1, value: warningCount, label: '55-69', color: '#ffc107' },
+            { id: 2, value: goodCount, label: '70-84', color: '#0056b3' },
+            { id: 3, value: excellentCount, label: '85+', color: '#0a7c42' }
+        ];
+    };
 
     useEffect(() => {
         getTests();
@@ -99,6 +123,60 @@ const Feedback = () => {
                     </div>
                 </div>
 
+                {/* Charts Section */}
+                <div className={style.chartsContainer}>
+                    {/* Attendance Chart */}
+                    <div className={style.chartBox}>
+                        <h3>Attendance Overview</h3>
+                        {presence.length > 0 && (
+                            <PieChart
+                                series={[
+                                    {
+                                        data: calculateAttendanceStats(),
+                                        highlightScope: { faded: 'global', highlighted: 'item' },
+                                        faded: { innerRadius: 30, additionalRadius: -30 },
+                                    },
+                                ]}
+                                height={200}
+                            />
+                        )}
+                    </div>
+
+                    {/* Tests Chart */}
+                    <div className={style.chartBox}>
+                        <h3>Tests Grade Distribution</h3>
+                        {tests.length > 0 && (
+                            <PieChart
+                                series={[
+                                    {
+                                        data: calculateGradeStats(tests),
+                                        highlightScope: { faded: 'global', highlighted: 'item' },
+                                        faded: { innerRadius: 30, additionalRadius: -30 },
+                                    },
+                                ]}
+                                height={200}
+                            />
+                        )}
+                    </div>
+
+                    {/* Assignments Chart */}
+                    <div className={style.chartBox}>
+                        <h3>Assignments Grade Distribution</h3>
+                        {assignments.length > 0 && (
+                            <PieChart
+                                series={[
+                                    {
+                                        data: calculateGradeStats(assignments),
+                                        highlightScope: { faded: 'global', highlighted: 'item' },
+                                        faded: { innerRadius: 30, additionalRadius: -30 },
+                                    },
+                                ]}
+                                height={200}
+                            />
+                        )}
+                    </div>
+                </div>
+
                 {/* Content Section */}
                 <div className={style.content}>
                     {isInGrades ? (
@@ -134,8 +212,8 @@ const Feedback = () => {
                                 <div key={index} className={style.attendanceCard}>
                                     <h3>{record.date ? record.date.split("T")[0] : ""}</h3>
                                     <p>Status: <span className={`${style.status} ${record.status.toLowerCase() === 'present'
-                                            ? style.statusPresent
-                                            : style.statusAbsent
+                                        ? style.statusPresent
+                                        : style.statusAbsent
                                         }`}>
                                         {record.status}
                                     </span></p>
@@ -147,6 +225,8 @@ const Feedback = () => {
                         </div>
                     )}
                 </div>
+
+
             </div>
         </>
     )

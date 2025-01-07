@@ -39,7 +39,7 @@ const Header = () => {
                     width: "85px",
                     height: "85px",
                     borderRadius: "50%"
-                }}>{user ? <img style={{ width: "70px", height: "70px", borderRadius: "50%" }} src={user.img ? user.img : `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`} alt="" /> : <AccountCircle sx={{ width: "35px", height: "35px" }} />}</IconButton>
+                }}>{user ? <img style={{ width: "70px", height: "70px", borderRadius: "50%" }} src={user.img ? user.img : `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`} alt="" /> : <AccountCircle sx={{ width: "70px", height: "70px" }} />}</IconButton>
                 <IconButton sx={{ marginRight: "-20px" }} onClick={() => user ? logout() : navigate("/login")}>{user ? <Logout sx={{ width: "50px", height: "50px" }} /> : <Login sx={{ width: "50px", height: "50px" }} />}</IconButton>
                 <SideBar />
             </Toolbar>

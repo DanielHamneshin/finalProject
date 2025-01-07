@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { useUserContext } from '../contexts/UserContext'
 import axios from 'axios'
+import style from '../styles/home.module.css'
 
 
 const Home = ({ setIsInitialLoad }) => {
@@ -34,6 +35,14 @@ const Home = ({ setIsInitialLoad }) => {
             <Header />
             <HeadImage />
             <Carousel />
+            <div className={style.quoteContainer}>
+                <h2>
+                    <span className={style.highlight}>Studying</span> is where
+                    <span className={style.highlight}> hard work</span> meets
+                    <span className={style.highlight}> inspiration</span> to create
+                    <span className={style.highlight}> endless opportunities.</span>
+                </h2>
+            </div>
             <Events />
             <Footer />
         </div>
