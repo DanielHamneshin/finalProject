@@ -42,7 +42,7 @@ const Events = () => {
                             borderRadius: "15px",
                             overflow: "auto",
                             boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-                            marginTop: "70px",
+                            marginTop: "100px",
                             marginBottom: "50px",
                             '&::-webkit-scrollbar': {
                                 width: '8px',

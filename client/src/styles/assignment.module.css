@@ -79,12 +79,15 @@
 
 /* File Upload Section */
 .uploadSection {
-    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
     padding: 24px;
-    background: #f5f9ff;
+    background: white;
     border-radius: 8px;
-    border: 1px dashed #1a73e8;
-    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    margin: 24px 0;
 }
 
 .uploadSection h3 {
@@ -122,23 +125,10 @@
 
 /* Preview Image */
 .previewImage {
-    flex: 1;
-    max-width: 50%;
-    margin-top: 24px;
+    max-width: 300px;
+    max-height: 300px;
     border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.previewImage:hover {
-    transform: scale(1.02);
-}
-
-.previewImage img {
-    max-width: 100%;
-    height: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Large Image Modal */
@@ -183,4 +173,32 @@
 
 .scaleImage:hover {
     transform: scale(1.05);
+}
+
+.previewSection {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.submitButton {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 16px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.submitButton:hover {
+    background: #1557b0;
+}
+
+.submitButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }

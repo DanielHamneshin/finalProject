@@ -83,6 +83,10 @@ const Login = () => {
 
                     <h3>don't have an account? <NavLink to='/register'>SignUp</NavLink></h3>
                 </form>
+                <div className={style.welcomeSection}>
+                    <h2>WELCOME BACK!</h2>
+                    <p>Enter your personal details and start your journey with us</p>
+                </div>
             </div>
         </>
     )

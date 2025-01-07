@@ -26,7 +26,6 @@ import PayPal from './components/PayPal'
 const MainApp = () => {
     axios.defaults.withCredentials = true
     const { setUser, user } = useUserContext()
-    const [showPayDebt, setShowPayDebt] = useState(false)
     const [isInitialLoad, setIsInitialLoad] = useState(true)
 
     useEffect(() => {
@@ -34,16 +33,9 @@ const MainApp = () => {
             try {
                 const { data } = await axios.get("http://127.0.0.1:5000/authentication")
                 setUser(data)
-
-                if (isInitialLoad && data?.role === "student" && data?.debt > 0) {
-                    setShowPayDebt(true)
-                }
                 setIsInitialLoad(false)
             } catch (error) {
                 console.error(error)
-                setIsInitialLoad(false)
-            }
-            finally {
                 setIsInitialLoad(false)
             }
         }
@@ -52,47 +44,39 @@ const MainApp = () => {
     }, [isInitialLoad])
 
     return (
-        <>
-            <BrowserRouter>
-                {showPayDebt && (
-                    <div className="modalOverlay">
-                        <PayDebt onClose={() => setShowPayDebt(false)} />
-                    </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path='/register' element={<Register />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/' element={<Home setIsInitialLoad={setIsInitialLoad} />} />
+                {user && user.role === "student" && (
+                    <>
+                        <Route path='/personal' element={<PersonalArea />} />
+                        <Route path='/personal/feedback' element={<Feedback />} />
+                        <Route path='/personal/classroom' element={<StudentClassroom />} />
+                        <Route
+                            path='/personal/classroom/:courseId'
+                            element={<ClassroomCourse key={window.location.pathname} />}
+                        />
+                        <Route path='/personal/classroom/:courseId/assignment/:assignmentId' element={<Assignment />} />
+                        {user?.debt > 0 && <Route path='/personal/paydebt' element={<PayPal />} />}
+                    </>
                 )}
-
-                <Routes>
-                    <Route path='/register' element={<Register />} />
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/' element={<Home setIsInitialLoad={setIsInitialLoad} />} />
-                    {user && user.role === "student" && (
-                        <>
-                            <Route path='/personal' element={<PersonalArea />} />
-                            <Route path='/personal/feedback' element={<Feedback />} />
-                            <Route path='/personal/classroom' element={<StudentClassroom />} />
-                            <Route
-                                path='/personal/classroom/:courseId'
-                                element={<ClassroomCourse key={window.location.pathname} />}
-                            />
-                            <Route path='/personal/classroom/:courseId/assignment/:assignmentId' element={<Assignment />} />
-                            {user?.debt > 0 && <Route path='/personal/paydebt' element={<PayPal />} />}
-                        </>
-                    )}
-                    {user && user.role === "teacher" &&
-                        <Route path='/teacherpersonal' element={<TeacherPersonalArea />}>
-                            <Route path="classroom" element={<TeacherClassRoom />} />
-                            <Route path="classroom/:courseName" element={<CourseAssignments />} />
-                            <Route path="classroom/:courseName/assignment/:assignmentId" element={<TeacherAssignment />} />
-                            <Route path="feedback" element={<TeacherFeedback />} />
-                        </Route>}
-                    {user && user.role === "admin" &&
-                        <Route path='/adminpersonal' element={<AdminPersonalArea />}>
-                            {/* Add nested admin routes here if needed */}
-                        </Route>
-                    }
-                    <Route path='/*' element={<NotFound />} />
-                </Routes>
-            </BrowserRouter>
-        </>
+                {user && user.role === "teacher" &&
+                    <Route path='/teacherpersonal' element={<TeacherPersonalArea />}>
+                        <Route path="classroom" element={<TeacherClassRoom />} />
+                        <Route path="classroom/:courseName" element={<CourseAssignments />} />
+                        <Route path="classroom/:courseName/assignment/:assignmentId" element={<TeacherAssignment />} />
+                        <Route path="feedback" element={<TeacherFeedback />} />
+                    </Route>}
+                {user && user.role === "admin" &&
+                    <Route path='/adminpersonal' element={<AdminPersonalArea />}>
+                        {/* Add nested admin routes here if needed */}
+                    </Route>
+                }
+                <Route path='/*' element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 
