@@ -35,9 +35,8 @@ const Register = () => {
         }
     }
     return (
-        <>
-            <form className={style.form} onSubmit={handleSubmit(registeration)} style={{ marginTop: "150px" }}>
-
+        <div className={style.container}>
+            <form className={style.form} onSubmit={handleSubmit(registeration)}>
                 <h1>Register</h1>
                 {errors.name && <p className={style.error}>{errors.name.message}</p>}
                 <input type="text" placeholder='name' {...register("name", { required: { value: true, message: "name is required" } })} />
@@ -58,9 +57,12 @@ const Register = () => {
 
                 <button>register</button>
                 <h3>already have an account? <NavLink to='/login'>login</NavLink></h3>
-
             </form>
-        </>
+            <div className={style.welcomeSection}>
+                <h2>HELLO, FRIEND!</h2>
+                <p>Fill up your information and start your journey with us</p>
+            </div>
+        </div>
     )
 }
 

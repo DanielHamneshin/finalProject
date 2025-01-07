@@ -19,6 +19,9 @@ const Assignment = () => {
     const [assignmentImage, setAssignmentImage] = useState(null);
     const [selectedFileName, setSelectedFileName] = useState('');
     const [assignmentFileImage, setAssignmentFileImage] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (assignment?.students[0]?.file) {
@@ -36,31 +39,53 @@ const Assignment = () => {
         }
     }, [assignment]);
 
-    const uploadFile = async (e) => {
+    const handleFileSelect = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setSelectedFile(file);
+            setSelectedFileName(file.name);
+
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setPreviewImage(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSubmit = async () => {
+        if (!selectedFile) return;
+
+        setIsSubmitting(true);
+        try {
             const reader = new FileReader();
             reader.onload = async (e) => {
                 const base64 = e.target.result;
                 try {
-                    const { data } = await axios.post(UPLOAD_FILE + assignment._id + "/" + user._id, {
-                        file: base64.split(',')[1]
-                    });
-                    console.log(data);
-                    // Refresh assignment data or show success message
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-            reader.readAsDataURL(file);
-        }
-    }
+                    const { data } = await axios.post(
+                        UPLOAD_FILE + assignment._id + "/" + user._id,
+                        { file: base64.split(',')[1] }
+                    );
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setSelectedFileName(file.name);
-            uploadFile(e);
+                    // Update the assignment image immediately
+                    setAssignmentImage(previewImage);
+
+                    // Clear all file-related states
+                    setSelectedFile(null);
+                    setSelectedFileName('');
+                    setPreviewImage(null);
+
+                    console.log("File uploaded successfully");
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                }
+            };
+            reader.readAsDataURL(selectedFile);
+        } catch (error) {
+            console.error("Error preparing file:", error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -99,6 +124,9 @@ const Assignment = () => {
                         {/* Left side - Assignment Information */}
                         <div style={{ flex: '1' }}>
                             <h2>Assignment Information</h2>
+                            <p>Description: {assignment.description}</p>
+                            <p>Upload Date: {assignment?.uploadDate?.split('T')[0]}</p>
+                            <p>Finish Date: {assignment?.finishDate?.split('T')[0]}</p>
                             <p className={`${style.status} ${assignment.students[0].submitted ? style.statusSubmitted : style.statusPending}`}>
                                 Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}
                             </p>
@@ -129,7 +157,7 @@ const Assignment = () => {
                                 Choose File
                                 <input
                                     type="file"
-                                    onChange={handleFileChange}
+                                    onChange={handleFileSelect}
                                     className={style.fileInput}
                                     accept="image/*"
                                 />
@@ -138,6 +166,29 @@ const Assignment = () => {
                                 <p className={style.fileName}>
                                     Selected file: {selectedFileName}
                                 </p>
+                            )}
+
+                            {/* Preview Section */}
+                            {previewImage && (
+                                <div className={style.previewSection}>
+                                    <h4>Preview</h4>
+                                    <img
+                                        src={previewImage}
+                                        alt="Preview"
+                                        className={style.previewImage}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Submit Button */}
+                            {selectedFile && (
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting}
+                                    className={style.submitButton}
+                                >
+                                    {isSubmitting ? 'Submitting...' : 'Submit Assignment'}
+                                </button>
                             )}
                         </div>
                     )}
