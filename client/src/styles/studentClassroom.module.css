@@ -48,25 +48,24 @@
 /* Course grid styling */
 .coursesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
+    padding: 24px;
     margin-top: 24px;
 }
 
 .course {
-    padding: 24px;
     background: white;
+    padding: 24px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .course:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transform: translateY(-4px);
-    border-color: #1a73e8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .course h2 {
@@ -83,9 +82,9 @@
 /* Assignment grid styling */
 .assignmentsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
-    margin-top: 24px;
+    padding: 24px;
 }
 
 .assignmentCard {
@@ -129,4 +128,126 @@
 
 .assignmentCard p:last-child:has(span:contains("Pending")) {
     color: #f57c00;
+}
+
+.searchContainer {
+    margin: 24px auto;
+    max-width: 800px;
+    padding: 0 24px;
+    display: flex;
+    gap: 32px;
+}
+
+.searchInputWrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.searchLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-left: 4px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+}
+
+.searchInput::placeholder {
+    color: #666;
+}
+
+.noResults {
+    text-align: center;
+    padding: 24px;
+    color: #666;
+    font-size: 16px;
+}
+
+@media (max-width: 600px) {
+    .searchContainer {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
+.filterContainer {
+    margin: 24px auto;
+    max-width: 800px;
+    padding: 0 24px;
+    display: flex;
+    gap: 32px;
+}
+
+.filterWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filterLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-left: 4px;
+}
+
+.filterInput,
+.filterSelect {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.statusSubmitted {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.statusPending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+@media (max-width: 600px) {
+    .filterContainer {
+        flex-direction: column;
+        gap: 16px;
+    }
 }

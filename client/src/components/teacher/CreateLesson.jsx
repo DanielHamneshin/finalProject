@@ -7,6 +7,8 @@ import style from '../../styles/teacherFeedback.module.css';
 const CreateLesson = ({ course, close }) => {
     const { user } = useUserContext();
     const [students, setStudents] = useState([]);
+    const [searchText, setSearchText] = useState('');
+
     const getAllStudents = async () => {
         try {
             const { data } = await axios.get(GET_ALL_STUDENTS + course._id)
@@ -39,17 +41,36 @@ const CreateLesson = ({ course, close }) => {
             return newStudents;
         })
     }
+
+    // Filter students based on search text
+    const filteredStudents = students.filter(student =>
+        student.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
     return (
         <div className={style.modalContent}>
-            <div className={`${style.modalHeader} ${style.fullWidth}`}>
-                <h2>Create Lesson for {course.name}</h2>
+            <div className={style.modalHeader}>
+                <div className={style.headerContent}>
+                    <h2>Create Lesson for {course.name}</h2>
+                </div>
             </div>
+
             <form className={style.form} onSubmit={(e) => {
                 e.preventDefault();
                 createLesson();
             }}>
+                <div className={style.searchContainer}>
+                    <input
+                        type="text"
+                        placeholder="Search students..."
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className={style.searchInput}
+                    />
+                </div>
+
                 <ul className={style.studentsList}>
-                    {students.map((item, index) => (
+                    {filteredStudents.map((item, index) => (
                         <li key={index} className={style.studentItem}>
                             <h3 className={style.studentName}>{item.name}</h3>
                             <input
@@ -69,7 +90,7 @@ const CreateLesson = ({ course, close }) => {
                 <button className={style.submitButton}>Create Lesson</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default CreateLesson
