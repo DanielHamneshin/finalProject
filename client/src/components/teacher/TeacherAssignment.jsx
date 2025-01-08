@@ -18,6 +18,8 @@ const TeacherAssignment = () => {
         return assignmentState?.students?.map(() => ({ grade: '', student_id: '' })) || [];
     });
     const [searchText, setSearchText] = useState('');
+    const [submissionFilter, setSubmissionFilter] = useState('all');
+    const [gradingFilter, setGradingFilter] = useState('all');
 
     useEffect(() => {
         if (assignmentState?.file?.data) {
@@ -62,9 +64,23 @@ const TeacherAssignment = () => {
     };
 
     // Filter students based on search text
-    const filteredStudents = assignmentState?.students?.filter(student =>
-        student.student_details.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filteredStudents = assignmentState?.students?.filter(student => {
+        const matchesSearch = student.student_details.name
+            .toLowerCase()
+            .includes(searchText.toLowerCase());
+
+        const matchesSubmission =
+            submissionFilter === 'all' ||
+            (submissionFilter === 'submitted' && student.submitted) ||
+            (submissionFilter === 'pending' && !student.submitted);
+
+        const matchesGrading =
+            gradingFilter === 'all' ||
+            (gradingFilter === 'graded' && student.grade) ||
+            (gradingFilter === 'ungraded' && !student.grade);
+
+        return matchesSearch && matchesSubmission && matchesGrading;
+    });
 
     if (!assignment) {
         navigate('/teacherpersonal/classroom');
@@ -122,6 +138,24 @@ const TeacherAssignment = () => {
                             onChange={(e) => setSearchText(e.target.value)}
                             className={style.searchInput}
                         />
+                        <select
+                            value={submissionFilter}
+                            onChange={(e) => setSubmissionFilter(e.target.value)}
+                            className={style.searchInput}
+                        >
+                            <option value="all">All Submissions</option>
+                            <option value="submitted">Submitted</option>
+                            <option value="pending">Not Submitted</option>
+                        </select>
+                        <select
+                            value={gradingFilter}
+                            onChange={(e) => setGradingFilter(e.target.value)}
+                            className={style.searchInput}
+                        >
+                            <option value="all">All Grades</option>
+                            <option value="graded">Graded</option>
+                            <option value="ungraded">Not Graded</option>
+                        </select>
                     </div>
 
                     {/* Students Section */}
