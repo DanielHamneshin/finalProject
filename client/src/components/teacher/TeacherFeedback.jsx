@@ -11,6 +11,12 @@ const TeacherFeedback = () => {
     const [openTestCreation, setOpenTestCreation] = useState(false);
     const [openLessonCreation, setOpenLessonCreation] = useState(false);
     const [currentCourse, setCurrentCourse] = useState(null);
+    const [searchText, setSearchText] = useState('');
+
+    // Filter courses based on search text
+    const filteredCourses = courses.filter(course =>
+        course.name.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     const closeTest = () => {
         setOpenTestCreation(false);
@@ -37,8 +43,18 @@ const TeacherFeedback = () => {
                 </div>
             </div>
 
+            <div className={style.searchContainer}>
+                <input
+                    type="text"
+                    placeholder="Search courses..."
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    className={style.searchInput}
+                />
+            </div>
+
             <div className={style.coursesList}>
-                {courses.map((item, index) => (
+                {filteredCourses.map((item, index) => (
                     <div key={index} className={style.courseCard}>
                         <h2>{item.name}</h2>
                         <div className={style.actionButtons}>

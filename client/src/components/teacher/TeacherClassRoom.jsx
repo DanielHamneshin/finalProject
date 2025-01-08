@@ -10,9 +10,12 @@ import {
   Typography,
   Paper,
   Grid,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import {
   KeyboardReturn as KeyboardReturnIcon,
+  Search as SearchIcon,
 } from "@mui/icons-material";
 
 const TeacherClassRoom = () => {
@@ -20,6 +23,7 @@ const TeacherClassRoom = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
   const [students, setStudents] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const getallStudentsinallCourses = async (course) => {
     try {
@@ -41,6 +45,11 @@ const TeacherClassRoom = () => {
   useEffect(() => {
     getallStudentsinallCourses();
   }, [courses]);
+
+  // Filter courses based on search text
+  const filteredCourses = courses.filter(course =>
+    course.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <Container sx={{ marginTop: "150px" }}>
@@ -82,9 +91,42 @@ const TeacherClassRoom = () => {
         </Button>
       </Paper>
 
+      {/* Search Box */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search courses..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: 1,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#e0e0e0',
+              },
+              '&:hover fieldset': {
+                borderColor: '#1a73e8',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#1a73e8',
+              },
+            },
+          }}
+        />
+      </Box>
+
       {/* Courses Grid */}
       <Grid container spacing={3}>
-        {courses.map((course, index) => (
+        {filteredCourses.map((course, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box
               onClick={() => handleClick(course)}

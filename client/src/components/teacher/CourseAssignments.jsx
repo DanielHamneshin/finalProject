@@ -11,13 +11,16 @@ import {
   Divider,
   Card,
   CardContent,
-  IconButton
+  IconButton,
+  TextField,
+  InputAdornment
 } from "@mui/material";
 import {
   Add as AddIcon,
   Assignment as AssignmentIcon,
   KeyboardReturn as KeyboardReturnIcon,
-  Announcement as AnnouncementIcon
+  Announcement as AnnouncementIcon,
+  Search as SearchIcon
 } from "@mui/icons-material";
 import CreateAssignment from "./CreateAssignment";
 
@@ -27,6 +30,7 @@ const CourseAssignments = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [assignments, setAssignments] = useState([]);
   const navigate = useNavigate();
+  const [searchText, setSearchText] = useState('');
   // Find the course object that matches the courseName from the URL
   const currentCourse = courses.find((course) => course.name === courseName);
 
@@ -55,6 +59,11 @@ const CourseAssignments = () => {
       }
     });
   };
+
+  // Filter assignments based on search text
+  const filteredAssignments = assignments.filter(assignment =>
+    assignment.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   // console.log(assignments);
   return (
@@ -102,9 +111,42 @@ const CourseAssignments = () => {
         </Button>
       </Box>
 
+      {/* Search Box */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search assignments..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: 1,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#e0e0e0',
+              },
+              '&:hover fieldset': {
+                borderColor: '#1a73e8',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#1a73e8',
+              },
+            },
+          }}
+        />
+      </Box>
+
       {/* Stream */}
       <Box sx={{ mt: 4 }}>
-        {assignments.map((assignment, index) => (
+        {filteredAssignments.map((assignment, index) => (
           <Card
             key={index}
             onClick={() => handleAssignmentClick(assignment)}

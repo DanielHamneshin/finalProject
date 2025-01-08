@@ -13,6 +13,8 @@ const ClassroomCourse = () => {
     const allCourses = location.state?.allCourses;
     const [assignments, setAssignments] = useState([]);
     const { user } = useUserContext();
+    const [searchText, setSearchText] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
 
     useEffect(() => {
         const getAssignmentsByCourse = async () => {
@@ -42,6 +44,14 @@ const ClassroomCourse = () => {
             }
         });
     };
+
+    const filteredAssignments = assignments.filter(assignment =>
+        assignment.title.toLowerCase().includes(searchText.toLowerCase()) &&
+        (statusFilter === 'all' ||
+            (statusFilter === 'submitted' && assignment?.students[0]?.submitted) ||
+            (statusFilter === 'pending' && !assignment?.students[0]?.submitted))
+    );
+
     console.log(assignments);
     return (
         <>
@@ -64,8 +74,37 @@ const ClassroomCourse = () => {
                     </div>
                 </div>
 
+                <div className={style.filterContainer}>
+                    <div className={style.filterWrapper}>
+                        <label className={style.filterLabel}>
+                            Assignment Name
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Search assignments..."
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            className={style.filterInput}
+                        />
+                    </div>
+                    <div className={style.filterWrapper}>
+                        <label className={style.filterLabel}>
+                            Status
+                        </label>
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className={style.filterSelect}
+                        >
+                            <option value="all">All Status</option>
+                            <option value="submitted">Submitted</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div className={style.assignmentsGrid}>
-                    {assignments.map((assignment) => (
+                    {filteredAssignments.map((assignment) => (
                         <div
                             key={assignment._id}
                             className={style.assignmentCard}
@@ -74,7 +113,10 @@ const ClassroomCourse = () => {
                             <h2>{assignment.title}</h2>
                             <p>Upload Date: {assignment?.uploadDate?.split("T")[0]}</p>
                             <p>Due Date: {assignment?.finishDate?.split("T")[0]}</p>
-                            <p>Status: {assignment?.students[0]?.submitted ? "Submitted" : "Pending"}</p>
+                            <p>Status: <span className={`${style.status} ${assignment?.students[0]?.submitted ? style.statusSubmitted : style.statusPending
+                                }`}>
+                                {assignment?.students[0]?.submitted ? "Submitted" : "Pending"}
+                            </span></p>
                         </div>
                     ))}
                 </div>

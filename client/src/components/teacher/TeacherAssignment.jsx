@@ -17,6 +17,7 @@ const TeacherAssignment = () => {
     const [grades, setGrades] = useState(() => {
         return assignmentState?.students?.map(() => ({ grade: '', student_id: '' })) || [];
     });
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         if (assignmentState?.file?.data) {
@@ -59,6 +60,11 @@ const TeacherAssignment = () => {
             console.error(error);
         }
     };
+
+    // Filter students based on search text
+    const filteredStudents = assignmentState?.students?.filter(student =>
+        student.student_details.name.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     if (!assignment) {
         navigate('/teacherpersonal/classroom');
@@ -107,9 +113,20 @@ const TeacherAssignment = () => {
                         </div>
                     )}
 
+                    {/* Add search input */}
+                    <div className={style.searchContainer}>
+                        <input
+                            type="text"
+                            placeholder="Search by student name..."
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            className={style.searchInput}
+                        />
+                    </div>
+
                     {/* Students Section */}
                     <div className={style.studentsGrid}>
-                        {assignmentState.students.map((student, index) => (
+                        {filteredStudents?.map((student, index) => (
                             <div key={index} className={style.studentCard}>
                                 <p className={style.studentName}>{student.student_details.name}</p>
                                 <p className={style.studentGrade}>

@@ -89,6 +89,15 @@ const Assignment = () => {
         }
     };
 
+    const getGradeClass = (grade) => {
+        if (!grade) return '';
+        const numGrade = Number(grade);
+        if (numGrade < 55) return style.gradeFail;
+        if (numGrade < 70) return style.gradeWarning;
+        if (numGrade < 85) return style.gradeGood;
+        return style.gradeExcellent;
+    };
+
     if (!assignment) {
         navigate('/personal/classroom');
         return null;
@@ -127,9 +136,12 @@ const Assignment = () => {
                             <p>Description: {assignment.description}</p>
                             <p>Upload Date: {assignment?.uploadDate?.split('T')[0]}</p>
                             <p>Finish Date: {assignment?.finishDate?.split('T')[0]}</p>
-                            <p className={`${style.status} ${assignment.students[0].submitted ? style.statusSubmitted : style.statusPending}`}>
-                                Status: {assignment.students[0].submitted ? "Submitted" : "Pending"}
+                            <p className={`${style.status} ${assignment?.students[0]?.submitted ? style.statusSubmitted : style.statusPending}`}>
+                                Status: {assignment?.students[0]?.submitted ? "Submitted" : "Pending"}
                             </p>
+                            <p>Grade: <span className={`${style.grade} ${getGradeClass(assignment?.students[0]?.grade)}`}>
+                                {assignment?.students[0]?.grade || 'Not graded'}
+                            </span></p>
                         </div>
 
                         {/* Right side - Assignment File Preview */}
