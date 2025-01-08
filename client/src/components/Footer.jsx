@@ -1,12 +1,14 @@
 import React from 'react';
 import style from "../styles/footer.module.css"
+import logo from "../assets/LaStudentLogo.svg"
+
 
 const Footer = () => {
     return (<>
         <footer className={style.footer}>
             <div className={style.column}>
-                <h4>University</h4>
-                <p>Landmark Education</p>
+                <h4>LaStudent College</h4>
+                <img src={logo} alt="logo" className={style.logo} />
             </div>
 
             <div className={style.column}>
@@ -56,7 +58,7 @@ const Footer = () => {
             </div>
 
             <div className={`${style.column} ${style.copyright}`}>
-                <p>Copyright &copy; 2024 All rights reserved | This template is made with <span style={{ color: '#28a745' }}>&hearts;</span> by Colorlib</p>
+                <p>Copyright &copy; 2024 All rights reserved | This is made with <span style={{ color: '#28a745' }}>&hearts;</span> by Daniel x Eliya</p>
             </div >
         </footer >
     </>

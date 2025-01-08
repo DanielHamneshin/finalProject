@@ -110,6 +110,11 @@ footer .copyright span {
     color: #28a745;
 }
 
+.logo {
+    width: 200px;
+    height: 200px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .footer {
