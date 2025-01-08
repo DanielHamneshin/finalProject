@@ -1,7 +1,7 @@
 .quoteContainer {
     padding: 4rem 2rem;
     text-align: center;
-    background: linear-gradient(to right, #f8f9fa, #ffffff, #f8f9fa);
+    /* background: linear-gradient(to right, #f8f9fa, #ffffff, #f8f9fa); */
     position: relative;
 }
 
@@ -28,6 +28,11 @@
 .highlight:hover {
     transform: translateY(-2px);
     text-shadow: 2px 2px 4px rgba(26, 115, 232, 0.2);
+}
+
+.bg {
+    margin-top: 10rem;
+    background-color: rgba(197, 197, 197, 0.242);
 }
 
 /* Responsive design */

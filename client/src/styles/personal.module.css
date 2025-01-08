@@ -12,48 +12,55 @@
 }
 
 .sideDebtAlert {
-    margin-bottom: 1rem;
-    width: 100%;
+    position: fixed;
+    right: 20px;
+    top: 140px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    width: 190px;
+    z-index: 1000;
 }
 
 .debtInfo {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .debtLabel {
-    font-size: 16px;
     color: #666;
-    font-weight: 500;
+    font-size: 14px;
 }
 
 .debtAmount {
-    font-size: 32px;
-    font-weight: 600;
-    color: #dc3545;
+    color: #1a73e8;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .debtMessage {
-    font-size: 15px;
     color: #666;
-    line-height: 1.5;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .payDebtButton {
-    padding: 12px 20px;
-    background-color: #1a73e8;
+    margin-top: 15px;
+    width: 100%;
+    padding: 8px;
+    background: #1a73e8;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 500;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 17px;
+    transition: background-color 0.3s ease;
 }
 
 .payDebtButton:hover {
-    background-color: #1557b0;
+    background: #1557b0;
 }
 
 /* Header styling similar to Feedback */

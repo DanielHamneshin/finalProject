@@ -1,0 +1,182 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+}
+
+.content {
+    text-align: center;
+    padding: 40px;
+    max-width: 600px;
+}
+
+.content h1 {
+    font-size: 120px;
+    margin: 0;
+    background: linear-gradient(45deg, #1a73e8, #34a853);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.content h2 {
+    font-size: 32px;
+    color: #1a73e8;
+    margin: 20px 0;
+}
+
+.content p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.homeButton {
+    padding: 15px 40px;
+    font-size: 18px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2);
+}
+
+.homeButton:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(26, 115, 232, 0.3);
+}
+
+.illustration {
+    margin: 40px 0;
+    position: relative;
+    height: 200px;
+}
+
+.circle {
+    width: 200px;
+    height: 200px;
+    border: 8px solid #1a73e8;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.1;
+}
+
+.clipper {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.paper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.eyes {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.eye {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1a73e8;
+}
+
+.rosyCheeks {
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    height: 10px;
+}
+
+.rosyCheeks::before,
+.rosyCheeks::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffb3b3;
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.rosyCheeks::before {
+    left: 25%;
+}
+
+.rosyCheeks::after {
+    right: 25%;
+}
+
+.mouth {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 10px;
+    border: 2px solid #1a73e8;
+    border-radius: 0 0 20px 20px;
+    border-top: 0;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .content h1 {
+        font-size: 80px;
+    }
+
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .content p {
+        font-size: 16px;
+    }
+
+    .homeButton {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}

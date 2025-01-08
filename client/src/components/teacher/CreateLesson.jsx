@@ -41,9 +41,8 @@ const CreateLesson = ({ course, close }) => {
     }
     return (
         <div className={style.modalContent}>
-            <div className={style.modalHeader}>
+            <div className={`${style.modalHeader} ${style.fullWidth}`}>
                 <h2>Create Lesson for {course.name}</h2>
-                <button className={style.closeButton} onClick={close}>×</button>
             </div>
             <form className={style.form} onSubmit={(e) => {
                 e.preventDefault();
@@ -59,8 +58,8 @@ const CreateLesson = ({ course, close }) => {
                                 onChange={(e) => updateStudentStatus(e, index)}
                             />
                             <span className={`${style.status} ${item.status.toLowerCase() === 'present'
-                                    ? style.statusPresent
-                                    : style.statusAbsent
+                                ? style.statusPresent
+                                : style.statusAbsent
                                 }`}>
                                 {item.status}
                             </span>

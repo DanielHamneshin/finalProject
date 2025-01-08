@@ -3,15 +3,13 @@ import { Backdrop, Box, ClickAwayListener } from '@mui/material';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import CreateTest from './CreateTest';
 import CreateLesson from './CreateLesson';
-import StudentsInfo from './StudentsInfo';
 import style from '../../styles/teacherFeedback.module.css';
+
 const TeacherFeedback = () => {
     const navigate = useNavigate();
     const { courses } = useOutletContext();
-
     const [openTestCreation, setOpenTestCreation] = useState(false);
     const [openLessonCreation, setOpenLessonCreation] = useState(false);
-    const [openStudentInfo, setOpenStudentInfo] = useState(false);
     const [currentCourse, setCurrentCourse] = useState(null);
 
     const closeTest = () => {
@@ -20,10 +18,6 @@ const TeacherFeedback = () => {
 
     const closeLesson = () => {
         setOpenLessonCreation(false);
-    }
-
-    const closeStudentInfo = () => {
-        setOpenStudentInfo(false);
     }
 
     return (
@@ -68,8 +62,9 @@ const TeacherFeedback = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    setCurrentCourse(item);
-                                    setOpenStudentInfo(true);
+                                    navigate(`/teacherpersonal/feedback/students/${item._id}`, {
+                                        state: { course: item }
+                                    });
                                 }}
                             >
                                 <h3>Students Info</h3>
@@ -79,8 +74,6 @@ const TeacherFeedback = () => {
                     </div>
                 ))}
             </div>
-
-            {openStudentInfo && <StudentsInfo course={currentCourse} close={closeStudentInfo} />}
 
             {openTestCreation && <Backdrop open={openTestCreation}>
                 <ClickAwayListener onClickAway={() => closeTest()}>

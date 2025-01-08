@@ -22,6 +22,7 @@ import TeacherFeedback from './components/teacher/TeacherFeedback'
 import AdminPersonalArea from './pages/AdminPersonalArea'
 import PayDebt from './pages/PayDebt'
 import PayPal from './components/PayPal'
+import StudentsInfo from './components/teacher/StudentsInfo'
 
 const MainApp = () => {
     axios.defaults.withCredentials = true
@@ -68,6 +69,7 @@ const MainApp = () => {
                         <Route path="classroom/:courseName" element={<CourseAssignments />} />
                         <Route path="classroom/:courseName/assignment/:assignmentId" element={<TeacherAssignment />} />
                         <Route path="feedback" element={<TeacherFeedback />} />
+                        <Route path="feedback/students/:courseId" element={<StudentsInfo />} />
                     </Route>}
                 {user && user.role === "admin" &&
                     <Route path='/adminpersonal' element={<AdminPersonalArea />}>
