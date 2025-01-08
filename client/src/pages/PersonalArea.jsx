@@ -235,7 +235,7 @@ const PersonalArea = () => {
                                         {recentActivities?.assignments?.map((assignment, index) => (
                                             <div key={index} className={style.activityItem}>
                                                 <p>{assignment?.assignment_id?.course_id?.name}</p>
-                                                <p>{assignment.assignment_id.title}</p>
+                                                <p>{assignment?.assignment_id?.title}</p>
                                                 <p>{assignment?.assignment_id?.course_id?.teacherName}</p>
                                                 <p>Grade:
                                                     <span className={`${style.grade} ${getGradeClass(assignment.grade)}`}>

@@ -34,13 +34,21 @@ const Home = ({ setIsInitialLoad }) => {
         <div>
             <Header />
             <HeadImage />
-            <Carousel />
             <div className={style.quoteContainer}>
+                <h2>Experience Our <span className={style.highlight}>College</span></h2>
+            </div>
+            <Carousel />
+            <div className={`${style.quoteContainer} ${style.bg}`} >
                 <h2>
-                    <span className={style.highlight}>Studying</span> is where
+                    "<span className={style.highlight}>Studying</span> is where
                     <span className={style.highlight}> hard work</span> meets
                     <span className={style.highlight}> inspiration</span> to create
-                    <span className={style.highlight}> endless opportunities.</span>
+                    <span className={style.highlight}> endless opportunities.</span>"
+                </h2>
+            </div>
+            <div className={style.quoteContainer}>
+                <h2>
+                    View Some Of Our <span className={style.highlight}>Events</span>
                 </h2>
             </div>
             <Events />

@@ -44,9 +44,8 @@ const CreateTest = ({ course, close }) => {
     }
     return (
         <div className={style.modalContent}>
-            <div className={style.modalHeader}>
+            <div className={`${style.modalHeader} ${style.fullWidth}`}>
                 <h2>Create Test for {course.name}</h2>
-                <button className={style.closeButton} onClick={close}>×</button>
             </div>
             <form className={style.form} onSubmit={(e) => {
                 e.preventDefault();

@@ -24,7 +24,7 @@ const Event = ({ event }) => {
                 <div>
                     <h4>💰 Price</h4>
                     <div className={style.priceTag}>
-                        {event.price === 0 ? 'Free' : `$${event.price}`}
+                        {event.price === 0 ? 'Free' : `₪${event.price}`}
                     </div>
                 </div>
 

@@ -193,7 +193,7 @@ const UsersInfo = () => {
                                             </div>
                                         ) : (
                                             <div className={styles.debtDisplay}>
-                                                <span>${user.debt || '0'}</span>
+                                                    <span>₪{user.debt || '0'}</span>
                                                 <button
                                                     className={styles.editDebtButton}
                                                     onClick={() => handleEditDebt(user._id, user.debt || 0)}
