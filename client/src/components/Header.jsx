@@ -12,7 +12,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import logo from '../assets/LaStudentLogo.svg'; // Import your logo
-
+import PayPal from '../components/PayPal';
 const Header = () => {
     const { user, setUser } = useUserContext();
     const firstName = user ? user.name.split(" ")[0] : "";
@@ -123,15 +123,7 @@ const Header = () => {
                                 <div className="notification-item">
                                     <h3>Outstanding Payment</h3>
                                     <p>You have an outstanding payment of ₪{user.debt}</p>
-                                    <button
-                                        onClick={() => {
-                                            navigate('/personal/paydebt');
-                                            handleClose();
-                                        }}
-                                        style={notificationStyles.payButton}
-                                    >
-                                        Pay Now
-                                    </button>
+                                    <PayPal />
                                 </div>
                             )}
                         </Box>
