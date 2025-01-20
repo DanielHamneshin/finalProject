@@ -22,22 +22,23 @@ const Assignment = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [assignmentState, setAssignmentState] = useState(assignment);
 
     useEffect(() => {
-        if (assignment?.students[0]?.file) {
-            const bytes = new Uint8Array(assignment.students[0].file.data);
+        if (assignmentState?.students[0]?.file) {
+            const bytes = new Uint8Array(assignmentState.students[0].file.data);
             const base64String = btoa(String.fromCharCode.apply(null, bytes));
             const imageUrl = `data:image/png;base64,${base64String}`;
             setAssignmentImage(imageUrl);
         }
 
-        if (assignment?.file) {
-            const bytes = new Uint8Array(assignment.file.data);
+        if (assignmentState?.file) {
+            const bytes = new Uint8Array(assignmentState.file.data);
             const base64String = btoa(String.fromCharCode.apply(null, bytes));
             const imageUrl = `data:image/png;base64,${base64String}`;
             setAssignmentFileImage(imageUrl);
         }
-    }, [assignment]);
+    }, [assignmentState]);
 
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
@@ -64,7 +65,7 @@ const Assignment = () => {
                 const base64 = e.target.result;
                 try {
                     const { data } = await axios.post(
-                        UPLOAD_FILE + assignment._id + "/" + user._id,
+                        UPLOAD_FILE + assignmentState._id + "/" + user._id,
                         { file: base64.split(',')[1] }
                     );
 
@@ -103,7 +104,7 @@ const Assignment = () => {
         return null;
     }
 
-    console.log(assignment);
+    console.log(assignmentState);
     return (
         <>
             <Header />
@@ -112,7 +113,7 @@ const Assignment = () => {
                 <div className={style.headerPaper}>
                     <div className={style.headerContent}>
                         <div>
-                            <h1>{assignment.title}</h1>
+                            <h1>{assignmentState.title}</h1>
                             <p>Assignment Details</p>
                         </div>
                         <button
@@ -133,14 +134,14 @@ const Assignment = () => {
                         {/* Left side - Assignment Information */}
                         <div style={{ flex: '1' }}>
                             <h2>Assignment Information</h2>
-                            <p>Description: {assignment.description}</p>
-                            <p>Upload Date: {assignment?.uploadDate?.split('T')[0]}</p>
-                            <p>Finish Date: {assignment?.finishDate?.split('T')[0]}</p>
-                            <p className={`${style.status} ${assignment?.students[0]?.submitted ? style.statusSubmitted : style.statusPending}`}>
-                                Status: {assignment?.students[0]?.submitted ? "Submitted" : "Pending"}
+                            <p>Description: {assignmentState.description}</p>
+                            <p>Upload Date: {assignmentState?.uploadDate?.split('T')[0]}</p>
+                            <p>Finish Date: {assignmentState?.finishDate?.split('T')[0]}</p>
+                            <p className={`${style.status} ${assignmentState?.students[0]?.submitted ? style.statusSubmitted : style.statusPending}`}>
+                                Status: {assignmentState?.students[0]?.submitted ? "Submitted" : "Pending"}
                             </p>
-                            <p>Grade: <span className={`${style.grade} ${getGradeClass(assignment?.students[0]?.grade)}`}>
-                                {assignment?.students[0]?.grade || 'Not graded'}
+                            <p>Grade: <span className={`${style.grade} ${getGradeClass(assignmentState?.students[0]?.grade)}`}>
+                                {assignmentState?.students[0]?.grade || 'Not graded'}
                             </span></p>
                         </div>
 
@@ -162,7 +163,7 @@ const Assignment = () => {
                     </div>
 
                     {/* Upload Section */}
-                    {(new Date(assignment.finishDate) > new Date()) && (
+                    {(new Date(assignmentState.finishDate) > new Date()) ? (
                         <div className={style.uploadSection}>
                             <h3>Submit Your Work</h3>
                             <label className={style.fileInputLabel}>
@@ -202,6 +203,10 @@ const Assignment = () => {
                                     {isSubmitting ? 'Submitting...' : 'Submit Assignment'}
                                 </button>
                             )}
+                        </div>
+                    ) : (
+                        <div className={style.uploadSection}>
+                            <h3>Assignment is closed</h3>
                         </div>
                     )}
 
