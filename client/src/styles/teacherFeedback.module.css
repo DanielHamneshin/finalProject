@@ -225,6 +225,9 @@
     border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .studentInfoItem:hover {
@@ -605,4 +608,104 @@ body {
 .testNameInput:focus {
     outline: none;
     border-color: #1a73e8;
+}
+
+.gradeExcellent {
+    color: #0a7c42;
+    /* Green for 85+ */
+}
+
+.gradeGood {
+    color: #0056b3;
+    /* Blue for 70-84 */
+}
+
+.gradeWarning {
+    color: #ffc107;
+    /* Yellow for 55-69 */
+}
+
+.gradeFail {
+    color: #dc3545;
+    /* Red for below 55 */
+}
+
+.attendanceExcellent {
+    background-color: #e3fcef;
+    /* Light green for 85+ */
+    color: #0a7c42;
+    /* Dark green text */
+}
+
+.attendanceWarning {
+    background-color: #fff3cd;
+    /* Light yellow for 75-84 */
+    color: #856404;
+    /* Dark yellow text */
+}
+
+.attendanceFail {
+    background-color: #ffe9e9;
+    /* Light red for below 75 */
+    color: #dc3545;
+    /* Dark red text */
+}
+
+.studentsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.studentsTable th,
+.studentsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.studentsTable th {
+    background-color: #f2f2f2;
+}
+
+.studentsTable tr:hover {
+    background-color: #f1f1f1;
+    /* Highlight row on hover */
+}
+
+.gradesHeader {
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    margin-bottom: 10px;
+    /* Space between header and list */
+}
+
+.gradesHeader span {
+    flex: 1;
+    /* Equal space for each header item */
+}
+
+
+.studentsList {
+    list-style-type: none;
+    /* Remove default list styling */
+    padding: 0;
+    /* Remove padding */
+    margin: 0;
+    /* Remove margin */
+}
+
+.studentInfoItem {
+    display: flex;
+    justify-content: space-between;
+    /* Align items in the list */
+    padding: 8px 0;
+    /* Space between items */
+    border-bottom: 1px solid #ddd;
+    /* Optional: Add a border between items */
+}
+
+tr {
+    cursor: pointer;
 }
