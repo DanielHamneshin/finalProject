@@ -43,7 +43,7 @@ const Header = () => {
     const navigate = useNavigate()
     return (
         <AppBar>
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between", bgcolor: "white", height: "120px" }}>
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between", bgcolor: "white", height: "90px" }}>
                 {/* Logo with updated margin */}
                 <IconButton
                     onClick={() => navigate('/')}

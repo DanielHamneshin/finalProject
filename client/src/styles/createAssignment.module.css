@@ -41,6 +41,7 @@
     width: 90%;
     max-width: 600px;
     margin: auto;
+    margin-top: 50px;
 }
 
 .submitButton {
@@ -60,4 +61,15 @@
 .submitButton:hover {
     background: #1557b0;
     transform: translateY(-2px);
+}
+
+.previewImage {
+    display: flex;
+    justify-content: center;
+}
+
+.previewImage img {
+    text-align: center;
+    height: 300px;
+    width: 500px;
 }

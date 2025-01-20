@@ -4,6 +4,7 @@ import { CREATE_ASSIGNMENT, UPLOAD_FILE } from '../../constants/endPoint';
 import axios from 'axios';
 import { Backdrop, ClickAwayListener } from '@mui/material';
 import style from '../../styles/createAssignment.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAssignment = ({ currentCourse, close, isOpen }) => {
   const { user } = useUserContext();
@@ -20,7 +21,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
   const [previewImage, setPreviewImage] = useState(null);
   const [isLarge, setIsLarge] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAssignment(prev => ({
@@ -48,7 +49,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
       reader.readAsDataURL(file);
     }
   };
-
+  console.log(currentCourse);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (selectedFile) {
@@ -59,6 +60,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
           const { data } = await axios.post(CREATE_ASSIGNMENT, assignment);
 
           console.log(data);
+          close();
           // Show success message or refresh data
         } catch (error) {
           console.error(error);
@@ -124,7 +126,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
           </div>
 
           {/* Preview Section */}
-          {/* {previewImage && (
+          {previewImage && (
             <div className={style.previewImage}>
               <img
                 onClick={(e) => {
@@ -135,10 +137,10 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
                 alt="Preview"
               />
             </div>
-          )} */}
+          )}
 
           {/* Large Image Modal */}
-          {/* {isLarge && (
+          {isLarge && (
             <Backdrop open={isLarge}>
               <ClickAwayListener onClickAway={() => setIsLarge(false)}>
                 <img
@@ -148,7 +150,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
                 />
               </ClickAwayListener>
             </Backdrop>
-          )} */}
+          )}
 
           <button type="submit" className={style.submitButton}>
             Create Assignment
