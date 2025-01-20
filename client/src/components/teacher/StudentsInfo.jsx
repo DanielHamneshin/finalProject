@@ -43,13 +43,19 @@ const StudentsInfo = () => {
     useEffect(() => {
         getAllStudents(course);
     }, [])
-    console.log(studentInfo);
+    console.log(allStudents);
 
     const getGradeStyle = (grade) => {
         if (grade >= 85) return style.gradeExcellent;
         if (grade >= 70) return style.gradeGood;
         if (grade >= 55) return style.gradeWarning;
         return style.gradeFail;
+    };
+
+    const getAttendanceStyle = (attendance) => {
+        if (attendance >= 85) return style.attendanceExcellent;
+        if (attendance >= 75) return style.attendanceWarning;
+        return style.attendanceFail;
     };
 
     const getStatusStyle = (status) => {
@@ -124,20 +130,35 @@ const StudentsInfo = () => {
                         />
                     </div>
 
-                    <ul className={style.studentsList}>
-                        {filteredStudents.map((student) => (
-                            <li
-                                key={student._id}
-                                className={style.studentInfoItem}
-                                onClick={() => {
-                                    getStudentsInfo(student)
-                                    setStudentName(student.name)
-                                }}
-                            >
-                                {student.name}
-                            </li>
-                        ))}
-                    </ul>
+                    <table className={style.studentsTable}>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Avg Test Grade</th>
+                                <th>Avg Assignment Grade</th>
+                                <th>Attendance Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredStudents.map((student) => (
+                                <tr key={student._id} onClick={() => {
+                                    getStudentsInfo(student);
+                                    setStudentName(student.name);
+                                }}>
+                                    <td>{student.name}</td>
+                                    <td className={getGradeStyle(Math.floor(student.avgTestGrade))}>
+                                        {Math.floor(student.avgTestGrade)}
+                                    </td>
+                                    <td className={getGradeStyle(Math.floor(student.avgAssignmentGrade))}>
+                                        {Math.floor(student.avgAssignmentGrade)}
+                                    </td>
+                                    <td className={getAttendanceStyle(Math.floor(student.attendancePercentage))}>
+                                        {Math.floor(student.attendancePercentage)}%
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </>
             ) : (
                 <div>

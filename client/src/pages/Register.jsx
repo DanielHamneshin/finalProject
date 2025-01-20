@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import axios from "axios"
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import style from '../styles/login.module.css'
 import { MAJORS_URL, REGISTER_URL } from '../constants/endPoint.js';
 
@@ -9,6 +9,7 @@ import { MAJORS_URL, REGISTER_URL } from '../constants/endPoint.js';
 const Register = () => {
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const [majors, setMajors] = useState([]);
+    const navigate = useNavigate();
 
 
     const getMajors = async () => {
@@ -30,6 +31,7 @@ const Register = () => {
             const res = await axios.post(REGISTER_URL, watch());
             console.log("created successfully");
             reset();
+            navigate("/login");
         } catch (error) {
             console.error("error creating user " + error);
         }

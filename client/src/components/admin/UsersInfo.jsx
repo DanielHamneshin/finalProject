@@ -3,6 +3,9 @@ import { useUserContext } from '../../contexts/UserContext';
 import axios from 'axios';
 import { STUDENTS_URL, TEACHERS_URL, UPDATE_DEBT_URL } from '../../constants/endPoint';
 import styles from '../../styles/usersInfo.module.css';
+import CreateTeacher from './CreateTeacher';
+import CreateCourse from './CreateCourse';
+import CreateMajor from './CreateMajor';
 
 const UsersInfo = () => {
     const { user } = useUserContext();
@@ -18,6 +21,9 @@ const UsersInfo = () => {
     const [newDebtValue, setNewDebtValue] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [pendingUpdate, setPendingUpdate] = useState(null);
+    const [showCreateTeacher, setShowCreateTeacher] = useState(false);
+    const [showCreateCourse, setShowCreateCourse] = useState(false);
+    const [showCreateMajor, setShowCreateMajor] = useState(false);
 
     const fetchUsers = async () => {
         try {
@@ -98,6 +104,16 @@ const UsersInfo = () => {
                 <h1>Users Management</h1>
                 <p>Manage students and teachers</p>
             </div>
+
+            <div className={styles.buttonContainer}>
+                <button className={styles.button} onClick={() => setShowCreateTeacher(true)}>Create Teacher</button>
+                <button className={styles.button} onClick={() => setShowCreateCourse(true)}>Create Course</button>
+                <button className={styles.button} onClick={() => setShowCreateMajor(true)}>Create Major</button>
+            </div>
+
+            {showCreateTeacher && <CreateTeacher open={showCreateTeacher} close={() => setShowCreateTeacher(false)} />}
+            {showCreateCourse && <CreateCourse open={showCreateCourse} close={() => setShowCreateCourse(false)} />}
+            {showCreateMajor && <CreateMajor open={showCreateMajor} close={() => setShowCreateMajor(false)} />}
 
             <div className={styles.filters}>
                 <div className={styles.filterGroup}>
@@ -193,7 +209,7 @@ const UsersInfo = () => {
                                             </div>
                                         ) : (
                                             <div className={styles.debtDisplay}>
-                                                    <span>₪{user.debt || '0'}</span>
+                                                <span>₪{user.debt || '0'}</span>
                                                 <button
                                                     className={styles.editDebtButton}
                                                     onClick={() => handleEditDebt(user._id, user.debt || 0)}
