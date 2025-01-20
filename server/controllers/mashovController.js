@@ -93,7 +93,30 @@ exports.getAllStudentsByCourse = async (req, res) => {
     const course = await Course.findById(req.params.course_id);
     const students = await Promise.all(
       course.students_id.map(async (studentId) => {
-        return await Student.findById(studentId).select("name _id email");
+        const student = await Student.findById(studentId)
+          .select("name _id email tests assignments presence");
+
+        // Calculate average grade for tests
+        const testGrades = student.tests.map(test => test.grade);
+        const avgTestGrade = testGrades.length > 0 ? (testGrades.reduce((a, b) => a + b, 0) / testGrades.length).toFixed(2) : 0;
+
+        // Calculate average grade for assignments
+        const assignmentGrades = student.assignments.map(assignment => assignment.grade);
+        const avgAssignmentGrade = assignmentGrades.length > 0 ? (assignmentGrades.reduce((a, b) => a + b, 0) / assignmentGrades.length).toFixed(2) : 0;
+
+        // Calculate attendance percentage
+        const totalClasses = student.presence.length;
+        const attendedClasses = student.presence.filter(record => record.status === 'present').length;
+        const attendancePercentage = totalClasses > 0 ? ((attendedClasses / totalClasses) * 100).toFixed(2) : 0;
+
+        return {
+          name: student.name,
+          _id: student._id,
+          email: student.email,
+          avgTestGrade,
+          avgAssignmentGrade,
+          attendancePercentage
+        };
       })
     );
     res.status(200).json(students);

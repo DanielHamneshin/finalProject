@@ -99,6 +99,22 @@ exports.addMajor = async (req, res) => {
     }
 }
 
+exports.addCourse = async (req, res) => {
+    try {
+        const { name, teacher_id, is_mandatory } = req.body
+        const teacher = await Teacher.findById(teacher_id)
+        const newCourse = new Course({
+            name: name,
+            teacherName: teacher.name,
+            is_mandatory: is_mandatory
+        })
+        await newCourse.save()
+        res.status(200).json(newCourse)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
 exports.addCourses = async (req, res) => {
     try {
         const { names, teacher_id, is_mandatory } = req.body
