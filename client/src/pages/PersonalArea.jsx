@@ -8,6 +8,7 @@ import { GET_ALL_COURSES_URL, GET_RECENT_ACTIVITIES_URL, OPTIONAL_COURSES_CHOOSE
 import Feedback from '../components/Feedback'
 import StudentClassroom from '../components/StudentClassroom'
 import { Outlet, useNavigate } from 'react-router-dom'
+import PayPal from '../components/PayPal'
 // TODO: only added studens card
 const PersonalArea = () => {
     const [effectTrigger, setEffectTrigger] = useState(false);
@@ -117,17 +118,20 @@ const PersonalArea = () => {
                     <div className={style.sideDebtAlert}>
                         <div className={style.debtInfo}>
                             <span className={style.debtLabel}>Outstanding Balance</span>
-                            <span className={style.debtAmount}>${user.debt}</span>
+                            <span className={style.debtAmount}>₪{user.debt}</span>
                             <span className={style.debtMessage}>
                                 Please settle your payment to maintain full access to all features.
                             </span>
                         </div>
-                        <button
+                        {/* <button
                             className={style.payDebtButton}
                             onClick={() => navigate('/personal/paydebt')}
                         >
                             Pay Now
-                        </button>
+                        </button> */}
+                        <div className={style.payButton}>
+                            <PayPal />
+                        </div>
                     </div>
                 )}
 
