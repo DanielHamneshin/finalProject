@@ -68,7 +68,7 @@ const Header = () => {
                 </IconButton>
 
                 {/* Welcome message */}
-                {user && <h1 style={{ color: "black" }}>Hello {user.name}</h1>}
+                {user && <h1 style={{ color: "black" }}>{user.name} - {user.role}</h1>}
 
                 <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
                     {/* Notification Bell */}
