@@ -22,6 +22,12 @@ const TeacherFeedback = () => {
 
     const closeTest = () => {
         setOpenTestCreation(false);
+        // Show success message
+        setSuccessMessage('Test created successfully!');
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false);
+        }, 3000);
     }
 
     const closeLesson = () => {
