@@ -9,6 +9,7 @@ import { MAJORS_URL, REGISTER_URL } from '../constants/endPoint.js';
 const Register = () => {
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const [majors, setMajors] = useState([]);
+    const [registerError, setRegisterError] = useState("");
     const navigate = useNavigate();
 
 
@@ -28,11 +29,13 @@ const Register = () => {
 
     const registeration = async () => {
         try {
+            setRegisterError("");
             const res = await axios.post(REGISTER_URL, watch());
             console.log("created successfully");
             reset();
             navigate("/login");
         } catch (error) {
+            setRegisterError(error.response?.data?.msg || "Error creating account");
             console.error("error creating user " + error);
         }
     }
@@ -40,6 +43,7 @@ const Register = () => {
         <div className={style.container}>
             <form className={style.form} onSubmit={handleSubmit(registeration)}>
                 <h1>Register</h1>
+                {registerError && <p className={style.error}>{registerError}</p>}
                 {errors.name && <p className={style.error}>{errors.name.message}</p>}
                 <input type="text" placeholder='name' {...register("name", { required: { value: true, message: "name is required" } })} />
 

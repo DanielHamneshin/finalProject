@@ -11,40 +11,47 @@ const Login = () => {
     const [emailPlaceHolder, setEmailPlaceHolder] = useState("email");
     const [passwordPlaceHolder, setPasswordPlaceHolder] = useState("password");
     const [role, setRole] = useState('student');
+    const [loginError, setLoginError] = useState("");
     const navigate = useNavigate();
     axios.defaults.withCredentials = true
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
 
     const studentLoging = async () => {
         try {
+            setLoginError("");
             const res = await axios.post(LOGIN_URL, watch());
             console.log("logged in successfully");
             reset();
             navigate("/");
         } catch (error) {
-            console.error("error loginng in " + error);
+            setLoginError(error.response?.data?.msg || "Error logging in");
+            console.error("error logging in " + error);
         }
     }
 
     const teacherLoging = async () => {
         try {
+            setLoginError("");
             const { data } = await axios.post(TEACHER_LOGIN, watch());
             console.log("logged in successfully");
             reset();
             navigate("/");
         } catch (error) {
-            console.error("error loginng in " + error);
+            setLoginError(error.response?.data?.msg || "Error logging in");
+            console.error("error logging in " + error);
         }
     }
 
     const adminLoging = async () => {
         try {
+            setLoginError("");
             const res = await axios.post(ADMIN_LOGIN, watch());
             console.log("logged in successfully");
             reset();
             navigate("/");
         } catch (error) {
-            console.error("error loginng in " + error);
+            setLoginError(error.response?.data?.msg || "Error logging in");
+            console.error("error logging in " + error);
         }
     }
     return (
@@ -68,10 +75,27 @@ const Login = () => {
                 })}>
                     <h1>Login</h1>
 
-                    <input onBlurCapture={() => setEmailPlaceHolder("email")} onFocus={() => setEmailPlaceHolder("")} type="email" placeholder={emailPlaceHolder} {...register("email")} />
-                    <input onBlurCapture={() => setPasswordPlaceHolder("password")} onFocus={() => setPasswordPlaceHolder("")} type="password" placeholder={passwordPlaceHolder} {...register("password")} />
-                    {role === "teacher" && <input type="password" {...register("teacherPassword")} placeholder='teacher password' />}
-                    {role === "admin" && <input type="password" {...register("adminPassword")} placeholder='admin password' />}
+                    {loginError && <p className={style.error}>{loginError}</p>}
+
+                    {errors.email && <p className={style.error}>{errors.email.message}</p>}
+                    <input onBlurCapture={() => setEmailPlaceHolder("email")} onFocus={() => setEmailPlaceHolder("")} type="email" placeholder={emailPlaceHolder} {...register("email", { required: { value: true, message: "email is required" } })} />
+
+                    {errors.password && <p className={style.error}>{errors.password.message}</p>}
+                    <input onBlurCapture={() => setPasswordPlaceHolder("password")} onFocus={() => setPasswordPlaceHolder("")} type="password" placeholder={passwordPlaceHolder} {...register("password", { required: { value: true, message: "password is required" } })} />
+
+                    {role === "teacher" && (
+                        <>
+                            {errors.teacherPassword && <p className={style.error}>{errors.teacherPassword.message}</p>}
+                            <input type="password" {...register("teacherPassword", { required: { value: true, message: "teacher password is required" } })} placeholder='teacher password' />
+                        </>
+                    )}
+
+                    {role === "admin" && (
+                        <>
+                            {errors.adminPassword && <p className={style.error}>{errors.adminPassword.message}</p>}
+                            <input type="password" {...register("adminPassword", { required: { value: true, message: "admin password is required" } })} placeholder='admin password' />
+                        </>
+                    )}
 
                     <select name="" id="" onChange={(e) => setRole(e.target.value)}>
                         <option value="student">student</option>
