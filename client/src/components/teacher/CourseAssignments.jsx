@@ -31,6 +31,8 @@ const CourseAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   // Find the course object that matches the courseName from the URL
   const currentCourse = courses.find((course) => course.name === courseName);
 
@@ -65,9 +67,37 @@ const CourseAssignments = () => {
     assignment.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  const handleClose = () => {
+    setIsOpen(false);
+    // Show success message
+    setSuccessMessage('Assignment created successfully!');
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 3000);
+  };
+
   // console.log(assignments);
   return (
     <Box sx={{ maxWidth: 1200, margin: "0 auto", padding: 3, marginTop: "50px" }}>
+      {showSuccess && (
+        <div style={{
+          position: 'fixed',
+          marginTop: '200px',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          padding: '16px 24px',
+          borderRadius: '4px',
+          zIndex: 1000,
+          boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+          animation: 'slideIn 0.3s ease-out'
+        }}>
+          {successMessage}
+        </div>
+      )}
       {/* Header */}
       <Paper
         elevation={3}
@@ -191,7 +221,7 @@ const CourseAssignments = () => {
       >
         <AddIcon />
       </Fab>
-      {isOpen && <CreateAssignment currentCourse={currentCourse} close={() => setIsOpen(false)} isOpen={isOpen} />}
+      {isOpen && <CreateAssignment currentCourse={currentCourse} close={handleClose} isOpen={isOpen} />}
     </Box>
   );
 };
