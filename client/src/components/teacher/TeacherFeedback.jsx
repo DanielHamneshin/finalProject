@@ -12,6 +12,8 @@ const TeacherFeedback = () => {
     const [openLessonCreation, setOpenLessonCreation] = useState(false);
     const [currentCourse, setCurrentCourse] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     // Filter courses based on search text
     const filteredCourses = courses.filter(course =>
@@ -20,14 +22,31 @@ const TeacherFeedback = () => {
 
     const closeTest = () => {
         setOpenTestCreation(false);
+        // Show success message
+        setSuccessMessage('Test created successfully!');
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false);
+        }, 3000);
     }
 
     const closeLesson = () => {
         setOpenLessonCreation(false);
+        // Show success message
+        setSuccessMessage('Lesson created successfully!');
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false);
+        }, 3000);
     }
 
     return (
         <div className={style.main}>
+            {showSuccess && (
+                <div className={style.successAlert}>
+                    {successMessage}
+                </div>
+            )}
             <div className={style.headerPaper}>
                 <div className={style.headerContent}>
                     <div>
