@@ -26,7 +26,11 @@ const CreateLesson = ({ course, close }) => {
 
     const createLesson = async () => {
         try {
-            const { data } = await axios.post(CREATE_LESSON, { course_name: course.name, teacher_id: user._id, students: students });
+            const { data } = await axios.post(CREATE_LESSON, {
+                course_name: course.name,
+                teacher_id: user._id,
+                students: students
+            });
             close();
         } catch (error) {
             console.error(error);
