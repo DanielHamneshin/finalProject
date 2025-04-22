@@ -151,9 +151,9 @@ exports.gradeAssignment = async (req, res) => {
             }
         );
         const finalAssignment = await Assignment.findById(assignmentId).populate("students.student_details", "name")
-        console.log("assignment : " + finalAssignment);
-        console.log("name  : " + finalAssignment.students[0].student_details);
-        console.log("name  : " + finalAssignment.students[0]);
+        // console.log("assignment : " + finalAssignment);
+        // console.log("name  : " + finalAssignment.students[0].student_details);
+        // console.log("name  : " + finalAssignment.students[0]);
         res.status(200).json(finalAssignment);
     } catch (error) {
         console.error(error);
