@@ -76,6 +76,14 @@ const Assignment = () => {
                     setSelectedFile(null);
                     setSelectedFileName('');
                     setPreviewImage(null);
+                    setAssignmentState(prev => ({
+                        ...prev,
+                        students: prev.students.map(student => ({
+                            ...student,
+                            submitted: true
+                        }))
+                    }));
+
 
                     console.log("File uploaded successfully");
                 } catch (error) {
