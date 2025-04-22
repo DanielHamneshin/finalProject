@@ -65,10 +65,7 @@ const TeacherAssignment = () => {
 
     // Filter students based on search text
     const filteredStudents = assignmentState?.students?.filter(student => {
-        const matchesSearch = student.student_details.name
-            .toLowerCase()
-            .includes(searchText.toLowerCase());
-
+        const matchesSearch = student.student_details?.name?.toLowerCase()?.includes(searchText.toLowerCase());
         const matchesSubmission =
             submissionFilter === 'all' ||
             (submissionFilter === 'submitted' && student.submitted) ||
@@ -82,10 +79,11 @@ const TeacherAssignment = () => {
         return matchesSearch && matchesSubmission && matchesGrading;
     });
 
-    if (!assignment) {
+    if (!assignmentState) {
         navigate('/teacherpersonal/classroom');
         return null;
     }
+
     return (
         <>
             <Header />
