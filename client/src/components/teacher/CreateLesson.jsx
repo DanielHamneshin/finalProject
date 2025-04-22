@@ -4,7 +4,7 @@ import { CREATE_LESSON, GET_ALL_STUDENTS } from '../../constants/endPoint';
 import axios from 'axios';
 import style from '../../styles/teacherFeedback.module.css';
 
-const CreateLesson = ({ course, close }) => {
+const CreateLesson = ({ course, close, showSuccess }) => {
     const { user } = useUserContext();
     const [students, setStudents] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -32,6 +32,7 @@ const CreateLesson = ({ course, close }) => {
                 students: students
             });
             close();
+            showSuccess();
         } catch (error) {
             console.error(error);
         }
