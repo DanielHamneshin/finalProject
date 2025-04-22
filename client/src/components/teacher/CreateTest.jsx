@@ -4,7 +4,7 @@ import { CREATE_TEST, GET_ALL_STUDENTS } from '../../constants/endPoint';
 import { useUserContext } from '../../contexts/UserContext';
 import style from '../../styles/teacherFeedback.module.css';
 
-const CreateTest = ({ course, close }) => {
+const CreateTest = ({ course, close, showSuccess }) => {
     const { user } = useUserContext();
     const [students, setStudents] = useState([]);
     const [testName, setTestName] = useState("");
@@ -30,6 +30,7 @@ const CreateTest = ({ course, close }) => {
         try {
             const { data } = await axios.post(CREATE_TEST, { name: testName, course_name: course.name, teacher_id: user._id, students: students });
             close();
+            showSuccess();
         } catch (error) {
             console.error(error);
         }

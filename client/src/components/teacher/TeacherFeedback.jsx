@@ -22,7 +22,9 @@ const TeacherFeedback = () => {
 
     const closeTest = () => {
         setOpenTestCreation(false);
-        // Show success message
+    }
+
+    const showTestSuccess = () => {
         setSuccessMessage('Test created successfully!');
         setShowSuccess(true);
         setTimeout(() => {
@@ -32,7 +34,9 @@ const TeacherFeedback = () => {
 
     const closeLesson = () => {
         setOpenLessonCreation(false);
-        // Show success message
+    }
+
+    const showLessonSuccess = () => {
         setSuccessMessage('Lesson created successfully!');
         setShowSuccess(true);
         setTimeout(() => {
@@ -113,7 +117,7 @@ const TeacherFeedback = () => {
             {openTestCreation && <Backdrop open={openTestCreation}>
                 <ClickAwayListener onClickAway={() => closeTest()}>
                     <Box>
-                        <CreateTest course={currentCourse} close={closeTest} />
+                        <CreateTest course={currentCourse} close={closeTest} showSuccess={showTestSuccess} />
                     </Box>
                 </ClickAwayListener>
             </Backdrop>}
@@ -121,7 +125,7 @@ const TeacherFeedback = () => {
             {openLessonCreation && <Backdrop open={openLessonCreation}>
                 <ClickAwayListener onClickAway={() => closeLesson()}>
                     <Box>
-                        <CreateLesson course={currentCourse} close={closeLesson} />
+                        <CreateLesson course={currentCourse} close={closeLesson} showSuccess={showLessonSuccess} />
                     </Box>
                 </ClickAwayListener>
             </Backdrop>}
