@@ -67,6 +67,8 @@ const TEACHERS_URL = ADMIN_BASE_URL + "teachers/"
 
 const UPDATE_DEBT_URL = ADMIN_BASE_URL + "students/debt/"
 
+const CREATE_TEACHER = BASE_URL + "auth/teacher/create"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -94,5 +96,6 @@ export {
     STUDENTS_URL,
     TEACHERS_URL,
     UPDATE_DEBT_URL,
-    GET_RECENT_ACTIVITIES_URL
+    GET_RECENT_ACTIVITIES_URL,
+    CREATE_TEACHER
 }
