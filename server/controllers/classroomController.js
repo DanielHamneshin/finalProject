@@ -117,7 +117,7 @@ exports.gradeAssignment = async (req, res) => {
         const { student_id, grade } = req.body
         // Find the assignment
         const assignment = await Assignment.findOne({ _id: assignmentId, "students.student_details": student_id });
-        console.log(assignment)
+        //console.log(assignment)
         if (!assignment) {
             return res.status(404).json({ msg: "Assignment not found" });
         }
@@ -125,7 +125,7 @@ exports.gradeAssignment = async (req, res) => {
         // if (Date.now() <= new Date(assignment.finishDate)) {
         //     return res.status(400).json({ msg: "Assignment not finished yet" });
         // }
-        console.log(grade);
+       // console.log(grade);
 
 
         const updatedAssignment = await Assignment.updateOne({
@@ -150,7 +150,10 @@ exports.gradeAssignment = async (req, res) => {
                 }
             }
         );
-        const finalAssignment = await Assignment.findById(assignmentId)
+        const finalAssignment = await Assignment.findById(assignmentId).populate("students.student_details", "name")
+        // console.log("assignment : " + finalAssignment);
+        // console.log("name  : " + finalAssignment.students[0].student_details);
+        // console.log("name  : " + finalAssignment.students[0]);
         res.status(200).json(finalAssignment);
     } catch (error) {
         console.error(error);
