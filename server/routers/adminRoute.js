@@ -15,9 +15,11 @@ router.get("/teachers", adminController.getAllTeachers);
 router.delete("/teachers/:id", adminController.removeTeacherAndReplace);
 
 // Majors
-router.post("/majors", adminController.addMajor);
+router.post("/majors", adminController.createMajor);
 
 // Courses
-router.post("/courses", adminController.addCourses);
-
+router.post("/course", adminController.craeteCourse);
+router.post("/courses", adminController.createCourses);
+router.get("/coureses/without-major", adminController.getCoursesWithoutMajor);
+router.put("/course/add",adminController.addCourseToMajor);
 module.exports = router;

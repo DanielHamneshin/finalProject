@@ -75,47 +75,56 @@ exports.giveStudentDebt = async (req, res) => {
 // login
 // add major with courses : geting array if courses names that nedd to be created
 //finished
-exports.addMajor = async (req, res) => {
-    try {
-        const { courses, major, teacher, max_choices } = req.body
-        // Find existing courses by their IDs
-        const courseIds = courses.map(course => course._id);
-        const existingCourses = await Course.find({ _id: { $in: courseIds } });
+// exports.addMajor = async (req, res) => {
+//     try {
+//         const { courses, major, teacher, max_choices } = req.body
+//         // Find existing courses by their IDs
+//         const courseIds = courses.map(course => course._id);
+//         const existingCourses = await Course.find({ _id: { $in: courseIds } });
 
-        if (existingCourses.length !== courses.length) {
-            return res.status(400).json({ msg: "Some courses were not found" });
-        }
-        //need to think weather we need to add an existing course to major without creating a new one
-        const newMajor = new Major({
-            title: major,
-            courses: courseIds,
-            max_choices: max_choices
-        });
+//         if (existingCourses.length !== courses.length) {
+//             return res.status(400).json({ msg: "Some courses were not found" });
+//         }
+//         //need to think weather we need to add an existing course to major without creating a new one
+//         const newMajor = new Major({
+//             title: major,
+//             courses: courseIds,
+//             max_choices: max_choices
+//         });
 
-        await newMajor.save();
-        res.status(200).json(newMajor);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-}
+//         await newMajor.save();
+//         res.status(200).json(newMajor);
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// }
 
-exports.addCourse = async (req, res) => {
+exports.craeteCourse = async (req, res) => {
     try {
         const { name, teacher_id, is_mandatory } = req.body
         const teacher = await Teacher.findById(teacher_id)
+
+        if(!teacher ||await Course.findOne({name:name})){
+            return res.status(400).json({ msg: "cannot add course" });
+        }
         const newCourse = new Course({
             name: name,
             teacherName: teacher.name,
             is_mandatory: is_mandatory
         })
         await newCourse.save()
+        await Teacher.findByIdAndUpdate(
+            teacher_id,
+            { $push: { courses: newCourse._id } }
+        );
+
         res.status(200).json(newCourse)
     } catch (err) {
         res.status(500).json(err)
     }
 }
 
-exports.addCourses = async (req, res) => {
+exports.createCourses = async (req, res) => {
     try {
         const { names, teacher_id, is_mandatory } = req.body
         const teacher = await Teacher.findById(teacher_id);
@@ -134,12 +143,72 @@ exports.addCourses = async (req, res) => {
             teacher_id,
             { $push: { courses: { $each: newCourses } } }
         );
-        res.status(200).json(newcourse);
+        res.status(200).json(newCourses);
     } catch (err) {
         res.status(500).json(err);
     }
 }
 
+exports.getCoursesWithoutMajor = async (req, res) => {
+
+    try {
+        // get all courses that has a major
+        const majorCourses = await Major.find().select("courses");
+
+        const allMajorCourses = majorCourses.flatMap(major => major.courses);
+
+        const coursesWithoutMajor = await Course.find({ _id: { $nin: allMajorCourses } }).select("name");
+
+        res.status(200).json(coursesWithoutMajor);
+
+
+    } catch (error) {
+        res.status(500).json({msg : "Error retrieving courses without major : " + error});
+    }
+}
+
+exports.createMajor  = async (req, res) => {
+    try {
+        const { courses, title, max_choices } = req.body
+        if(!courses || !title || !max_choices){
+            return res.status(400).json({ msg: "cannot add major" });
+        }
+        else if(await Major.findOne({title:title})){
+            return res.status(400).json({ msg: "major already exists" });
+        }
+        const newMajor = new Major({
+            title: title,
+            courses: courses,
+            max_choices: max_choices
+        }) 
+        res.status(200).json(newMajor);
+    } catch (error) {
+        res.status(500).json({msg : "Error adding major : " + error});
+    }
+}
+
+exports.addCourseToMajor = async (req, res) => {
+const { course_id, major_id } = req.body
+    try {
+        const major = await Major.findById(major_id)
+        const course = await Course.findById(course_id)
+        if(!major){
+            return res.status(400).json({ msg: "major not found" });
+        }
+        else if(!course){
+            return res.status(400).json({ msg: "course not found" });
+        }
+        const newMajor = await Major.updateOne(
+            { _id: major_id },
+            { $push: { courses: course_id } }
+        )
+        res.status(200).json(newMajor)
+
+    }catch (error) {
+        res.status(500).json({msg : "Error adding course to major : " + error});
+    }
+
+}
 
 
 
