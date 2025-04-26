@@ -104,7 +104,7 @@ exports.craeteCourse = async (req, res) => {
         const { name, teacher_id, is_mandatory } = req.body
         const teacher = await Teacher.findById(teacher_id)
 
-        if(!teacher ||await Course.findOne({name:name})){
+        if (!teacher || await Course.findOne({ name: name })) {
             return res.status(400).json({ msg: "cannot add course" });
         }
         const newCourse = new Course({
@@ -163,39 +163,40 @@ exports.getCoursesWithoutMajor = async (req, res) => {
 
 
     } catch (error) {
-        res.status(500).json({msg : "Error retrieving courses without major : " + error});
+        res.status(500).json({ msg: "Error retrieving courses without major : " + error });
     }
 }
 
-exports.createMajor  = async (req, res) => {
+exports.createMajor = async (req, res) => {
     try {
         const { courses, title, max_choices } = req.body
-        if(!courses || !title || !max_choices){
+        if (!courses || !title || !max_choices) {
             return res.status(400).json({ msg: "cannot add major" });
         }
-        else if(await Major.findOne({title:title})){
+        else if (await Major.findOne({ title: title })) {
             return res.status(400).json({ msg: "major already exists" });
         }
         const newMajor = new Major({
             title: title,
             courses: courses,
             max_choices: max_choices
-        }) 
+        })
+        await newMajor.save();
         res.status(200).json(newMajor);
     } catch (error) {
-        res.status(500).json({msg : "Error adding major : " + error});
+        res.status(500).json({ msg: "Error adding major : " + error });
     }
 }
 
 exports.addCourseToMajor = async (req, res) => {
-const { course_id, major_id } = req.body
+    const { course_id, major_id } = req.body
     try {
         const major = await Major.findById(major_id)
         const course = await Course.findById(course_id)
-        if(!major){
+        if (!major) {
             return res.status(400).json({ msg: "major not found" });
         }
-        else if(!course){
+        else if (!course) {
             return res.status(400).json({ msg: "course not found" });
         }
         const newMajor = await Major.updateOne(
@@ -204,8 +205,8 @@ const { course_id, major_id } = req.body
         )
         res.status(200).json(newMajor)
 
-    }catch (error) {
-        res.status(500).json({msg : "Error adding course to major : " + error});
+    } catch (error) {
+        res.status(500).json({ msg: "Error adding course to major : " + error });
     }
 
 }
