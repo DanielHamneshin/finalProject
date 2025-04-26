@@ -69,6 +69,12 @@ const UPDATE_DEBT_URL = ADMIN_BASE_URL + "students/debt/"
 
 const CREATE_TEACHER = BASE_URL + "auth/teacher/create"
 
+const GET_UNASSIGNED_COURSES = ADMIN_BASE_URL + "coureses/without-major/"
+
+const CREATE_MAJOR = ADMIN_BASE_URL + "majors/"
+
+const CREATE_COURSE = ADMIN_BASE_URL + "course"
+
 export {
     USER_BASE_URL,
     LOGIN_URL,
@@ -97,5 +103,8 @@ export {
     TEACHERS_URL,
     UPDATE_DEBT_URL,
     GET_RECENT_ACTIVITIES_URL,
-    CREATE_TEACHER
+    CREATE_TEACHER,
+    GET_UNASSIGNED_COURSES,
+    CREATE_MAJOR,
+    CREATE_COURSE
 }
