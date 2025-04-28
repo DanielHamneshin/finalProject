@@ -10,7 +10,7 @@ const createTeacher = require("../controllers/authController").createTeacher
 
 exports.getAllStudents = async (req, res) => {
     try {
-        const students = await Student.find();
+        const students = await Student.find().populate("courses","name")
         res.status(200).json(students);
     } catch (err) {
         res.status(500).json(err);
