@@ -102,7 +102,7 @@ const TeacherFeedback = () => {
                             <button
                                 onClick={() => {
                                     navigate(`/teacherpersonal/feedback/students/${item._id}`, {
-                                        state: { course: item }
+                                        state: { course: item, student_id: null, isAdminStudent: false, isAdminCourse: false }
                                     });
                                 }}
                             >

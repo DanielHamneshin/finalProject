@@ -6,10 +6,13 @@ import styles from '../../styles/usersInfo.module.css';
 import CreateTeacher from './CreateTeacher';
 import CreateCourse from './CreateCourse';
 import CreateMajor from './CreateMajor';
+import { Backdrop, Box, ClickAwayListener } from '@mui/material';
+import { ChooseCourseWindow } from './ChooseCourseWindow';
+import { useNavigate } from 'react-router-dom';
 
 const UsersInfo = () => {
     const { user } = useUserContext();
-
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [allCourses, setAllCourses] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
@@ -25,6 +28,8 @@ const UsersInfo = () => {
     const [showCreateTeacher, setShowCreateTeacher] = useState(false);
     const [showCreateCourse, setShowCreateCourse] = useState(false);
     const [showCreateMajor, setShowCreateMajor] = useState(false);
+    const [showCourseChoose, setShowCourseChoose] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState(null);
 
 
     const fetchUsers = async () => {
@@ -46,7 +51,6 @@ const UsersInfo = () => {
     const getAllCourses = async () => {
         try {
             const { data } = await axios.get(GET_ALL_COURSES_URL + user._id + "/" + user.role);
-            console.log(data);
             setAllCourses(data);
         } catch (error) {
             console.error(error);
@@ -194,9 +198,17 @@ const UsersInfo = () => {
                     </thead>
                     <tbody>
                         {filteredUsers.map((item, index) => (
-                            <tr key={item._id}>
+
+                            <tr key={item._id} onClick={() => {
+                                filters.role === 'course' && navigate(`/teacherpersonal/feedback/students/${item._id}`, {
+                                    state: { course: item, student_id: null, isAdminStudent: false, isAdminCourse: true }
+                                })
+                            }}>
                                 <td className={styles.numberCol}>{index + 1}</td>
-                                <td className={styles.nameCol}>
+                                <td className={styles.nameCol} onClick={() => {
+                                    filters.role === 'student' && setShowCourseChoose(true);
+                                    filters.role === 'student' && setSelectedStudent(item);
+                                }}>
                                     <div className={styles.userInfo}>
                                         {filters.role !== "course" && <img
                                             src={user.image || `https://avatar.iran.liara.run/username?username=${item.name}`}
@@ -204,6 +216,7 @@ const UsersInfo = () => {
                                             className={styles.avatar}
                                         />}
                                         <span>{item.name}</span>
+
                                     </div>
                                 </td>
                                 {filters.role === 'course' ? (
@@ -290,6 +303,10 @@ const UsersInfo = () => {
                     </div>
                 </div>
             )}
+            {
+                showCourseChoose &&
+                <ChooseCourseWindow isOpen={showCourseChoose} close={() => setShowCourseChoose(false)} courses={selectedStudent.courses} major={selectedStudent.majortitle} student_id={selectedStudent._id} student_name={selectedStudent.name} />
+            }
         </div>
     );
 };
