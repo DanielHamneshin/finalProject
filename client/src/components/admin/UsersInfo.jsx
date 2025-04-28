@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useUserContext } from '../../contexts/UserContext';
 import axios from 'axios';
-import { STUDENTS_URL, TEACHERS_URL, UPDATE_DEBT_URL } from '../../constants/endPoint';
+import { STUDENTS_URL, TEACHERS_URL, UPDATE_DEBT_URL, GET_ALL_COURSES_URL } from '../../constants/endPoint';
 import styles from '../../styles/usersInfo.module.css';
 import CreateTeacher from './CreateTeacher';
 import CreateCourse from './CreateCourse';
@@ -11,6 +11,7 @@ const UsersInfo = () => {
     const { user } = useUserContext();
 
     const [users, setUsers] = useState([]);
+    const [allCourses, setAllCourses] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
@@ -25,46 +26,59 @@ const UsersInfo = () => {
     const [showCreateCourse, setShowCreateCourse] = useState(false);
     const [showCreateMajor, setShowCreateMajor] = useState(false);
 
+
     const fetchUsers = async () => {
         try {
             if (filters.role === 'student') {
                 const { data } = await axios.get(STUDENTS_URL);
                 setUsers(data.map(student => ({ ...student, role: 'student' })));
-            } else {
+            } else if (filters.role === 'teacher') {
                 const { data } = await axios.get(TEACHERS_URL);
                 setUsers(data.map(teacher => ({ ...teacher, role: 'teacher' })));
+            } else {
+                setUsers(allCourses.map(course => ({ ...course, role: 'course' })));
             }
         } catch (error) {
             console.error(error);
         }
     };
 
+    const getAllCourses = async () => {
+        try {
+            const { data } = await axios.get(GET_ALL_COURSES_URL + user._id + "/" + user.role);
+            console.log(data);
+            setAllCourses(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         fetchUsers();
+        getAllCourses();
     }, [filters.role]);
 
     useEffect(() => {
         let result = [...users];
 
-        // Filter by debt
-        if (filters.debt !== 'all') {
+        if (filters.role !== 'course' && filters.debt !== 'all') {
             result = result.filter(user =>
                 filters.debt === 'yes' ? user.debt > 0 : user.debt === 0
             );
         }
 
-        // Filter by search term
         if (searchTerm) {
-            result = result.filter(user =>
-                user.name.toLowerCase().includes(searchTerm.toLowerCase())
+            const searchLower = searchTerm.toLowerCase();
+            result = result.filter(item =>
+                filters.role === 'course'
+                    ? item.name.toLowerCase().includes(searchLower)
+                    : user.name.toLowerCase().includes(searchLower)
             );
         }
 
-        // Sort alphabetically by name
         result.sort((a, b) => a.name.localeCompare(b.name));
-
         setFilteredUsers(result);
-    }, [users, filters.debt, searchTerm]);
+    }, [users, filters.debt, searchTerm, filters.role]);
 
     const handleEditDebt = (userId, currentDebt) => {
         setEditingDebt(userId);
@@ -138,6 +152,7 @@ const UsersInfo = () => {
                     >
                         <option value="student">Students</option>
                         <option value="teacher">Teachers</option>
+                        <option value="course">Courses</option>
                     </select>
 
                     {filters.role === 'student' && (
@@ -163,62 +178,80 @@ const UsersInfo = () => {
                         <tr>
                             <th className={styles.numberCol}>#</th>
                             <th className={styles.nameCol}>Name</th>
-                            <th className={styles.emailCol}>Email</th>
-                            {filters.role === 'student' && <th className={styles.debtCol}>Debt</th>}
+                            {filters.role === 'course' ? (
+                                <>
+                                    <th className={styles.emailCol}>Major</th>
+                                    <th className={styles.debtCol}>Students</th>
+                                </>
+                            ) : (
+                                <>
+                                    <th className={styles.emailCol}>Email</th>
+                                    {filters.role === 'student' && <th className={styles.debtCol}>Debt</th>}
+                                </>
+                            )}
                             <th className={styles.actionsCol}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredUsers.map((user, index) => (
-                            <tr key={user._id}>
+                        {filteredUsers.map((item, index) => (
+                            <tr key={item._id}>
                                 <td className={styles.numberCol}>{index + 1}</td>
                                 <td className={styles.nameCol}>
                                     <div className={styles.userInfo}>
-                                        <img
-                                            src={user.image || `https://avatar.iran.liara.run/username?username=${user.name}`}
+                                        {filters.role !== "course" && <img
+                                            src={user.image || `https://avatar.iran.liara.run/username?username=${item.name}`}
                                             alt={user.name}
                                             className={styles.avatar}
-                                        />
-                                        <span>{user.name}</span>
+                                        />}
+                                        <span>{item.name}</span>
                                     </div>
                                 </td>
-                                <td className={styles.emailCol}>{user.email}</td>
-                                {filters.role === 'student' && (
-                                    <td className={styles.debtCol}>
-                                        {editingDebt === user._id ? (
-                                            <div className={styles.debtEditContainer}>
-                                                <input
-                                                    type="number"
-                                                    value={newDebtValue}
-                                                    onChange={(e) => setNewDebtValue(e.target.value)}
-                                                    className={styles.debtInput}
-                                                    min="0"
-                                                />
-                                                <button
-                                                    className={styles.applyButton}
-                                                    onClick={() => confirmUpdate(user._id, newDebtValue)}
-                                                >
-                                                    Apply
-                                                </button>
-                                                <button
-                                                    className={styles.cancelButton}
-                                                    onClick={() => setEditingDebt(null)}
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <div className={styles.debtDisplay}>
-                                                <span>₪{user.debt || '0'}</span>
-                                                <button
-                                                    className={styles.editDebtButton}
-                                                    onClick={() => handleEditDebt(user._id, user.debt || 0)}
-                                                >
-                                                    Edit
-                                                </button>
-                                            </div>
+                                {filters.role === 'course' ? (
+                                    <>
+                                        <td className={styles.emailCol}>{item.majortitle}</td>
+                                        <td className={styles.debtCol}>{item.students_id?.length || 0}</td>
+                                    </>
+                                ) : (
+                                    <>
+                                        <td className={styles.emailCol}>{item.email}</td>
+                                        {filters.role === 'student' && (
+                                            <td className={styles.debtCol}>
+                                                {editingDebt === item._id ? (
+                                                    <div className={styles.debtEditContainer}>
+                                                        <input
+                                                            type="number"
+                                                            value={newDebtValue}
+                                                            onChange={(e) => setNewDebtValue(e.target.value)}
+                                                            className={styles.debtInput}
+                                                            min="0"
+                                                        />
+                                                        <button
+                                                            className={styles.applyButton}
+                                                            onClick={() => confirmUpdate(item._id, newDebtValue)}
+                                                        >
+                                                            Apply
+                                                        </button>
+                                                        <button
+                                                            className={styles.cancelButton}
+                                                            onClick={() => setEditingDebt(null)}
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className={styles.debtDisplay}>
+                                                        <span>₪{item.debt || '0'}</span>
+                                                        <button
+                                                            className={styles.editDebtButton}
+                                                            onClick={() => handleEditDebt(item._id, item.debt || 0)}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </td>
                                         )}
-                                    </td>
+                                    </>
                                 )}
                                 <td className={styles.actionsCol}>
                                     <button className={`${styles.actionButton} ${styles.delete}`}>
