@@ -59,7 +59,7 @@ const MainApp = () => {
                         {user?.debt > 0 && <Route path='/personal/paydebt' element={<PayPal />} />}
                     </>
                 )}
-                {user && user.role === "teacher" &&
+                {user && (user.role === "teacher" || user.role === "admin") &&
                     <Route path='/teacherpersonal' element={<TeacherPersonalArea />}>
                         <Route path="classroom" element={<TeacherClassRoom />} />
                         <Route path="classroom/:courseName" element={<CourseAssignments />} />
