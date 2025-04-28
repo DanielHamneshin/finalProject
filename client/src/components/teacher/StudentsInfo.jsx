@@ -11,16 +11,16 @@ import { PieChart } from '@mui/x-charts';
 const StudentsInfo = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { course } = location.state;
+    const { course, isAdminCourse, isAdminStudent, student_id, student_name } = location.state;
     const { user } = useUserContext();
     const [allStudents, setAllStudents] = useState([]);
     const [studentName, setStudentName] = useState("");
     const [studentInfo, setStudentInfo] = useState(null);
     const [searchText, setSearchText] = useState("");
 
-    const getStudentsInfo = async (student) => {
+    const getStudentsInfo = async (student_id) => {
         try {
-            const { data } = await axios.get(GET_STUDENTS_INFO + student._id + "/" + course._id);
+            const { data } = await axios.get(GET_STUDENTS_INFO + student_id + "/" + course._id);
             setStudentInfo(data);
         } catch (error) {
             console.error(error);
@@ -42,6 +42,7 @@ const StudentsInfo = () => {
 
     useEffect(() => {
         getAllStudents(course);
+        student_id && getStudentsInfo(student_id);
     }, [])
 
     const getGradeStyle = (grade) => {
@@ -110,9 +111,9 @@ const StudentsInfo = () => {
                     </div>
                     <button
                         className={style.backButton}
-                        onClick={() => navigate('/teacherpersonal/feedback')}
+                        onClick={() => navigate(!isAdminCourse && !isAdminStudent ? '/teacherpersonal/feedback' : '/adminpersonal')}
                     >
-                        Back to Feedback
+                        {!isAdminCourse && !isAdminStudent ? "Back to Feedback" : "Back to personal area"}
                     </button>
                 </div>
             </div>
@@ -141,7 +142,7 @@ const StudentsInfo = () => {
                         <tbody>
                             {filteredStudents.map((student) => (
                                 <tr key={student._id} onClick={() => {
-                                    getStudentsInfo(student);
+                                    getStudentsInfo(student._id);
                                     setStudentName(student.name);
                                 }}>
                                     <td>{student.name}</td>
@@ -162,8 +163,8 @@ const StudentsInfo = () => {
             ) : (
                 <div>
                     <div className={style.studentHeader}>
-                        <h2>{studentName}</h2>
-                        <button
+                        <h2>{studentName || student_name}</h2>
+                        {!isAdminStudent && <button
                             className={style.backToList}
                             onClick={() => {
                                 setStudentInfo(null)
@@ -171,7 +172,7 @@ const StudentsInfo = () => {
                             }}
                         >
                             Back to List →
-                        </button>
+                        </button>}
                     </div>
 
                     <div className={style.chartsContainer}>

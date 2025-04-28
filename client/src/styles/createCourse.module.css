@@ -29,3 +29,19 @@
 .submitButton:hover {
     background-color: #0056b3;
 }
+
+.courseList {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin: 15px 0;
+}
+
+.courseList button {
+    transition: all 0.2s ease;
+}
+
+.courseList button:hover {
+    transform: translateX(5px);
+    background-color: #0056b3;
+}

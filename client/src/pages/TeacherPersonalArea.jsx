@@ -22,7 +22,7 @@ const TeacherPersonalArea = () => {
     }
 
     useEffect(() => {
-        getAllCourses();
+        user.role === "teacher" && getAllCourses();
     }, [])
 
     return (
