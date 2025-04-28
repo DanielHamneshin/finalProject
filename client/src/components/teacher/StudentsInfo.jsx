@@ -43,7 +43,6 @@ const StudentsInfo = () => {
     useEffect(() => {
         getAllStudents(course);
     }, [])
-    console.log(allStudents);
 
     const getGradeStyle = (grade) => {
         if (grade >= 85) return style.gradeExcellent;
