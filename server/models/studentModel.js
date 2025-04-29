@@ -90,8 +90,14 @@ const studentSchema = new mongoose.Schema({
         default: false
     },
     debt: {
+      value :{ 
         type: Number,
         default: 0
+    },
+    message:{
+        type: String,
+        default: ""
+    }
     }
 
 }, { timestamps: true });
