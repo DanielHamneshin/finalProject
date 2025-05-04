@@ -234,7 +234,7 @@ const StudentsInfo = () => {
                                     .map((test) => (
                                         <li key={test._id} className={style.infoItem}>
                                             <div className={style.testInfo}>
-                                                <span>{test.test_id.name}</span>
+                                                <h3>{test.test_id.name}</h3>
                                                 <span className={style.courseInfo}>{test?.course}</span>
                                             </div>
                                             <span className={`${style.grade} ${getGradeStyle(test.grade)}`}>
@@ -253,7 +253,7 @@ const StudentsInfo = () => {
                                     .map((assignment) => (
                                         <li key={assignment._id} className={style.infoItem}>
                                             <div className={style.assignmentInfo}>
-                                                <span>{assignment.assignment_id.title}</span>
+                                                <h3>{assignment.assignment_id.title}</h3>
                                                 <span className={style.courseInfo}>{assignment?.course}</span>
                                             </div>
                                             <span className={`${style.grade} ${getGradeStyle(assignment.grade)}`}>
