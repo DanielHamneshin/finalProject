@@ -73,7 +73,9 @@ const GET_UNASSIGNED_COURSES = ADMIN_BASE_URL + "coureses/without-major/"
 
 const CREATE_MAJOR = ADMIN_BASE_URL + "majors/"
 
-const CREATE_COURSE = ADMIN_BASE_URL + "course"
+const CREATE_COURSE = ADMIN_BASE_URL + "course/"
+
+const ASSIGN_COURSE_TO_MAJOR = ADMIN_BASE_URL + "course/add/"
 
 export {
     USER_BASE_URL,
@@ -106,5 +108,6 @@ export {
     CREATE_TEACHER,
     GET_UNASSIGNED_COURSES,
     CREATE_MAJOR,
-    CREATE_COURSE
+    CREATE_COURSE,
+    ASSIGN_COURSE_TO_MAJOR
 }
