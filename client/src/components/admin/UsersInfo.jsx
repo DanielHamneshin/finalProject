@@ -9,6 +9,7 @@ import CreateMajor from './CreateMajor';
 import { Backdrop, Box, ClickAwayListener } from '@mui/material';
 import { ChooseCourseWindow } from './ChooseCourseWindow';
 import { useNavigate } from 'react-router-dom';
+import { AssignCourseToMajor } from './AssignCourseToMajor';
 
 const UsersInfo = () => {
     const { user } = useUserContext();
@@ -28,6 +29,7 @@ const UsersInfo = () => {
     const [showCreateTeacher, setShowCreateTeacher] = useState(false);
     const [showCreateCourse, setShowCreateCourse] = useState(false);
     const [showCreateMajor, setShowCreateMajor] = useState(false);
+    const [showAssignCourseToMajor, setShowAssignCourseToMajor] = useState(false);
     const [showCourseChoose, setShowCourseChoose] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(null);
 
@@ -76,7 +78,7 @@ const UsersInfo = () => {
             result = result.filter(item =>
                 filters.role === 'course'
                     ? item.name.toLowerCase().includes(searchLower)
-                    : user.name.toLowerCase().includes(searchLower)
+                    : item.name.toLowerCase().includes(searchLower)
             );
         }
 
@@ -127,11 +129,13 @@ const UsersInfo = () => {
                 <button className={styles.button} onClick={() => setShowCreateTeacher(true)}>Create Teacher</button>
                 <button className={styles.button} onClick={() => setShowCreateCourse(true)}>Create Course</button>
                 <button className={styles.button} onClick={() => setShowCreateMajor(true)}>Create Major</button>
+                <button className={styles.button} onClick={() => setShowAssignCourseToMajor(true)}>Assign Course To Major</button>
             </div>
 
             {showCreateTeacher && <CreateTeacher open={showCreateTeacher} close={() => setShowCreateTeacher(false)} />}
             {showCreateCourse && <CreateCourse open={showCreateCourse} close={() => setShowCreateCourse(false)} />}
             {showCreateMajor && <CreateMajor open={showCreateMajor} close={() => setShowCreateMajor(false)} />}
+            {showAssignCourseToMajor && <AssignCourseToMajor open={showAssignCourseToMajor} close={() => setShowAssignCourseToMajor(false)} />}
 
             <div className={styles.filters}>
                 <div className={styles.filterGroup}>
