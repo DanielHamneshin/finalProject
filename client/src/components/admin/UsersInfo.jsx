@@ -64,6 +64,14 @@ const UsersInfo = () => {
         getAllCourses();
     }, [filters.role]);
 
+    const deleteUser = async (role, id) => {
+        try {
+            const { data } = await axios.delete(role === "student" ? "student" : "teacher", id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         let result = [...users];
 
@@ -200,7 +208,7 @@ const UsersInfo = () => {
                             <th className={styles.actionsCol}>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className={styles.scrollableBody}>
                         {filteredUsers.map((item, index) => (
 
                             <tr key={item._id} onClick={() => {
