@@ -327,7 +327,7 @@ const Feedback = () => {
                                         <option value="asc">Oldest First</option>
                                     </select>
                                 </div>
-                                <div className={style.gradesGrid}>
+                                <div className={style.gradesGrid} style={{ maxHeight: '400px', overflowY: 'auto' }}>
                                     {filterTests(tests).map((test, index) => (
                                         <div key={index} className={style.gradeCard}>
                                             <h3>{test.test_id.name}</h3>
@@ -373,7 +373,7 @@ const Feedback = () => {
                                         <option value="asc">Oldest First</option>
                                     </select>
                                 </div>
-                                <div className={style.gradesGrid}>
+                                <div className={style.gradesGrid} style={{ maxHeight: '400px', overflowY: 'auto' }}>
                                     {filterAssignments(assignments).map((assignment, index) => (
                                         <div key={index} className={style.gradeCard}>
                                             <h3>{assignment?.assignment_id?.title}</h3>
@@ -432,7 +432,7 @@ const Feedback = () => {
                             </div>
 
                             {/* Attendance Grid */}
-                            <div className={style.attendanceGrid}>
+                            <div className={style.attendanceGrid} style={{ maxHeight: '400px', overflowY: 'auto' }}>
                                 {filterAttendance(presence).map((record, index) => (
                                     <div key={index} className={style.attendanceCard}>
                                         <h3>{record.date ? record.date.split("T")[0] : ""}</h3>
