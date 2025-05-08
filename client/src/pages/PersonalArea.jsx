@@ -114,11 +114,12 @@ const PersonalArea = () => {
             <Header />
             <div className={style.pageWrapper}>
                 {/* Side Debt Alert - Moved outside main container */}
-                {user?.debt > 0 && (
+                {user?.debt?.value > 0 && (
                     <div className={style.sideDebtAlert}>
                         <div className={style.debtInfo}>
                             <span className={style.debtLabel}>Outstanding Balance</span>
-                            <span className={style.debtAmount}>₪{user.debt}</span>
+                            <span className={style.debtAmount}>₪{user?.debt?.value}</span>
+                            <p>Reason: {user?.debt?.message}</p>
                             <span className={style.debtMessage}>
                                 Please settle your payment to maintain full access to all features.
                             </span>

@@ -247,24 +247,21 @@
 /* Add these new styles */
 .debtEditContainer {
     display: flex;
-    gap: 4px;
-    align-items: center;
-    height: 36px;
-    margin-left: -70px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .debtInput {
-    width: 70px;
-    padding: 6px 8px;
-    border: 1px solid #e0e0e0;
+    padding: 6px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 14px;
-    height: 28px;
+    width: 100%;
 }
 
-.debtInput:focus {
-    outline: none;
-    border-color: #1a73e8;
+.debtMessage {
+    font-size: 0.8em;
+    color: #666;
+    margin: 4px 0 0 0;
 }
 
 .debtDisplay {

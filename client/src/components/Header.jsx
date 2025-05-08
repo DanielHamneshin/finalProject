@@ -18,7 +18,7 @@ const Header = () => {
     const firstName = user ? user.name.split(" ")[0] : "";
     const lastName = user ? user.name.split(" ")[1] : "";
     const [anchorEl, setAnchorEl] = useState(null);
-    const hasDebt = user?.role === "student" && user?.debt > 0;
+    const hasDebt = user?.role === "student" && user?.debt?.value > 0;
 
     const handleNotificationClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -105,7 +105,7 @@ const Header = () => {
                     )}
 
                     {/* Notification Popover */}
-                    {user?.debt > 0 && <Popover
+                    {user?.debt?.value > 0 && <Popover
                         open={open}
                         anchorEl={anchorEl}
                         onClose={handleClose}
@@ -122,7 +122,9 @@ const Header = () => {
                             {hasDebt && (
                                 <div className="notification-item">
                                     <h3>Outstanding Payment</h3>
-                                    <p>You have an outstanding payment of ₪{user.debt}</p>
+                                    <p>You have an outstanding payment of ₪{user?.debt?.value}</p>
+                                    <br />
+                                    <p>Reason: {user?.debt?.message}</p>
                                     <PayPal />
                                 </div>
                             )}

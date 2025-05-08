@@ -19,7 +19,7 @@ const PayPal = () => {
                             description: "Test",
                             amount: {
                                 currency_code: "USD",
-                                value: user?.debt,
+                                value: user?.debt?.value,
                             },
                         },
                     ],
@@ -30,7 +30,8 @@ const PayPal = () => {
                 console.log(order);
                 try {
                     await axios.put(`${UPDATE_DEBT_URL}${user?._id}`, {
-                        debt: 0
+                        value: 0,
+                        message: ""
                     });
                     setShowSuccess(true);
                     setTimeout(() => {

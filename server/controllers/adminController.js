@@ -10,7 +10,7 @@ const createTeacher = require("../controllers/authController").createTeacher
 
 exports.getAllStudents = async (req, res) => {
     try {
-        const students = await Student.find().populate("courses","name")
+        const students = await Student.find().populate("courses", "name")
         res.status(200).json(students);
     } catch (err) {
         res.status(500).json(err);
@@ -65,7 +65,7 @@ exports.getStudentsWithDebt = async (req, res) => {
 exports.giveStudentDebt = async (req, res) => {
 
     const { value, message } = req.body;
-    if(value === undefined || !message){
+    if (value === undefined || (value > 0 && !message)) {
         return res.status(400).json({ msg: "value and message are required" });
     }
     try {
