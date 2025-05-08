@@ -54,7 +54,7 @@ exports.removeStudent = async (req, res) => {
 }
 exports.getStudentsWithDebt = async (req, res) => {
     try {
-        const students = await Student.find({ debt: { $gt: 0 } }).select("_id email name debt");
+        const students = await Student.find({ "debt.value": { $gt: 0 } }).select("_id email name debt");
         // need to send an email to students
         res.status(200).json(students);
     } catch (err) {
@@ -63,14 +63,30 @@ exports.getStudentsWithDebt = async (req, res) => {
 }
 
 exports.giveStudentDebt = async (req, res) => {
+
+    const { value, message } = req.body;
+    if(value === undefined || !message){
+        return res.status(400).json({ msg: "value and message are required" });
+    }
     try {
-        const student = await Student.findByIdAndUpdate({ _id: req.params.id }, { $set: { debt: req.body.debt } });
-        mailSender(student.email, "Debt Update", req.body.debt ? `Your debt has been updated to ${req.body.debt}` : "Your debt has been cleared");
+        const student = await Student.findByIdAndUpdate(
+            req.params.id,
+            { $set: { debt: { value, message } } },
+            { new: true }
+        );
+
+        const emailText = value > 0
+            ? `Your debt has been updated to ${value}₪. Message from admin: ${message}`
+            : "Your debt has been cleared";
+
+        mailSender(student.email, "Debt Update", emailText);
+
         res.status(200).json(student);
     } catch (err) {
         res.status(500).json(err);
     }
-}
+};
+
 
 // login
 // add major with courses : geting array if courses names that nedd to be created
