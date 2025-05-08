@@ -24,6 +24,7 @@ const UsersInfo = () => {
     });
     const [editingDebt, setEditingDebt] = useState(null);
     const [newDebtValue, setNewDebtValue] = useState('');
+    const [newDebtMessage, setNewDebtMessage] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [pendingUpdate, setPendingUpdate] = useState(null);
     const [showCreateTeacher, setShowCreateTeacher] = useState(false);
@@ -77,7 +78,7 @@ const UsersInfo = () => {
 
         if (filters.role !== 'course' && filters.debt !== 'all') {
             result = result.filter(user =>
-                filters.debt === 'yes' ? user.debt > 0 : user.debt === 0
+                filters.debt === 'yes' ? user?.debt?.value > 0 : user?.debt?.value === 0
             );
         }
 
@@ -94,26 +95,35 @@ const UsersInfo = () => {
         setFilteredUsers(result);
     }, [users, filters.debt, searchTerm, filters.role]);
 
-    const handleEditDebt = (userId, currentDebt) => {
+    const handleEditDebt = (userId, currentDebt, currentMessage) => {
         setEditingDebt(userId);
         setNewDebtValue(currentDebt.toString());
+        setNewDebtMessage(currentMessage || '');
     };
 
     const handleUpdateDebt = async () => {
         try {
             await axios.put(`${UPDATE_DEBT_URL}${pendingUpdate.userId}`, {
-                debt: Number(pendingUpdate.newDebt)
+                value: Number(pendingUpdate.newDebt),
+                message: pendingUpdate.newMessage
             });
 
             setUsers(users.map(user =>
                 user._id === pendingUpdate.userId
-                    ? { ...user, debt: Number(pendingUpdate.newDebt) }
+                    ? {
+                        ...user,
+                        debt: {
+                            value: Number(pendingUpdate.newDebt),
+                            message: pendingUpdate.newMessage
+                        }
+                    }
                     : user
             ));
 
             // Reset states
             setEditingDebt(null);
             setNewDebtValue('');
+            setNewDebtMessage('');
             setShowConfirmation(false);
             setPendingUpdate(null);
         } catch (error) {
@@ -121,8 +131,8 @@ const UsersInfo = () => {
         }
     };
 
-    const confirmUpdate = (userId, newDebt) => {
-        setPendingUpdate({ userId, newDebt });
+    const confirmUpdate = (userId, newDebt, newMessage) => {
+        setPendingUpdate({ userId, newDebt, newMessage });
         setShowConfirmation(true);
     };
 
@@ -249,10 +259,18 @@ const UsersInfo = () => {
                                                             onChange={(e) => setNewDebtValue(e.target.value)}
                                                             className={styles.debtInput}
                                                             min="0"
+                                                            placeholder="Debt amount"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={newDebtMessage}
+                                                            onChange={(e) => setNewDebtMessage(e.target.value)}
+                                                            className={styles.debtInput}
+                                                            placeholder="Debt message"
                                                         />
                                                         <button
                                                             className={styles.applyButton}
-                                                            onClick={() => confirmUpdate(item._id, newDebtValue)}
+                                                            onClick={() => confirmUpdate(item._id, newDebtValue, newDebtMessage)}
                                                         >
                                                             Apply
                                                         </button>
@@ -265,10 +283,11 @@ const UsersInfo = () => {
                                                     </div>
                                                 ) : (
                                                     <div className={styles.debtDisplay}>
-                                                        <span>₪{item.debt || '0'}</span>
+                                                        <span>₪{item?.debt?.value || '0'}</span>
+                                                        {item?.debt?.message && <p className={styles.debtMessage}>({item?.debt?.message})</p>}
                                                         <button
                                                             className={styles.editDebtButton}
-                                                            onClick={() => handleEditDebt(item._id, item.debt || 0)}
+                                                            onClick={() => handleEditDebt(item._id, item?.debt?.value || 0, item?.debt?.message)}
                                                         >
                                                             Edit
                                                         </button>
@@ -294,7 +313,7 @@ const UsersInfo = () => {
                 <div className={styles.modalOverlay}>
                     <div className={styles.confirmationModal}>
                         <h3>Confirm Debt Update</h3>
-                        <p>Are you sure you want to update the debt to ${pendingUpdate.newDebt}?</p>
+                        <p>Are you sure you want to update the debt to ₪{pendingUpdate.newDebt} with message: "{pendingUpdate.newMessage}"?</p>
                         <div className={styles.modalButtons}>
                             <button
                                 className={styles.confirmButton}
