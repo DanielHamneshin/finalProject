@@ -6,7 +6,7 @@ import { Backdrop, ClickAwayListener } from '@mui/material';
 import style from '../../styles/createAssignment.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const CreateAssignment = ({ currentCourse, close, isOpen }) => {
+const CreateAssignment = ({ currentCourse, close, isOpen, showSuccess }) => {
   const { user } = useUserContext();
   const [assignment, setAssignment] = useState({
     title: '',
@@ -61,6 +61,7 @@ const CreateAssignment = ({ currentCourse, close, isOpen }) => {
 
           console.log(data);
           close();
+          showSuccess();
           // Show success message or refresh data
         } catch (error) {
           console.error(error);
