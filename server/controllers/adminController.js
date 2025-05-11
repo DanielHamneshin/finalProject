@@ -205,9 +205,11 @@ exports.createMajor = async (req, res) => {
 }
 
 exports.addCourseToMajor = async (req, res) => {
-    const { course_id, major_id } = req.body
+    const { course_id, title } = req.body
     try {
-        const major = await Major.findById(major_id)
+        const major = await Major.findOne({
+            title : title
+        })
         const course = await Course.findById(course_id)
         if (!major) {
             return res.status(400).json({ msg: "major not found" });
