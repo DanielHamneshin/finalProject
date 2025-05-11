@@ -175,7 +175,7 @@ const CourseAssignments = () => {
       </Box>
 
       {/* Stream */}
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 4, maxHeight: 400, overflowY: "auto" }}>
         {filteredAssignments.map((assignment, index) => (
           <Card
             key={index}
