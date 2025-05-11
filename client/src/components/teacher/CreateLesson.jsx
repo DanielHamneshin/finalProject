@@ -12,8 +12,8 @@ const CreateLesson = ({ course, close, showSuccess }) => {
     const getAllStudents = async () => {
         try {
             const { data } = await axios.get(GET_ALL_STUDENTS + course._id)
-            setStudents(data.map((item) => {
-                return { ...item, status: "present" }
+            setStudents(data.map((item, index) => {
+                return { ...item, status: "present", index: index }
             }))
         } catch (error) {
             console.error(error);
@@ -81,7 +81,8 @@ const CreateLesson = ({ course, close, showSuccess }) => {
                             <input
                                 type="checkbox"
                                 className={style.checkbox}
-                                onChange={(e) => updateStudentStatus(e, index)}
+                                onChange={(e) => updateStudentStatus(e, item.index)}
+                                checked={item.status === 'absent'}
                             />
                             <span className={`${style.status} ${item.status.toLowerCase() === 'present'
                                 ? style.statusPresent

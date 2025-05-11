@@ -208,7 +208,7 @@ exports.addCourseToMajor = async (req, res) => {
     const { course_id, title } = req.body
     try {
         const major = await Major.findOne({
-            title : title
+            title: title
         })
         const course = await Course.findById(course_id)
         if (!major) {
@@ -218,7 +218,7 @@ exports.addCourseToMajor = async (req, res) => {
             return res.status(400).json({ msg: "course not found" });
         }
         const newMajor = await Major.updateOne(
-            { _id: major_id },
+            { title: title },
             { $push: { courses: course_id } }
         )
         res.status(200).json(newMajor)
