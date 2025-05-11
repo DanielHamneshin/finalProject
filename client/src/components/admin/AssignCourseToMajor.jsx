@@ -60,8 +60,8 @@ export const AssignCourseToMajor = ({ open, close }) => {
                             onChange={(e) => setSelectedMajor(e.target.value)}
                         >
                             <option value="">Select Major</option>
-                            {majors.map(major => (
-                                <option key={major._id} value={major._id}>
+                            {majors.map((major, index) => (
+                                <option key={index} value={major._id}>
                                     {major.title || major}
                                 </option>
                             ))}
