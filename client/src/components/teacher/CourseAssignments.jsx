@@ -70,12 +70,16 @@ const CourseAssignments = () => {
   const handleClose = () => {
     setIsOpen(false);
     // Show success message
+
+  };
+
+  const showSuccessMessage = () => {
     setSuccessMessage('Assignment created successfully!');
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
     }, 3000);
-  };
+  }
 
   // console.log(assignments);
   return (
@@ -221,7 +225,7 @@ const CourseAssignments = () => {
       >
         <AddIcon />
       </Fab>
-      {isOpen && <CreateAssignment currentCourse={currentCourse} close={handleClose} isOpen={isOpen} />}
+      {isOpen && <CreateAssignment currentCourse={currentCourse} close={handleClose} isOpen={isOpen} showSuccess={showSuccessMessage} />}
     </Box>
   );
 };
