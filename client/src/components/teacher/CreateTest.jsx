@@ -12,8 +12,8 @@ const CreateTest = ({ course, close, showSuccess }) => {
     const getAllStudents = async () => {
         try {
             const { data } = await axios.get(GET_ALL_STUDENTS + course._id)
-            setStudents(data.map((item) => {
-                return { ...item, grade: 0 }
+            setStudents(data.map((item, index) => {
+                return { ...item, grade: 0, index: index }
             }))
         } catch (error) {
             console.error(error);
@@ -95,7 +95,7 @@ const CreateTest = ({ course, close, showSuccess }) => {
                                 max="100"
                                 className={style.gradeInput}
                                 value={student.grade || ''}
-                                onChange={(e) => updateGrade(e, index)}
+                                onChange={(e) => updateGrade(e, student.index)}
                             />
                         </li>
                     ))}

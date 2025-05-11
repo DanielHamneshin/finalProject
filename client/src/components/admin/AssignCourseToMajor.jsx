@@ -13,7 +13,6 @@ export const AssignCourseToMajor = ({ open, close, showSuccess }) => {
     const getAllMajors = async () => {
         try {
             const { data } = await axios.get(MAJORS_URL);
-            console.log(data);
             setMajors(data);
         } catch (error) {
             console.error(error);
@@ -22,6 +21,7 @@ export const AssignCourseToMajor = ({ open, close, showSuccess }) => {
     const getUnAssignedCourses = async () => {
         try {
             const { data } = await axios.get(GET_UNASSIGNED_COURSES);
+            console.log(data);
             setUnAssignedCourses(data);
         } catch (error) {
             console.error(error);
@@ -30,9 +30,8 @@ export const AssignCourseToMajor = ({ open, close, showSuccess }) => {
 
     const assignCourse = async () => {
         try {
-            const { data } = await axios.put(ASSIGN_COURSE_TO_MAJOR, { course_id: selectedCourse, major_id: selectedMajor });
+            const { data } = await axios.put(ASSIGN_COURSE_TO_MAJOR, { course_id: selectedCourse, title: selectedMajor });
             showSuccess("Corses Assigned Successfully!")
-            console.log(data);
         } catch (error) {
             console.error(error);
         }
@@ -62,8 +61,8 @@ export const AssignCourseToMajor = ({ open, close, showSuccess }) => {
                         >
                             <option value="">Select Major</option>
                             {majors.map((major, index) => (
-                                <option key={index} value={major._id}>
-                                    {major.title || major}
+                                <option key={index} value={major}>
+                                    {major}
                                 </option>
                             ))}
                         </select>
