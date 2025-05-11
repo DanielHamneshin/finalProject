@@ -7,7 +7,7 @@ import axios from 'axios'
 
 
 
-const CreateCourse = ({ open, close }) => {
+const CreateCourse = ({ open, close, showSuccess }) => {
 
     const [teachers, setTeachers] = useState([]);
     const [courseName, setCourseName] = useState("");
@@ -27,7 +27,8 @@ const CreateCourse = ({ open, close }) => {
 
     const createCourse = async () => {
         try {
-            const { data } = await axios.post(CREATE_COURSE, { name: courseName, teacher_id: selectedTeacher, is_mandatory: isMandatory })
+            const { data } = await axios.post(CREATE_COURSE, { name: courseName, teacher_id: selectedTeacher, is_mandatory: isMandatory });
+            showSuccess("Course Created Successfully!");
             console.log(data);
         } catch (error) {
             console.error(error);

@@ -33,7 +33,17 @@ const UsersInfo = () => {
     const [showAssignCourseToMajor, setShowAssignCourseToMajor] = useState(false);
     const [showCourseChoose, setShowCourseChoose] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
 
+    const showSuccessNotification = (message, duration = 3000) => {
+        setSuccessMessage(message);
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false);
+            setSuccessMessage('');
+        }, duration);
+    };
 
     const fetchUsers = async () => {
         try {
@@ -120,6 +130,9 @@ const UsersInfo = () => {
                     : user
             ));
 
+            // Show success notification
+            showSuccessNotification('Debt updated successfully!');
+
             // Reset states
             setEditingDebt(null);
             setNewDebtValue('');
@@ -150,10 +163,10 @@ const UsersInfo = () => {
                 <button className={styles.button} onClick={() => setShowAssignCourseToMajor(true)}>Assign Course To Major</button>
             </div>
 
-            {showCreateTeacher && <CreateTeacher open={showCreateTeacher} close={() => setShowCreateTeacher(false)} />}
-            {showCreateCourse && <CreateCourse open={showCreateCourse} close={() => setShowCreateCourse(false)} />}
-            {showCreateMajor && <CreateMajor open={showCreateMajor} close={() => setShowCreateMajor(false)} />}
-            {showAssignCourseToMajor && <AssignCourseToMajor open={showAssignCourseToMajor} close={() => setShowAssignCourseToMajor(false)} />}
+            {showCreateTeacher && <CreateTeacher open={showCreateTeacher} close={() => setShowCreateTeacher(false)} showSuccess={showSuccessNotification} />}
+            {showCreateCourse && <CreateCourse open={showCreateCourse} close={() => setShowCreateCourse(false)} showSuccess={showSuccessNotification} />}
+            {showCreateMajor && <CreateMajor open={showCreateMajor} close={() => setShowCreateMajor(false)} showSuccess={showSuccessNotification} />}
+            {showAssignCourseToMajor && <AssignCourseToMajor open={showAssignCourseToMajor} close={() => setShowAssignCourseToMajor(false)} showSuccess={showSuccessNotification} />}
 
             <div className={styles.filters}>
                 <div className={styles.filterGroup}>
@@ -338,6 +351,11 @@ const UsersInfo = () => {
                 showCourseChoose &&
                 <ChooseCourseWindow isOpen={showCourseChoose} close={() => setShowCourseChoose(false)} courses={selectedStudent.courses} major={selectedStudent.majortitle} student_id={selectedStudent._id} student_name={selectedStudent.name} />
             }
+            {showSuccess && (
+                <div className={styles.successNotification}>
+                    <span className={styles.successText}>{successMessage}</span>
+                </div>
+            )}
         </div>
     );
 };

@@ -4,7 +4,7 @@ import style from '../../styles/createMajor.module.css'
 import axios from 'axios'
 import { CREATE_MAJOR, GET_UNASSIGNED_COURSES } from '../../constants/endPoint'
 
-const CreateMajor = ({ open, close }) => {
+const CreateMajor = ({ open, close, showSuccess }) => {
     const [unAssignedCourses, setUnAssignedCourses] = useState([]);
     const [selectedCourses, setSelectedCourses] = useState([]);
     const [title, setTitle] = useState("");
@@ -21,6 +21,7 @@ const CreateMajor = ({ open, close }) => {
     const createMajor = async () => {
         try {
             const { data } = await axios.post(CREATE_MAJOR, { courses: selectedCourses, title: title, max_choices: maxChoices });
+            showSuccess("Major Created Successfully!");
             console.log(data);
         } catch (error) {
             console.error(error);

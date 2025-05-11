@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { ASSIGN_COURSE_TO_MAJOR, GET_UNASSIGNED_COURSES, MAJORS_URL } from '../../constants/endPoint'
 import style from '../../styles/createMajor.module.css'
 
-export const AssignCourseToMajor = ({ open, close }) => {
+export const AssignCourseToMajor = ({ open, close, showSuccess }) => {
     const [majors, setMajors] = useState([]);
     const [unAssignedCourses, setUnAssignedCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState("");
@@ -31,6 +31,7 @@ export const AssignCourseToMajor = ({ open, close }) => {
     const assignCourse = async () => {
         try {
             const { data } = await axios.put(ASSIGN_COURSE_TO_MAJOR, { course_id: selectedCourse, major_id: selectedMajor });
+            showSuccess("Corses Assigned Successfully!")
             console.log(data);
         } catch (error) {
             console.error(error);

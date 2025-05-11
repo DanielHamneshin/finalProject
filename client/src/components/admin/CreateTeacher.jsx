@@ -5,11 +5,12 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { CREATE_TEACHER } from '../../constants/endPoint'
 
-const CreateTeacher = ({ close, open }) => {
+const CreateTeacher = ({ close, open, showSuccess }) => {
     const { watch, register, handleSubmit } = useForm();
     const createTeacher = async () => {
         try {
-            const response = await axios.post(CREATE_TEACHER, watch())
+            const response = await axios.post(CREATE_TEACHER, watch());
+            showSuccess("Teacher Created Successfully!");
             console.log(response);
             close();
         } catch (error) {
